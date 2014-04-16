@@ -1,6 +1,9 @@
 # mysite_uwsgi.ini file
 [uwsgi]
 
+# the base directory (full path)
+chdir           = /path/to/vmmaster-frontend
+
 # Django's wsgi file
 module          = vmmaster_frontend.wsgi
 
