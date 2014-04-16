@@ -42,3 +42,14 @@ vmmaster-frontend
   # run the emperor
   uwsgi --emperor /etc/uwsgi/vassals --uid vmmaster --gid vmmaster
 ```
+
+# Configure settings.py
+```
+cd /path/to/vmmaster-frontend/vmmaster_frontend
+cp template.settings.py settings.py
+```
++ edit settings.py
+```python
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ''
+```
