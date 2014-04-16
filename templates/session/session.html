@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .cell {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        {% if log_steps %}
+            <ul>
+            {% for step in log_steps %}
+            <li>
+                <div class="cell">{{ step.control_line }}</div>
+                <div class="cell">{{ step.body }}</div>
+                <div class="cell"><img src="screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
+            </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No log steps.</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>

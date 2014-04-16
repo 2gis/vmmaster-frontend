@@ -3,6 +3,6 @@ from django.conf.urls import url
 from session import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^(?P<session_name>\d+)/$', views.exact_session, name='exact_session'),
+    # url(r'^$', views.session, name='session'),
+    url(r'^(?P<session_id>\d+)/$', views.session, name='session'),
 ]
