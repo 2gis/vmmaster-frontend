@@ -1,3 +1,6 @@
 *.pyc
-settings.py
 .idea
+
+settings.py
+vmmaster-frontend.ini
+vmmaster-frontend.conf

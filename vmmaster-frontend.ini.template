@@ -1,0 +1,20 @@
+# mysite_uwsgi.ini file
+[uwsgi]
+
+# the base directory (full path)
+chdir           = /path/to/vmmaster-frontend
+
+# Django's wsgi file
+module          = vmmaster_frontend.wsgi
+
+# process-related settings
+# master
+master          = true
+# maximum number of worker processes
+processes       = 10
+# the socket (use the full path to be safe
+socket          = vmmaster-frontend.sock
+# ... with appropriate permissions - may be needed
+chmod-socket    = 666
+# clear environment on exit
+vacuum          = true
