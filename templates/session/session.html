@@ -16,7 +16,11 @@
             <li>
                 <div class="cell">{{ step.control_line }}</div>
                 <div class="cell">{{ step.body }}</div>
-                <div class="cell"><img src="screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
+                {% if step.screenshot %}
+                    <div class="cell"><img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
+                {% else %}
+                    <div class="cell"></div>
+                {% endif %}
             </li>
             {% endfor %}
             </ul>
