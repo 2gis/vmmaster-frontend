@@ -10,9 +10,12 @@ module          = vmmaster_frontend.wsgi
 # process-related settings
 # master
 master          = true
-daemonize       = /var/log/uwsgi/vmmaster-frontend.log
+logto           = /var/log/uwsgi/vmmaster-frontend.log
+uid             = vmmaster
+gid             = vmmaster
+
 # maximum number of worker processes
-processes       = 1
+processes       = 10
 # the socket (use the full path to be safe
 socket          = vmmaster-frontend.sock
 # ... with appropriate permissions - may be needed
