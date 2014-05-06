@@ -7,19 +7,19 @@
 <body>
     <div>
         {% if log_steps %}
-            <ul>
+            <div class="_log_steps">
             {% for step in log_steps %}
-            <li>
-                <div class="column">{{ step.control_line }}</div>
-                <div class="column">{{ step.body }}</div>
+            <div class="_log_step">
+                <div class="_log_step_column _log_request">{{ step.control_line }}</div>
+                <div class="_log_step_column _log_body">{{ step.body }}</div>
                 {% if step.screenshot %}
-                    <div class="column"><img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
+                    <div class="_log_step_column _log_screenshot"><img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
                 {% else %}
-                    <div class="column"></div>
+                    <div class="_log_step_column _log_screenshot"></div>
                 {% endif %}
-            </li>
+            </div>
             {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>No log steps.</p>
         {% endif %}

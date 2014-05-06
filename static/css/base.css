@@ -1,31 +1,70 @@
-.sessions {
+._sessions {
 	display: table;
 }
 
-.sessions a {
+._sessions a {
 	text-decoration: none;
 }
 
-.sessions ._session_row {
+._sessions ._session_row {
 	display: block;
 	width:auto;
 	clear:both;
+	border-bottom: 1px solid black;
+	padding: 5px;
 }
 
-.sessions ._session_row:hover {
+._sessions ._session_row:hover {
 	background-color: #404040;
 	color: white;
 }
 
-.sessions ._session_column {
+._sessions ._session_column {
 	display: inline-block;
 	text-align: left;
 }
 
-.sessions ._session_column._session_name {
+._sessions ._session_column._session_name {
 	width: 300px;
 }
 
-.sessions ._session_column._session_date {
+._sessions ._session_column._session_date {
 	width: auto;
+}
+
+._log_steps {
+	display: table;
+}
+
+._log_steps ._log_step {
+	display: block;
+	width: auto;
+	clear: both;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+
+._log_steps ._log_step_column {
+	display: inline-block;
+	text-align: bottom;
+}
+
+._log_steps ._log_step_column._log_request {
+	width: 600px;
+}
+
+._log_steps ._log_step_column._log_body {
+	width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+._log_steps ._log_step_column._log_screenshot {
+	max-width: 500px;
+	max-height: 500px;
+}
+
+._log_steps ._log_step_column._log_screenshot img {
+    max-width: 100%;
+    height: auto;
 }
