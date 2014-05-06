@@ -44,8 +44,7 @@ uwsgi --emperor /etc/uwsgi/vassals --uid vmmaster --gid vmmaster
 ```
 ```
 # create upstart service
-sudo cp /etc/init/vmmaster-frontend.conf /path/to/vmmaster-frontend.init.conf
-
+sudo cp /etc/init/vmmaster-frontend.conf /path/to/vmmaster-frontend.init.conf.template
 # run service
 sudo service vmmaster-frontend start
 ```
