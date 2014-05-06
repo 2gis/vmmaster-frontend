@@ -1,3 +1,31 @@
-.column {
-    display: inline;
+.sessions {
+	display: table;
+}
+
+.sessions a {
+	text-decoration: none;
+}
+
+.sessions ._session_row {
+	display: block;
+	width:auto;
+	clear:both;
+}
+
+.sessions ._session_row:hover {
+	background-color: #404040;
+	color: white;
+}
+
+.sessions ._session_column {
+	display: inline-block;
+	text-align: left;
+}
+
+.sessions ._session_column._session_name {
+	width: 300px;
+}
+
+.sessions ._session_column._session_date {
+	width: auto;
 }

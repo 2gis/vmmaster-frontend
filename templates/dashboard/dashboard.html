@@ -6,16 +6,24 @@
 </head>
 <body>
     <div>
+        <form>
+            <input name="q" placeholder="session">
+            <input type="submit" value="go">
+        </form>
+    </div>
+    <div>
         {% if sessions %}
-            <ul>
+            {% load filters %}
+            <div class="sessions">
             {% for session in sessions %}
-                <li>
-                    <div class="column"><a href="/session/{{ session.id }}/">{{ session.name }}</a></div>
-                    {% load filters %}
-                    <div class="column">{{ session.time|timestamp_to_date }}</div>
-                </li>
+                <a href="/session/{{ session.id }}/">
+                <div class="_session_row">
+                    <div class="_session_column _session_name">{{ session.name }}</div>
+                    <div class="_session_column _session_date">{{ session.time|timestamp_to_date }}</div>
+                </div>
+                </a>
             {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>No sessions.</p>
         {% endif %}
