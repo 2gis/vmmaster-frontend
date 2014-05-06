@@ -2,19 +2,23 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
 </head>
 <body>
     <div>
         {% if sessions %}
             <ul>
             {% for session in sessions %}
-            <li><a href="/session/{{ session.id }}/">{{ session.name }}</a></li>
+                <li>
+                    <div class="column"><a href="/session/{{ session.id }}/">{{ session.name }}</a></div>
+                    {% load filters %}
+                    <div class="column">{{ session.time|timestamp_to_date }}</div>
+                </li>
             {% endfor %}
             </ul>
         {% else %}
             <p>No sessions.</p>
         {% endif %}
-
     </div>
 </body>
 </html>
