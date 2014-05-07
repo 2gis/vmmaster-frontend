@@ -19,3 +19,5 @@ def control_line_status(control_line):
     code = control_line.split(" ")[1]
     if code.startswith("5"):
         return "_error"
+    else:
+        return ""

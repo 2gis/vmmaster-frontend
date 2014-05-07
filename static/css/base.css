@@ -87,27 +87,32 @@
 	background-color: #5ba467;
 }
 
-._log_step {
-	display: block;
-	width: auto;
-	border-bottom: 1px solid black;
+._log_step_navigation {
+    width: 150px;
+    text-align: center;
+    position: fixed;
+}
+
+._log_step_navigation a {
+    display: block;
+    text-decoration: none;
+	color: black;
+}
+
+._log_step_navigation a:hover {
+	background-color: #404040;
+	color: white;
+}
+
+#log_step {
+    display: table;
+    position: relative;
+    left: 150px;
+	overflow-y: scroll;
+}
+
+#log_step ._info {
 	padding: 5px;
-}
-
-._log_step_column {
-	display: inline-block;
-	text-align: bottom;
-}
-
-._log_step_column._log_request {
-	width: 30%;
-}
-
-._log_step_column._log_body {
-	width: 30%;
-}
-
-._log_step_column._log_screenshot {
-	max-width: 300px;
-	max-height: 300px;
+	font-size: 20px;
+	border-bottom: 1px solid black;
 }
