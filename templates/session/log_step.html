@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>log step {{ log_step.id }}</title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
+</head>
+<body>
+    <div class="_log_step {{ step.control_line }}">
+        <div class="_log_step_column _log_request">{{ log_step.control_line }}</div>
+        <div class="_log_step_column _log_body">{{ log_step.body }}</div>
+        {% if log_step.screenshot %}
+            <div class="_log_step_column _log_screenshot"><img src="/screenshot/{{ log_step.session_id }}/{{ log_step.id }}.png"></div>
+        {% else %}
+            <div class="_log_step_column _log_screenshot"></div>
+        {% endif %}
+    </div>
+</body>
+</html>

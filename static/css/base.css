@@ -34,37 +34,80 @@
 
 ._log_steps {
 	display: table;
+	width: 100%;
+}
+
+._log_steps a {
+	text-decoration: none;
+	color: black;
 }
 
 ._log_steps ._log_step {
 	display: block;
 	width: auto;
-	clear: both;
 	border-bottom: 1px solid black;
 	padding: 5px;
+}
+
+._log_steps ._log_step:hover {
+	background-color: #404040;
+	color: white;
 }
 
 ._log_steps ._log_step_column {
 	display: inline-block;
 	text-align: bottom;
-}
-
-._log_steps ._log_step_column._log_request {
-	width: 600px;
-}
-
-._log_steps ._log_step_column._log_body {
-	width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
+._log_steps ._log_step_column._log_request {
+	width: 30%;
+}
+
+._log_steps ._log_step_column._log_body {
+	width: 30%;
+}
+
 ._log_steps ._log_step_column._log_screenshot {
-	max-width: 500px;
-	max-height: 500px;
+	max-width: 300px;
+	max-height: 300px;
 }
 
 ._log_steps ._log_step_column._log_screenshot img {
     max-width: 100%;
     height: auto;
+}
+
+._log_steps ._log_step._error {
+	background-color: #ba4549;
+}
+
+._log_steps ._log_step._success {
+	background-color: #5ba467;
+}
+
+._log_step {
+	display: block;
+	width: auto;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+
+._log_step_column {
+	display: inline-block;
+	text-align: bottom;
+}
+
+._log_step_column._log_request {
+	width: 30%;
+}
+
+._log_step_column._log_body {
+	width: 30%;
+}
+
+._log_step_column._log_screenshot {
+	max-width: 300px;
+	max-height: 300px;
 }

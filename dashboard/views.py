@@ -21,7 +21,6 @@ def index(request):
         if sessions and not hasattr(sessions, '__iter__'):
             sessions = [sessions]
 
-    print sessions
     context = {
         'sessions': sessions
     }

@@ -13,7 +13,7 @@
     </div>
     <div>
         {% if sessions %}
-            {% load filters %}
+            {% load dashboard_filters %}
             <div class="_sessions">
             {% for session in sessions %}
                 <a href="/session/{{ session.id }}/">

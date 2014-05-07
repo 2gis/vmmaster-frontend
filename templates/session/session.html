@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>session {{session.name}}</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
 </head>
 <body>
     <div>
         {% if log_steps %}
+            {% load session_filters %}
             <div class="_log_steps">
             {% for step in log_steps %}
-            <div class="_log_step">
-                <div class="_log_step_column _log_request">{{ step.control_line }}</div>
-                <div class="_log_step_column _log_body">{{ step.body }}</div>
+            <a href="step/{{ step.id }}/">
+            <div class="_log_step {{ step.control_line|control_line_status }}">
+                <div class="_log_step_column _log_request">{{ step.control_line|truncate_string }}</div>
+                <div class="_log_step_column _log_body">{{ step.body|truncate_string }}</div>
                 {% if step.screenshot %}
                     <div class="_log_step_column _log_screenshot"><img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
                 {% else %}
                     <div class="_log_step_column _log_screenshot"></div>
                 {% endif %}
             </div>
+            </a>
             {% endfor %}
             </div>
         {% else %}

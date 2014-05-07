@@ -1,8 +1,13 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
-from session import views
+from . import views
+
+helpers_urls = [
+
+    url(r'^step/$', views.log_step, name='log_step')
+]
 
 urlpatterns = [
-    # url(r'^$', views.session, name='session'),
-    url(r'^(?P<session_id>\d+)/$', views.session, name='session'),
+    url(r'^(?P<session_id>\d+)/$', views.session),
+    url(r'^(?P<session_id>\d+)/step/(?P<step_id>\d+)/$', views.log_step)
 ]

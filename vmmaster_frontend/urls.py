@@ -6,4 +6,7 @@ urlpatterns = patterns('',
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^session/', include('session.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^screenshot/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': '/var/lib/vmmaster/screenshots',
+            'show_indexes': True}),
 )

@@ -17,8 +17,12 @@ server {
     client_max_body_size 75M;   # adjust to taste
 
     # Django media
-    location /screenshot  {
+    location /screenshot {
         alias /var/lib/vmmaster/screenshots;  # your Django project's media files - amend as required
+    }
+
+    location /static {
+        alias /var/www/vmmaster-frontend/static;
     }
 
     # Finally, send all non-media requests to the Django server.
