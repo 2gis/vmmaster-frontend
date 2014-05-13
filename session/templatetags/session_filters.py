@@ -1,4 +1,9 @@
 from django import template
+from django.utils.safestring import mark_safe
+
+import pygments
+from pygments.lexers import PythonLexer, JsonLexer
+from pygments.formatters import HtmlFormatter
 
 register = template.Library()
 
@@ -21,3 +26,20 @@ def control_line_status(control_line):
         return "_error"
     else:
         return ""
+
+
+@register.filter
+def spacify(string):
+    return mark_safe(string.replace(" ", "&nbsp;"))
+
+
+@register.filter
+def highlight(text):
+    formatter = HtmlFormatter()
+    lexer = PythonLexer
+
+    if text.startswith("{") and text.endswith("}"):
+        lexer = JsonLexer
+
+    code = pygments.highlight(text, lexer(), formatter)
+    return mark_safe(code)

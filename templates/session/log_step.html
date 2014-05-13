@@ -3,6 +3,7 @@
 <head>
     <title>log step {{ log_step.id }}</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/pygments.css"/>
 </head>
 <body>
     <div class="_log_step_navigation">
@@ -11,8 +12,8 @@
         <a href="#screenshot">screenshot</a>
     </div>
     <div id="log_step">
-        <div id="control_line" class="_log_step_request _info">control line: {{ log_step.control_line }}</div>
-        <div id="body" class="_log_step_body _info">body: {{ log_step.body }}</div>
+        <div id="control_line" class="_log_step_request _info">{{ log_step.control_line }}</div>
+        <div id="body" class="_log_step_body _info">{{ log_step.body|highlight }}</div>
         {% load session_tags %}
         {% show_screenshot log_step %}
     </div>
