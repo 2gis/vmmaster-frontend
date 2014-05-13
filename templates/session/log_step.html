@@ -13,11 +13,8 @@
     <div id="log_step">
         <div id="control_line" class="_log_step_request _info">control line: {{ log_step.control_line }}</div>
         <div id="body" class="_log_step_body _info">body: {{ log_step.body }}</div>
-        {% if log_step.screenshot %}
-            <div id="screenshot" class="_log_step_column _log_screenshot _info"><img src="/screenshot/{{ log_step.session_id }}/{{ log_step.id }}.png"></div>
-        {% else %}
-            <div id="screenshot" class="_log_step_column _log_screenshot _info"></div>
-        {% endif %}
+        {% load session_tags %}
+        {% show_screenshot log_step %}
     </div>
 </body>
 </html>

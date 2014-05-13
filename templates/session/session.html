@@ -6,27 +6,7 @@
 </head>
 <body>
     <div>
-        {% if log_steps %}
-            {% load session_filters %}
-            <div class="_log_steps">
-            {% for step in log_steps %}
-            <a href="step/{{ step.id }}/">
-            <div class="_log_step {{ step.control_line|control_line_status }}">
-                <div class="_log_step_column _log_request">{{ step.control_line|truncate_string }}</div>
-                <div class="_log_step_column _log_body">{{ step.body|truncate_string }}</div>
-                {% if step.screenshot %}
-                    <div class="_log_step_column _log_screenshot"><img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png"></div>
-                {% else %}
-                    <div class="_log_step_column _log_screenshot"></div>
-                {% endif %}
-            </div>
-            </a>
-            {% endfor %}
-            </div>
-        {% else %}
-            <p>No log steps.</p>
-        {% endif %}
-
+        {% include "session/log.html" %}
     </div>
 </body>
 </html>

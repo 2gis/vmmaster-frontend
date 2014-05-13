@@ -1,0 +1,7 @@
+{% if step.screenshot %}
+    <div id="screenshot" class="_log_step_column _log_screenshot">
+        <img src="/screenshot/{{ step.session_id }}/{{ step.id }}.png">
+    </div>
+{% else %}
+    <div id="screenshot" class="_log_step_column _log_screenshot"></div>
+{% endif %}
