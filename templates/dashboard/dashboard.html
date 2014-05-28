@@ -12,21 +12,8 @@
         </form>
     </div>
     <div>
-        {% if sessions %}
-            {% load dashboard_filters %}
-            <div class="_sessions">
-            {% for session in sessions %}
-                <a href="/session/{{ session.id }}/">
-                <div class="_session_row">
-                    <div class="_session_column _session_name">{{ session.name }}</div>
-                    <div class="_session_column _session_date">{{ session.time|timestamp_to_date }}</div>
-                </div>
-                </a>
-            {% endfor %}
-            </div>
-        {% else %}
-            <p>No sessions.</p>
-        {% endif %}
+        {% load dashboard_tags %}
+        {% show_sessions sessions %}
     </div>
 </body>
 </html>

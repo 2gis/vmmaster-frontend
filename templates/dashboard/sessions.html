@@ -1,0 +1,25 @@
+{% if sessions %}
+    {% load dashboard_filters %}
+    <div class="_sessions">
+        <div class="_caption">
+            <div class="_session_column _session_status">status</div>
+            <div class="_session_column _session_name">name</div>
+            <div class="_session_column _session_date">date</div>
+            <div class="_session_column _session_error">error</div>
+        </div>
+    {% for session in sessions %}
+        <a href="/session/{{ session.id }}/">
+        <div class="_session_row">
+            <div class="_session_column _session_status">
+                <div class="status {{ session.status }}"></div>
+            </div>
+            <div class="_session_column _session_name">{{ session.name }}</div>
+            <div class="_session_column _session_date">{{ session.time|timestamp_to_date }}</div>
+            <div class="_session_column _session_error">{{ session.error|filter_error }}</div>
+        </div>
+        </a>
+    {% endfor %}
+    </div>
+{% else %}
+    <p>No sessions.</p>
+{% endif %}

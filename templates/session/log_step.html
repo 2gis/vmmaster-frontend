@@ -12,6 +12,7 @@
         <a href="#screenshot">screenshot</a>
     </div>
     <div id="log_step">
+        {% load session_filters %}
         <div id="control_line" class="_log_step_request _info">{{ log_step.control_line }}</div>
         <div id="body" class="_log_step_body _info">{{ log_step.body|highlight }}</div>
         {% load session_tags %}

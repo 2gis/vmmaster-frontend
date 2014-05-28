@@ -32,8 +32,10 @@ class LogSteps(models.Model):
 
 class Sessions(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
+    status = models.CharField(max_length=100, blank=True)
     name = models.CharField(max_length=100, blank=True)
     time = models.FloatField(blank=True, null=True)
+    error = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False

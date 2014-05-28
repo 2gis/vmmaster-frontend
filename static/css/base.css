@@ -7,7 +7,6 @@
 }
 
 ._sessions ._session_row {
-	display: block;
 	width:auto;
 	clear:both;
 	border-bottom: 1px solid black;
@@ -20,8 +19,59 @@
 }
 
 ._sessions ._session_column {
-	display: inline-block;
+	display: table-cell;
 	text-align: left;
+	vertical-align: middle;
+}
+
+._sessions ._caption {
+	width:auto;
+	clear:both;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+
+._sessions ._caption ._session_column {
+	font-weight: bold;
+}
+
+._sessions ._session_column._session_status {
+	width: 50px;
+    text-align: center;
+}
+
+._session_status .status {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+}
+
+._session_status .succeed {
+    background-color: #5ba467;
+}
+
+._session_status .failed {
+    background-color: #ba4549;
+}
+
+@-webkit-keyframes pulsing {
+    0%   {background: yellow;}
+    90%  {background: lightgray;}
+    100%  {background: yellow;}
+}
+
+@keyframes pulsing {
+    0%   {background: yellow;}
+    90%  {background: lightgray;}
+    100%  {background: yellow;}
+}
+
+._session_status .running {
+    -webkit-animation: pulsing 2s;
+    -webkit-animation-iteration-count: infinite;
+    animation: pulsing 2s;
+    animation-iteration-count: infinite;
 }
 
 ._sessions ._session_column._session_name {
@@ -29,7 +79,14 @@
 }
 
 ._sessions ._session_column._session_date {
-	width: auto;
+	width: 200px;
+}
+
+._sessions ._session_column._session_error {
+	width: 300px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 ._log_steps {
