@@ -15,11 +15,17 @@ def filter_error(error):
     if error is None:
         return ""
 
-    error_index = error.lower().rfind("err")
-    if error_index == -1:
+    # looking for error or exception
+    features = list()
+    features.append(error.lower().rfind("err"))
+    features.append(error.lower().rfind("exception"))
+    fiture_index = max(features)
+    if fiture_index == -1:
         return error[-30:-1]
 
-    space_error_index = error.rfind(" ", 0, error_index)
-    linebreak_error_index = error.rfind("\n", 0, error_index)
-    index = space_error_index if space_error_index > linebreak_error_index else linebreak_error_index
+    # looking for start of sentence
+    starts = list()
+    starts.append(error.rfind(" ", 0, fiture_index))
+    starts.append(error.rfind("\n", 0, fiture_index))
+    index = max(starts)
     return error[index:]
