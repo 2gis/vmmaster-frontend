@@ -14,7 +14,7 @@ upstream django {
 }
 ```
 ```
-sudo ln -s /etc/nginx/sites-enabled /path/to/vmmaster-frontend.conf
+sudo ln -s /path/to/vmmaster-frontend.conf /etc/nginx/sites-enabled
 ```
 ```
 sudo service nginx restart
@@ -35,6 +35,7 @@ chdir           = /path/to/vmmaster-frontend
 # create a directory for the vassals
 sudo mkdir /etc/uwsgi
 sudo mkdir /etc/uwsgi/vassals
+sudo mkdir /var/log/uwsgi
 # symlink from the default config directory to your config file
 sudo ln -s /path/to/vmmaster-frontend.ini /etc/uwsgi/vassals/
 ```
@@ -44,7 +45,7 @@ uwsgi --emperor /etc/uwsgi/vassals --uid vmmaster --gid vmmaster
 ```
 ```
 # create upstart service
-sudo cp /etc/init/vmmaster-frontend.conf /path/to/vmmaster-frontend.init.conf.template
+sudo cp /path/to/vmmaster-frontend/vmmaster-frontend.conf.init.template /etc/init/vmmaster-frontend.conf
 # run service
 sudo service vmmaster-frontend start
 ```
