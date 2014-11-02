@@ -33,6 +33,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dashboard',
     'session',
+    'api',
+    'bootstrap3',
 )
 
 TEMPLATE_LOADERS = (
@@ -78,3 +80,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+VMMASTER_API_URL = "http://localhost:9000/api"

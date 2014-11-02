@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 
 from dashboard.models import Sessions
+from api.views import get_platforms, get_queue, get_sessions
 
 
 def index(request):
@@ -21,7 +22,14 @@ def index(request):
         if sessions and not hasattr(sessions, '__iter__'):
             sessions = [sessions]
 
+    platforms = get_platforms()
+    active_sessions = get_sessions()
+    queue = get_queue()
+
     context = {
-        'sessions': sessions
+        'sessions': sessions,
+        'platforms': platforms,
+        'active_sessions': active_sessions,
+        'queue': queue
     }
     return render(request, 'dashboard/dashboard.html', context)

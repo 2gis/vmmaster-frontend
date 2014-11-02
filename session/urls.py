@@ -9,5 +9,6 @@ helpers_urls = [
 
 urlpatterns = [
     url(r'^(?P<session_id>\d+)/$', views.session),
-    url(r'^(?P<session_id>\d+)/step/(?P<step_id>\d+)/$', views.log_step)
+    url(r'^(?P<session_id>\d+)/step/(?P<step_id>\d+)/$', views.log_step),
+    url(r'^(?P<session_id>\d+)/step/(?P<step_id>\d+)/session_step/(?P<step_id>\d+)$', views.session_log_step)
 ]

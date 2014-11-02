@@ -17,7 +17,7 @@ class DjangoMigrations(models.Model):
         return self.id + " " + self.name
 
 
-class LogSteps(models.Model):
+class VmmasterLogSteps(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     session_id = models.IntegerField(blank=True, null=True)
     control_line = models.CharField(max_length=100, blank=True)
@@ -27,7 +27,19 @@ class LogSteps(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'log_steps'
+        db_table = 'vmmaster_log_steps'
+
+
+class SessionLogSteps(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    vmmaster_log_step_id = models.IntegerField(blank=True, null=True)
+    control_line = models.CharField(max_length=100, blank=True)
+    body = models.CharField(max_length=100, blank=True)
+    time = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'session_log_steps'
 
 
 class Sessions(models.Model):

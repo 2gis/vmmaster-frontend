@@ -3,6 +3,10 @@
 <head>
     <title>dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
+    <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
     <div>
@@ -11,9 +15,13 @@
             <input type="submit" value="go">
         </form>
     </div>
-    <div>
-        {% load dashboard_tags %}
+    {% load dashboard_tags %}
+    <div class="main">
         {% show_sessions sessions %}
+        <div class="info">
+            {% show_platforms platforms %}
+            {% show_queue queue %}
+        </div>
     </div>
 </body>
 </html>
