@@ -114,7 +114,7 @@
 	padding: 5px;
 }
 
-.log_steps .log_step:hover {
+.log_steps .log_step .expand:hover {
 	background-color: #404040;
 	color: white;
 }
@@ -170,9 +170,9 @@
 }
 
 #log_step {
+    padding: 5px;
     display: table;
     position: relative;
-    left: 150px;
 	overflow-y: scroll;
 }
 

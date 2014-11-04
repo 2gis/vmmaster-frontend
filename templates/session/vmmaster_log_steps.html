@@ -4,8 +4,9 @@
 
     <div class="log_steps">
     {% for step in log_steps %}
-        <div data-id="{{ step.id }}" class="log_step {{ step.control_line|control_line_status }}">
-            <div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div>
+        <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }}">
+            <div class="expand log_step_column"><div class="glyphicon glyphicon-chevron-right"></div></div>
+            <a href="vmmaster_step/{{ step.id }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
             <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
             {% show_screenshot step %}
             <div class="info"></div>

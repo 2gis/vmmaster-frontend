@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>log step {{ log_step.id }}</title>
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/pygments.css"/>
-</head>
-<body>
-    <div class="log_step_navigation">
-        <a href="#control_line">control line</a>
-        <a href="#body">body</a>
-        <a href="#screenshot">screenshot</a>
-    </div>
-    <div id="log_step">
-        {% load session_filters %}
-        <div id="control_line" class="log_step_request info">{{ log_step.control_line }}</div>
-        <div id="body" class="log_step_body info">{{ log_step.body|highlight }}</div>
-        {% load session_tags %}
-        {% show_screenshot log_step %}
-    </div>
-</body>
-</html>
+{% load session_filters %}
+{% for step in session_log_steps %}
+<pre><a href="session_step/{{ step.id }}">{{ step.control_line }}</a></pre>
+{% endfor %}
