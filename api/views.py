@@ -15,10 +15,13 @@ def _make_api_request(method, uri, headers=None, body=None):
     if body is None:
         body = ""
 
-    response = requests.request(
-        method, "%s/%s" % (settings.VMMASTER_API_URL, uri), headers=headers, data=body)
-    content = json.loads(response.content)
-    return content.get("result")
+    try:
+        response = requests.request(
+            method, "%s/%s" % (settings.VMMASTER_API_URL, uri), headers=headers, data=body)
+        content = json.loads(response.content)
+        return content.get("result")
+    except:
+        return {}
 
 
 def get_sessions():
