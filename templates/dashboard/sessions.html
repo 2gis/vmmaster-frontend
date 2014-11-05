@@ -1,25 +1,27 @@
-<div class="sessions">
-    <div class="caption">
-        <div class="session_column session_status">status</div>
-        <div class="session_column session_name">name</div>
-        <div class="session_column session_date">date</div>
-        <div class="session_column session_error">error</div>
-    </div>
+<table id="sessions" class="table sessions">
+    <thead class="caption">
+    <tr>
+        <td class="session_column session_status">status</td>
+        <td class="session_column session_name">name</td>
+        <td class="session_column session_date">date</td>
+        <td class="session_column session_error">error</td>
+    </tr>
+    </thead>
+    <tbody>
     {% if sessions %}
         {% load dashboard_filters %}
         {% for session in sessions %}
-        <a href="/session/{{ session.id }}/">
-        <div class="session_row">
-            <div class="session_column session_status">
+        <tr class="session_row" href="/session/{{ session.id }}">
+            <td class="session_column session_status">
                 <div class="status {{ session.status }}"></div>
-            </div>
-            <div class="session_column session_name">{{ session.name }}</div>
-            <div class="session_column session_date">{{ session.time|timestamp_to_date }}</div>
-            <div class="session_column session_error">{{ session.error|filter_error }}</div>
-        </div>
-        </a>
+            </td>
+            <td class="session_column session_name">{{ session.name }}</td>
+            <td class="session_column session_date">{{ session.time|timestamp_to_date }}</td>
+            <td class="session_column session_error">{{ session.error|filter_error }}</td>
+        </tr>
         {% endfor %}
     {% else %}
         <p>No sessions.</p>
     {% endif %}
-</div>
+    </tbody>
+</table>

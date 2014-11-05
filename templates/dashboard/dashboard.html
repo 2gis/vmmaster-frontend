@@ -4,17 +4,14 @@
     <title>dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
     <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
+    <script src="{{STATIC_URL}}js/dashboard.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}libs/DataTables-1.10.3/media/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}libs/DataTables-1.10.3/media/js/jquery.dataTables.js"></script>
     {% load bootstrap3 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}libs/bootstrap-3.3.0/css/bootstrap.min.css">
+    <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}libs/bootstrap-3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div>
-        <form>
-            <input name="q" placeholder="session">
-            <input type="submit" value="go">
-        </form>
-    </div>
     {% load dashboard_tags %}
     <div class="main">
         {% show_sessions sessions %}

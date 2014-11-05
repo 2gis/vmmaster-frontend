@@ -6,6 +6,10 @@
     padding-left: 20px;
 }
 
+.info table td {
+    width: 200px;
+}
+
 .sessions {
 	display: table;
 }
@@ -30,6 +34,8 @@
 	display: inline-block;
 	text-align: left;
 	vertical-align: middle;
+    border-top: none;
+    padding: 0;
 }
 
 .sessions .caption {
@@ -180,8 +186,4 @@
 	padding: 5px;
 	border-bottom: 1px solid black;
 	width: 100%;
-}
-
-.table caption {
-    padding: 5px;
 }
