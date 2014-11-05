@@ -36,6 +36,9 @@
 	vertical-align: middle;
     border-top: none;
     padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sessions .caption {
@@ -98,9 +101,6 @@
 
 .sessions .session_column.session_error {
 	width: 400px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
 .log_steps {
