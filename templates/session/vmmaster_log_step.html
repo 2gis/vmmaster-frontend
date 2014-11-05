@@ -1,0 +1,4 @@
+{% load session_filters %}
+{% for step in session_log_steps %}
+<pre><a href="session_step/{{ step.id }}">{{ step.control_line }}</a></pre>
+{% endfor %}

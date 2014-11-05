@@ -1,3 +1,5 @@
+import json
+
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -20,10 +22,9 @@ def truncate_string(string):
 
 
 @register.filter
-def control_line_status(control_line):
-    code = control_line.split(" ")[1]
+def code_status(code):
     if code.startswith("5"):
-        return "_error"
+        return "error"
     else:
         return ""
 
@@ -34,12 +35,22 @@ def spacify(string):
 
 
 @register.filter
+def pretty_json(body):
+    try:
+        body = body.replace("\\n", "\n")
+        data = json.loads(body)
+        return json.dumps(data, indent=4)
+    except:
+        return body
+
+
+@register.filter
 def highlight(text):
-    formatter = HtmlFormatter()
+    formatter = HtmlFormatter
     lexer = PythonLexer
 
     if text.startswith("{") and text.endswith("}"):
         lexer = JsonLexer
 
-    code = pygments.highlight(text, lexer(), formatter)
+    code = pygments.highlight(text, lexer(), formatter())
     return mark_safe(code)

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ log_step.control_line }}</title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/pygments.css"/>
+    <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
+    <script src="{{STATIC_URL}}js/session.js"></script>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+<div id="log_step">
+    {% load session_filters %}
+    <div class="log_step_request info">{{ request.control_line }}</div>
+    <div class="log_step_body info">{{ request.body|pretty_json|highlight }}</div>
+    <div class="log_step_request info">{{ response.control_line }}</div>
+    <div class="log_step_body info">{{ response.body|pretty_json|highlight }}</div>
+    {% load session_tags %}
+    {% show_screenshot request %}
+</div>
+</body>
+</html>

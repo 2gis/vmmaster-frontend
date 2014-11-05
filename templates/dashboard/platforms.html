@@ -1,0 +1,18 @@
+<div class="platforms">
+<table class="table table-condensed table-striped">
+    <caption>platforms</caption>
+    <tbody>
+    {% if platforms %}
+        {% for platform in platforms %}
+        <tr>
+            <td>{{ platform }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>No platforms</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+</div>
