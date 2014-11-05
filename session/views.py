@@ -9,7 +9,10 @@ def _requests(steps):
     it = iter(steps)
     requests = []
     for req in it:
-        response_status = next(it).control_line.split(" ")[0]
+        try:
+            response_status = next(it).control_line.split(" ")[0]
+        except StopIteration:
+            response_status = None
         setattr(req, 'response_status', response_status)
         requests.append(req)
     return requests
@@ -39,7 +42,10 @@ def _response(request, steps):
     response = None
     for num, step in enumerate(iter(steps)):
         if step == request:
-            response = steps[num+1]
+            try:
+                response = steps[num+1]
+            except IndexError:
+                response = None
 
     return response
 
