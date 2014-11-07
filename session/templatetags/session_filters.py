@@ -22,7 +22,12 @@ def truncate_string(string):
 
 
 @register.filter
-def code_status(code):
+def code_status(code=None):
+    if code is None:
+        code = ""
+    else:
+        code = str(code)
+
     if code.startswith("5"):
         return "error"
     else:
