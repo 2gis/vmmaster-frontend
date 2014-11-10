@@ -3,7 +3,6 @@ from django.conf.urls import url, include
 from . import views
 
 helpers_urls = [
-
     url(r'^step/$', views.log_step, name='log_step')
 ]
 

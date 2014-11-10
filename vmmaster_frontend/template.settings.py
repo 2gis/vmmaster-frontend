@@ -35,6 +35,12 @@ INSTALLED_APPS = (
     'session',
     'api',
     'bootstrap3',
+    'endless_pagination',
+)
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
 )
 
 TEMPLATE_LOADERS = (
