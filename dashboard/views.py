@@ -15,7 +15,7 @@ def dashboard(request):
         sessions = Sessions.objects.order_by('-time')
     else:
         # try:
-        sessions = Sessions.objects.filter(name__startswith=session_name)
+        sessions = Sessions.objects.filter(name__contains=session_name)
         # except ObjectDoesNotExist:
         #     sessions = []
 
