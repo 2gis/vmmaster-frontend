@@ -4,10 +4,12 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('dashboard/sessions.html')
-def show_sessions(sessions):
-    return {'sessions': sessions}
-
+@register.inclusion_tag('dashboard/sessions.html', takes_context=True)
+def show_sessions(context, sessions):
+    return {
+        'sessions': sessions,
+        'request': context.get('request')
+    }
 
 @register.inclusion_tag('dashboard/platforms.html')
 def show_platforms(platforms):

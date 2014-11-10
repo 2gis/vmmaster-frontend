@@ -7,21 +7,19 @@ from api.views import get_platforms, get_queue, get_sessions
 
 def dashboard(request):
     try:
-        session = request.GET["q"]
+        session_name = request.GET["q"]
     except:
-        session = ''
+        session_name = ''
 
-    if not session:
+    if not session_name:
         sessions = Sessions.objects.order_by('-time')
     else:
-        try:
-            sessions = Sessions.objects.filter(name=session)
-        except ObjectDoesNotExist:
-            sessions = None
+        # try:
+        sessions = Sessions.objects.filter(name__startswith=session_name)
+        # except ObjectDoesNotExist:
+        #     sessions = []
 
-        if sessions and not hasattr(sessions, '__iter__'):
-            sessions = [sessions]
-
+    print sessions
     platforms = get_platforms()
     active_sessions = get_sessions()
     queue = get_queue()
