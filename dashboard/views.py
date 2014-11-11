@@ -11,10 +11,11 @@ def dashboard(request):
         session_name = ''
 
     if not session_name:
-        sessions = Sessions.objects.order_by('-time')
+        sessions = Sessions.objects.all()
     else:
         sessions = Sessions.objects.filter(name__icontains=session_name)
 
+    sessions = sessions.order_by('-time')
     platforms = get_platforms()
     active_sessions = get_sessions()
     queue = get_queue()
