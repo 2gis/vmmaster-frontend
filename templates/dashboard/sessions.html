@@ -1,7 +1,11 @@
 <div>
-    <form>
-        <input name="q" placeholder="session">
-        <input type="submit" value="go">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <input class="form-control" name="q" placeholder="session">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="submit" value="find">
+        </div>
     </form>
     <table class="table sessions">
         <thead class="caption">
@@ -34,9 +38,10 @@
     {% if sessions %}
         {% get_pages %}
         {% if pages.paginated %}
-            <div>
-                {{ pages }}
-            </div>
+            <ul class="pagination">
+                {% load dashboard_tags %}
+                {% show_pagination pages %}
+            </ul>
         {% endif %}
     {% endif %}
 </div>
