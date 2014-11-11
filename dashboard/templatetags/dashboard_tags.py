@@ -1,4 +1,5 @@
 from django import template
+from endless_pagination.utils import get_page_numbers
 
 
 register = template.Library()
@@ -20,3 +21,23 @@ def show_platforms(platforms):
 def show_queue(queue):
     queue = [str(e) for e in queue.iteritems()]
     return {'queue': queue}
+
+
+@register.inclusion_tag('dashboard/show_pagination.html', takes_context=True)
+def show_pagination(context, pages):
+    show = []
+    for item in get_page_numbers(pages._page.number, len(pages)):
+        if item is None:
+            show.append(None)
+        elif item == 'previous':
+            show.append(pages.previous())
+        elif item == 'next':
+            show.append(pages.next())
+        elif item == 'first':
+            show.append(pages.first_as_arrow())
+        elif item == 'last':
+            show.append(pages.last_as_arrow())
+        else:
+            show.append(pages[item])
+
+    return {'pages': show}

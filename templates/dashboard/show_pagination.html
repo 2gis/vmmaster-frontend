@@ -1,0 +1,7 @@
+{% for page in pages %}
+    {% if page.is_current %}
+        <li class="active">{{ page|default_if_none:'<span class="endless_separator">...</span>' }}</li>
+    {% else %}
+        <li>{{ page|default_if_none:'<span class="endless_separator">...</span>' }}</li>
+    {% endif %}
+{% endfor %}
