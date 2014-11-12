@@ -11,8 +11,7 @@ register = template.Library()
 
 
 @register.filter
-def truncate_string(string):
-    max_size = 40
+def truncate_string(string, max_size=40):
     if len(string) > max_size:
         string = string[:max_size/2] + "..." + string[-max_size/2:]
     else:
@@ -32,6 +31,23 @@ def code_status(code=None):
         return "error"
     else:
         return ""
+
+@register.filter
+def is_label_step(string):
+    try:
+        request = string.split(" ")
+        return request[0] == "POST" and request[1].endswith("/vmmasterLabel")
+    except:
+        return False
+
+
+@register.filter
+def extract_label(string):
+    try:
+        body = json.loads(string)
+        return body.get("label", string)
+    except:
+        return string
 
 
 @register.filter
