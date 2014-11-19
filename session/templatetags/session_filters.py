@@ -32,13 +32,17 @@ def code_status(code=None):
     else:
         return ""
 
+
 @register.filter
-def is_label_step(string):
+def label_step(string):
+    label_class = ""
     try:
         request = string.split(" ")
-        return request[0] == "POST" and request[1].endswith("/vmmasterLabel")
+        if request[0] == "POST" and request[1].endswith("/vmmasterLabel"):
+            label_class = 'label'
     except:
-        return False
+        pass
+    return label_class
 
 
 @register.filter
