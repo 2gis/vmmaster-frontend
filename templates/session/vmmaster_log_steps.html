@@ -4,8 +4,8 @@
 
     <div class="log_steps">
     {% for step in log_steps %}
-        <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }}">
-            {% if step.control_line|is_label_step %}
+        <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
+            {% if step.control_line|label_step %}
                 <h4><a href="vmmaster_step/{{ step.id }}">{{ step.body|extract_label|truncate_string:80 }}</a></h4>
             {% else %}
                 <div class="expand log_step_column"><div class="glyphicon glyphicon-chevron-right"></div></div>
