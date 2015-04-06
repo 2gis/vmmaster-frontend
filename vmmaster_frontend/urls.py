@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+admin.site.site_header = 'Vmmaster frontend'
+
 urlpatterns = patterns('',
     url(r'^$', 'vmmaster_frontend.views.home', name='home'),
     url(r'^dashboard/', include('dashboard.urls')),

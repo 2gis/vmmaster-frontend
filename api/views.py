@@ -1,11 +1,7 @@
 import requests
 import json
 
-from django.shortcuts import render
 from django.conf import settings
-
-
-# Create your views here.
 
 
 def _make_api_request(method, uri, headers=None, body=None):
