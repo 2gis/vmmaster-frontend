@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 from .models import VmmasterUser, VmmasterGroup
-from .forms import AdminUserCreationForm, AdminUserChangeForm
+from .forms import VmmasterUserCreationForm, VmmasterUserChangeForm
 
 admin.site.unregister(Group)
 
@@ -28,8 +28,8 @@ class VmmasterGroupAdmin(admin.ModelAdmin):
 
 @admin.register(VmmasterUser)
 class VmmasterUserAdmin(UserAdmin):
-    add_form = AdminUserCreationForm
-    form = AdminUserChangeForm
+    add_form = VmmasterUserCreationForm
+    form = VmmasterUserChangeForm
 
     # 'List of users' form fields
     list_display = ('username', 'group', 'allowed_machines', 'is_active', 'date_joined', 'last_login')
@@ -47,10 +47,8 @@ class VmmasterUserAdmin(UserAdmin):
 
     # 'Add new user' form fields
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2',)
-        }),
+        (None, {'classes': ('wide',),
+                'fields': ('username', 'password1', 'password2',)}),
         (None, {'fields': ('is_active',)}),
         (_('Vmmaster'), {'fields': ('group', 'allowed_machines',)}),
     )

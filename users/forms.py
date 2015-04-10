@@ -5,23 +5,15 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.forms import forms
 
 
-class AdminUserCreationForm(UserCreationForm):
+class VmmasterUserCreationForm(UserCreationForm):
 
     class Meta:
         model = VmmasterUser
-        fields = ('username',)
-
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-        try:
-            VmmasterUser._default_manager.get(username=username)
-        except VmmasterUser.DoesNotExist:
-            return username
-        raise forms.ValidationError(self.error_messages['duplicate_username'])
+        fields = ("username",)
 
 
-class AdminUserChangeForm(UserChangeForm):
+class VmmasterUserChangeForm(UserChangeForm):
 
     class Meta:
         model = VmmasterUser
-        fields = ('username',)
+        fields = ("username",)

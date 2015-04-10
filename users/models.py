@@ -12,13 +12,14 @@ class VmmasterUserManager(BaseUserManager):
             username=username,
             allowed_machines=allowed_machines,
             date_joined=timezone.now(),
-            last_login=None,
+            last_login=timezone.now(),
         )
         u.set_password(password)
         u.save(using=self._db)
         return u
 
     def create_superuser(self, username, password,):
+
         u = self.create_user(username, password,)
         u.group = VmmasterGroup.objects.get(name='admin')
         u.is_active = True
@@ -44,7 +45,7 @@ class VmmasterUser(AbstractBaseUser):
     username = models.CharField(db_column='username', max_length=20, unique=True)
     is_active = models.BooleanField(db_column='is_active', default=True)
     date_joined = models.DateTimeField(db_column='date_joined', default=timezone.now)
-    group = models.ForeignKey('VmmasterGroup', default=1)
+    group = models.ForeignKey('VmmasterGroup', default=0)
     allowed_machines = models.IntegerField(
         db_column='allowed_machines',
         verbose_name="Virtual machines limit",

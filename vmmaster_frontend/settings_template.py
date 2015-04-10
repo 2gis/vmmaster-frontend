@@ -24,20 +24,29 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-INSTALLED_APPS = (
+DJANGO_CORE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
+]
+
+THIRD_PARTY_APPS = [
     'bootstrap3',
-    'endless_pagination',
+    'endless_pagination'
+]
+
+PROJECT_APPS = [
     'dashboard',
     'session',
     'api',
-    'users',
-)
+    'users'
+]
+
+INSTALLED_APPS = DJANGO_CORE_APPS + THIRD_PARTY_APPS + PROJECT_APPS
+
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (
