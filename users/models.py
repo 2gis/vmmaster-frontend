@@ -45,7 +45,7 @@ class VmmasterUser(AbstractBaseUser):
     username = models.CharField(db_column='username', max_length=20, unique=True)
     is_active = models.BooleanField(db_column='is_active', default=True)
     date_joined = models.DateTimeField(db_column='date_joined', default=timezone.now)
-    group = models.ForeignKey('VmmasterGroup', default=0)
+    group = models.ForeignKey('VmmasterGroup', default=1)
     allowed_machines = models.IntegerField(
         db_column='allowed_machines',
         verbose_name="Virtual machines limit",

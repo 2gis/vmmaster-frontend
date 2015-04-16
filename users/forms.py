@@ -11,6 +11,17 @@ class VmmasterUserCreationForm(UserCreationForm):
         model = VmmasterUser
         fields = ("username",)
 
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            VmmasterUser._default_manager.get(username=username)
+        except VmmasterUser.DoesNotExist:
+            return username
+        raise forms.ValidationError(
+            self.error_messages['duplicate_username'],
+            code='duplicate_username',
+        )
+
 
 class VmmasterUserChangeForm(UserChangeForm):
 
