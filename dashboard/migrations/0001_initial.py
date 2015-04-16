@@ -1,4 +1,6 @@
-# encoding: utf8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models, migrations
 
 
@@ -9,27 +11,46 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Session',
+            name='AgentLogStep',
             fields=[
-                (u'id', models.AutoField(verbose_name=u'ID', serialize=False, auto_created=True, primary_key=True)),
-                ('session_name', models.CharField(max_length=200)),
-                ('session_tiem', models.FloatField()),
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('control_line', models.CharField(max_length=100, blank=True)),
+                ('body', models.CharField(max_length=100, blank=True)),
+                ('time', models.FloatField(null=True, blank=True)),
             ],
             options={
+                'db_table': 'session_log_steps',
+                'managed': False,
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Log_step',
+            name='Session',
             fields=[
-                (u'id', models.AutoField(verbose_name=u'ID', serialize=False, auto_created=True, primary_key=True)),
-                ('session_id', models.IntegerField()),
-                ('control_line', models.CharField(max_length=200)),
-                ('body', models.CharField(max_length=200)),
-                ('screenshot', models.CharField(max_length=200)),
-                ('time', models.FloatField()),
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('status', models.CharField(max_length=100, blank=True)),
+                ('name', models.CharField(max_length=100, blank=True)),
+                ('time', models.FloatField(null=True, blank=True)),
+                ('error', models.CharField(max_length=100, blank=True)),
             ],
             options={
+                'db_table': 'sessions',
+                'managed': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='SessionLogStep',
+            fields=[
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('control_line', models.CharField(max_length=100, blank=True)),
+                ('body', models.CharField(max_length=100, blank=True)),
+                ('screenshot', models.CharField(max_length=100, blank=True)),
+                ('time', models.FloatField(null=True, blank=True)),
+            ],
+            options={
+                'db_table': 'vmmaster_log_steps',
+                'managed': False,
             },
             bases=(models.Model,),
         ),

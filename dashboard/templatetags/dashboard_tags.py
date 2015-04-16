@@ -12,6 +12,7 @@ def show_sessions(context, sessions):
         'request': context.get('request')
     }
 
+
 @register.inclusion_tag('dashboard/platforms.html')
 def show_platforms(platforms):
     return {'platforms': platforms.get("platforms")}

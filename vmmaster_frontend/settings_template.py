@@ -31,11 +31,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
+    'endless_pagination',
     'dashboard',
     'session',
     'api',
-    'bootstrap3',
-    'endless_pagination',
+    'users',
 )
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
@@ -83,8 +84,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+#    os.path.join(BASE_DIR, "static"),
 )
 
 VMMASTER_API_URL = "http://localhost:9000/api"
+
+AUTH_USER_MODEL = "users.VmmasterUser"
