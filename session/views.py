@@ -1,8 +1,5 @@
-import json
-
 from django.shortcuts import render
-
-from dashboard.models import VmmasterLogSteps, Sessions, SessionLogSteps
+from dashboard.models import Session, SessionLogStep, AgentLogStep
 
 
 def _requests(steps):
@@ -19,8 +16,8 @@ def _requests(steps):
 
 
 def session(request, session_id):
-    session = Sessions.objects.get(id=session_id)
-    vmmaster_log_steps = VmmasterLogSteps.objects.filter(session_id=session_id).order_by("time")
+    session = Session.objects.get(id=session_id)
+    vmmaster_log_steps = SessionLogStep.objects.filter(session_id=session_id).order_by("time")
     context = {
         'session': session,
         'vmmaster_log_steps': _requests(vmmaster_log_steps)
@@ -29,8 +26,8 @@ def session(request, session_id):
 
 
 def log_step(request, session_id, step_id):
-    log_step = VmmasterLogSteps.objects.get(id=step_id)
-    session_log_steps = SessionLogSteps.objects.filter(vmmaster_log_step_id=log_step.id).order_by('time')
+    log_step = SessionLogStep.objects.get(id=step_id)
+    session_log_steps = AgentLogStep.objects.filter(vmmaster_log_step_id=log_step.id).order_by('time')
     context = {
         'log_step': log_step,
         'session_log_steps': _requests(session_log_steps)
@@ -51,8 +48,8 @@ def _response(request, steps):
 
 
 def session_step(request, session_id, session_step_id):
-    req = SessionLogSteps.objects.get(id=session_step_id)
-    steps = SessionLogSteps.objects.filter(vmmaster_log_step_id=req.vmmaster_log_step_id).order_by('time')
+    req = AgentLogStep.objects.get(id=session_step_id)
+    steps = AgentLogStep.objects.filter(vmmaster_log_step_id=req.vmmaster_log_step_id).order_by('time')
 
     context = {
         'request': req,
@@ -62,8 +59,8 @@ def session_step(request, session_id, session_step_id):
 
 
 def vmmaster_step(request, session_id, vmmaster_step_id):
-    req = VmmasterLogSteps.objects.get(id=vmmaster_step_id)
-    steps = VmmasterLogSteps.objects.filter(session_id=req.session_id).order_by('time')
+    req = SessionLogStep.objects.get(id=vmmaster_step_id)
+    steps = SessionLogStep.objects.filter(session_id=req.session_id).order_by('time')
 
     context = {
         'request': req,

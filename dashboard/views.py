@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from dashboard.models import Sessions
+from .models import Session
 from api.views import get_platforms, get_queue, get_sessions
 
 
@@ -11,9 +11,9 @@ def dashboard(request):
         session_name = ''
 
     if not session_name:
-        sessions = Sessions.objects.all()
+        sessions = Session.objects.all()
     else:
-        sessions = Sessions.objects.filter(name__icontains=session_name)
+        sessions = Session.objects.filter(name__icontains=session_name)
 
     sessions = sessions.order_by('-time')
     platforms = get_platforms()

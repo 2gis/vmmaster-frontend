@@ -1,25 +1,34 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
 
 
-class DjangoMigrations(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
+class Session(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        related_name="sessions",
+        on_delete=models.SET_NULL,
+    )
+    status = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, blank=True)
+    time = models.FloatField(blank=True, null=True)
+    error = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return "[" + str(self.id) + "] " + self.name
 
     class Meta:
         managed = False
-        db_table = 'django_migrations'
-
-    def __str__(self):
-        return self.id + " " + self.name
+        db_table = 'sessions'
 
 
-class VmmasterLogSteps(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    session_id = models.IntegerField(blank=True, null=True)
+class SessionLogStep(models.Model):
+    id = models.IntegerField(primary_key=True)
+    session = models.ForeignKey(Session, blank=True, null=True, related_name="session_steps")
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
     screenshot = models.CharField(max_length=100, blank=True)
@@ -29,10 +38,13 @@ class VmmasterLogSteps(models.Model):
         managed = False
         db_table = 'vmmaster_log_steps'
 
+    def __str__(self):
+        return "[" + str(self.id) + "] " + self.control_line
 
-class SessionLogSteps(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    vmmaster_log_step_id = models.IntegerField(blank=True, null=True)
+
+class AgentLogStep(models.Model):
+    id = models.IntegerField(primary_key=True)
+    vmmaster_log_step = models.ForeignKey(SessionLogStep, blank=True, null=True, related_name="agent_steps")
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
     time = models.FloatField(blank=True, null=True)
@@ -41,14 +53,5 @@ class SessionLogSteps(models.Model):
         managed = False
         db_table = 'session_log_steps'
 
-
-class Sessions(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    status = models.CharField(max_length=100, blank=True)
-    name = models.CharField(max_length=100, blank=True)
-    time = models.FloatField(blank=True, null=True)
-    error = models.CharField(max_length=100, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sessions'
+    def __str__(self):
+        return "[" + str(self.id) + "] " + self.control_line
