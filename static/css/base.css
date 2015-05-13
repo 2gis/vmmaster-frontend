@@ -187,3 +187,23 @@
 	border-bottom: 1px solid black;
 	width: 100%;
 }
+
+.hat {
+	display: table;
+    background-color: lightgrey;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.hat .control_panel {
+    margin-left: auto;
+}
+
+.hat .segment {
+    border-style: solid;
+}
+
+.user_info .token {
+
+}

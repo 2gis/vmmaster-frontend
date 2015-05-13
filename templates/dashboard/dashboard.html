@@ -11,12 +11,11 @@
 </head>
 <body>
     {% load dashboard_tags %}
-    <div class="hat">
-        {% show_hat %}
-    </div>
+    {% show_hat user %}
     <div class="main">
         {% show_sessions sessions %}
         <div class="info">
+            {% show_user_info user %}
             {% show_platforms platforms %}
             {% show_queue queue %}
         </div>

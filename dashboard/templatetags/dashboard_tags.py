@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import template
 from endless_pagination.utils import get_page_numbers
 
@@ -6,7 +7,16 @@ register = template.Library()
 
 
 @register.inclusion_tag('dashboard/hat.html')
-def show_hat():
+def show_hat(user=None):
+    if not user.is_anonymous():
+        return {'username': user.get_username(), 'token': user.token}
+    return {}
+
+
+@register.inclusion_tag('dashboard/user_info.html')
+def show_user_info(user=None):
+    if not user.is_anonymous() and not user.is_superuser():
+        return {'token': user.token}
     return {}
 
 

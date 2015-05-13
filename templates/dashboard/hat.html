@@ -1,7 +1,17 @@
 <div class="hat">
-<table class="table table-condensed">
+<table class="control_panel">
     <tbody>
-        <a href="{% url 'register' %}">Register</a>
+        {% if username %}
+            <tr>
+                <td class="segment">You logged as <b>{{ username }}</b></td>
+                <td class="segment"><a href="{% url 'logout' %}">Logout</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="segment"><a href="{% url 'login' %}">Login</a></td>
+                <td class="segment"><a href="{% url 'register' %}">Register</a></td>
+            </tr>
+        {% endif %}
     </tbody>
 </table>
 </div>

@@ -1,0 +1,13 @@
+<div class="user_info">
+{% if token %}
+    <table class="table table-condensed table-striped">
+        <caption>token</caption>
+        <tbody>
+            <tr>
+                <td><input class="token" value="{{ token }}">
+                <a href="{% url 'get_new_token' %}">Get new token</a></td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
+</div>

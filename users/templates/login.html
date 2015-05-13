@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/admin/css/base.css"/>
+</head>
+    <body>
+    {% block content %}
+        <h1>Log in</h1>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {% if error %}
+                <b class="login_error">{{ error }}</b>
+            {% endif %}
+            <table>
+            {% for field in form %}
+                <tr>
+                    <td>
+                        {{ field.label_tag }}
+                    </td>
+                    <td>
+                        {{ field.errors }}
+                        {{ field }}
+                    </td>
+                    <td>
+                        {{ field.help_text }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+            <input type="submit" value="Login" />
+            <input type="hidden" name="next" value="{% url 'dashboard' %}" />
+        </form>
+        <br>
+        <a href=" {% url 'dashboard' %} ">Back to dashboard</a>
+    {% endblock %}
+    </body>
+</html>
