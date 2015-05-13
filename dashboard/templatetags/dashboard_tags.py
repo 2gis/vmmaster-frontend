@@ -5,6 +5,11 @@ from endless_pagination.utils import get_page_numbers
 register = template.Library()
 
 
+@register.inclusion_tag('dashboard/hat.html')
+def show_hat():
+    return {}
+
+
 @register.inclusion_tag('dashboard/sessions.html', takes_context=True)
 def show_sessions(context, sessions):
     return {

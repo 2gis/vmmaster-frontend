@@ -12,13 +12,14 @@ class VmmasterUserManager(BaseUserManager):
             username=username,
             allowed_machines=allowed_machines,
             date_joined=timezone.now(),
-            last_login=None,
+            last_login=timezone.now(),
         )
         u.set_password(password)
         u.save(using=self._db)
         return u
 
     def create_superuser(self, username, password,):
+
         u = self.create_user(username, password,)
         u.group = VmmasterGroup.objects.get(name='admin')
         u.is_active = True
