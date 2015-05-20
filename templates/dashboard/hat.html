@@ -1,17 +1,20 @@
 <div class="hat">
-<table class="control_panel">
-    <tbody>
-        {% if username %}
-            <tr>
-                <td class="segment">You logged as <b>{{ username }}</b></td>
-                <td class="segment"><a href="{% url 'logout' %}">Logout</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td class="segment"><a href="{% url 'login' %}">Login</a></td>
-                <td class="segment"><a href="{% url 'register' %}">Register</a></td>
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="{% url 'dashboard' %}">vmmaster</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if username %}
+                    <p class="navbar-text">{{ username }}</p>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 </div>

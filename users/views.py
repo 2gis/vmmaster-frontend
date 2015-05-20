@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
@@ -16,6 +17,11 @@ def register_view(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("dashboard"))
+        else:
+            if form.errors:
+                return render(request, "registration/register.html", {
+                    'form': form,
+                })  # TODO: replace with reverse
     else:
         form = VmmasterUserCreationForm()
 

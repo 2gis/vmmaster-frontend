@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>dashboard</title>
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
-    <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-    <script src="{{STATIC_URL}}js/dashboard.js"></script>
-    {% load bootstrap3 %}
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}libs/bootstrap-3.3.0/css/bootstrap.min.css">
-    <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}libs/bootstrap-3.3.0/js/bootstrap.min.js"></script>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main">
     {% load dashboard_tags %}
-    {% show_hat user %}
-    <div class="main">
-        {% show_sessions sessions %}
-        <div class="info">
-            {% show_user_info user %}
-            {% show_platforms platforms %}
-            {% show_queue queue %}
-        </div>
+    <div class="info">
+        {% show_user_info user %}
+        {% show_platforms platforms %}
+        {% show_queue queue %}
     </div>
-</body>
-</html>
+    {% show_sessions sessions %}
+</div>
+{% endblock %}

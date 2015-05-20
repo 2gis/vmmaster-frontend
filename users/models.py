@@ -103,4 +103,5 @@ class VmmasterUser(AbstractBaseUser):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         super(VmmasterUser, self).save()
-        generate_token(self)
+        if not self.token:
+            generate_token(self)
