@@ -1,13 +1,22 @@
+body {
+    padding-top: 60px;
+}
+
 .main {
     display: inline-flex;
+    margin: 0 auto;
 }
 
 .info {
-    padding-left: 20px;
+    margin-left: 20px;
 }
 
 .info table td {
     width: 200px;
+}
+
+.dashboard_content {
+    margin-left: 20px;
 }
 
 .sessions {

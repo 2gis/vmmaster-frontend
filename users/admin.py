@@ -32,7 +32,7 @@ class VmmasterUserAdmin(UserAdmin):
     form = VmmasterUserChangeForm
 
     # 'List of users' form fields
-    list_display = ('username', 'group', 'allowed_machines', 'is_active', 'date_joined', 'last_login')
+    list_display = ('username', 'token', 'group', 'allowed_machines', 'is_active', 'date_joined', 'last_login')
     search_fields = ('username',)
     readonly_fields = ['date_joined', 'last_login']
     ordering = ('id',)
@@ -41,7 +41,7 @@ class VmmasterUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password',)}),
         (None, {'fields': ('is_active',)}),
-        (_('Vmmaster'), {'fields': ('group', 'allowed_machines',)}),
+        (_('Vmmaster'), {'fields': ('group', 'allowed_machines', 'token')}),
         (None, {'fields': ('date_joined', 'last_login',)}),
     )
 

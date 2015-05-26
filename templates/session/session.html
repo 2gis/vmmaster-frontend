@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>session {{session.name}}</title>
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
-    <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-    <script src="{{STATIC_URL}}js/session.js"></script>
-    {% load bootstrap3 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <div>
         {% include "session/log.html" %}
     </div>
-</body>
-</html>
+{% endblock %}

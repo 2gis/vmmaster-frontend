@@ -1,29 +1,20 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
-
-from .models import Session
 from api.views import get_platforms, get_queue, get_sessions
 
 
 def dashboard(request):
+
     try:
         session_name = request.GET["q"]
     except:
-        session_name = ''
-
-    if not session_name:
-        sessions = Session.objects.all()
-    else:
-        sessions = Session.objects.filter(name__icontains=session_name)
-
-    sessions = sessions.order_by('-time')
-    platforms = get_platforms()
-    active_sessions = get_sessions()
-    queue = get_queue()
+        session_name = None
 
     context = {
-        'sessions': sessions,
-        'platforms': platforms,
-        'active_sessions': active_sessions,
-        'queue': queue
+        'sessions': get_sessions(request.user, session_name),
+        'platforms': get_platforms(),
+        'queue': get_queue(),
+        'user': request.user
     }
+
     return render(request, 'dashboard/dashboard.html', context)

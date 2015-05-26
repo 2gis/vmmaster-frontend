@@ -1,11 +1,9 @@
-<div>
-    <form class="form-inline" role="form">
+<div class="dashboard_content">
+    <form class="navbar-form" role="search" action="{% url 'dashboard' %}" method="get">
         <div class="form-group">
             <input class="form-control" name="q" placeholder="session">
         </div>
-        <div class="form-group">
-            <input class="form-control" type="submit" value="find">
-        </div>
+        <button type="submit" class="btn btn-default">find</button>
     </form>
     <table class="table sessions">
         <thead class="caption">

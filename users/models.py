@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 
+from api.views import generate_token
+
 
 class VmmasterUserManager(BaseUserManager):
 
@@ -43,8 +45,10 @@ class VmmasterGroup(models.Model):
 class VmmasterUser(AbstractBaseUser):
 
     username = models.CharField(db_column='username', max_length=20, unique=True)
+    token = models.CharField(db_column='token', max_length=50, default=None)
     is_active = models.BooleanField(db_column='is_active', default=True)
-    date_joined = models.DateTimeField(db_column='date_joined', default=timezone.now)
+    date_joined = models.DateTimeField(db_column='date_joined',
+                                       default=timezone.now)
     group = models.ForeignKey('VmmasterGroup', default=1)
     allowed_machines = models.IntegerField(
         db_column='allowed_machines',
@@ -95,3 +99,9 @@ class VmmasterUser(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        super(VmmasterUser, self).save()
+        if not self.token:
+            generate_token(self)
