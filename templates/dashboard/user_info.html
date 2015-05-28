@@ -4,7 +4,7 @@
         <caption>token</caption>
         <tbody><tr>
             <td><input class="token" value="{{ token }}"><br>
-            <a class="btn btn-default btn-sm" href="{% url 'get_new_token' %}" role="button">Get new token</a></td>
+            <a class="btn btn-danger btn-sm" href="{% url 'get_new_token' %}" role="button">Regenerate token</a></td>
         </tr></tbody>
     </table>
 {% endif %}
