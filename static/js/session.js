@@ -20,7 +20,6 @@ $(document).ready(function() {
                 $('.info', step).html(data);
             });
             step.addClass('opened');
-            window.location.hash = "#" + id;
         }
     }
 

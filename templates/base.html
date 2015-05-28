@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>VMmaster Dashboard</title>
+        <title>vmmaster dashboard</title>
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
         {% load bootstrap3 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}libs/bootstrap-3.3.0/css/bootstrap.min.css">
         <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}libs/bootstrap-3.3.0/js/bootstrap.min.js"></script>
         {% load dashboard_tags %}
         <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
         <script src="{{STATIC_URL}}js/dashboard.js"></script>
+        <script src="{{STATIC_URL}}js/session.js"></script>
     </head>
     <body>
         {% block control_panel %}
