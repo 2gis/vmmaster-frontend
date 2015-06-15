@@ -27,9 +27,9 @@
 
 #
 
-- copy: src={{vmmaster_frontend_path}}/vmmaster-frontend-old/vmmaster-frontend.conf dest={{vmmaster_frontend_path}}/vmmaster-frontend/foo.conf owner=vmmaster group=vmmaster mode=0644
+- copy: src={{vmmaster_frontend_path}}/vmmaster-frontend-old/vmmaster-frontend.conf dest={{vmmaster_frontend_path}}/vmmaster-frontend/vmmaster-frontend.conf owner=vmmaster group=vmmaster mode=0644
 
-- copy: src={{vmmaster_frontend_path}}/vmmaster-frontend-old/vmmaster-frontend.ini dest={{vmmaster_frontend_path}}/vmmaster-frontend/foo.ini owner=vmmaster group=vmmaster mode=0644
+- copy: src={{vmmaster_frontend_path}}/vmmaster-frontend-old/vmmaster-frontend.ini dest={{vmmaster_frontend_path}}/vmmaster-frontend/vmmaster-frontend.ini owner=vmmaster group=vmmaster mode=0644
 
 #
 
