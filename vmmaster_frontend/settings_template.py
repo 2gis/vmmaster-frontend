@@ -99,7 +99,7 @@ STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, "static"),
 )
 
-VMMASTER_API_URL = "http://localhost:9000/api"
+VMMASTER_API_URL = "http://localhost:9001/api"
 
 AUTH_USER_MODEL = "users.VmmasterUser"
 
