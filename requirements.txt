@@ -1,3 +1,4 @@
+uwsgi==2.0.11.1
 Pygments==1.6
 Django==1.7.1
 requests==2.3.0
