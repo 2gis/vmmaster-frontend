@@ -105,6 +105,13 @@ body {
     animation-iteration-count: infinite;
 }
 
+.session_status .waiting {
+    -webkit-animation: pulsing 2s;
+    -webkit-animation-iteration-count: infinite;
+    animation: pulsing 2s;
+    animation-iteration-count: infinite;
+}
+
 .sessions .session_column.session_name {
 	width: 300px;
 }

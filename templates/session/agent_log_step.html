@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="log_step">
+    {% load session_filters %}
+    <div class="log_step_request info">{{ request.control_line }}</div>
+    <div class="log_step_body info">{{ request.body|pretty_json|highlight }}</div>
+    <div class="log_step_request info">{{ response.control_line }}</div>
+    <div class="log_step_body info">{{ response.body|pretty_json|highlight }}</div>
+    {% load session_tags %}
+    {% show_screenshot request %}
+</div>
+{% endblock %}

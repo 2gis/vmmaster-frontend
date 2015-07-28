@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+
 from django.shortcuts import render
-from api.views import get_platforms, get_queue, get_sessions
+from api.views import get_platforms, get_sessions
 
 
 def dashboard(request):
-
     try:
         session_name = request.GET["q"]
     except:
@@ -13,7 +13,6 @@ def dashboard(request):
     context = {
         'sessions': get_sessions(request.user, session_name),
         'platforms': get_platforms(),
-        'queue': get_queue(),
         'user': request.user
     }
 

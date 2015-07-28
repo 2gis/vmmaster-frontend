@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django import template
 from endless_pagination.utils import get_page_numbers
 
@@ -15,7 +16,7 @@ def show_hat(user=None):
 
 @register.inclusion_tag('dashboard/user_info.html')
 def show_user_info(user=None):
-    if not user.is_anonymous() and not user.is_superuser():
+    if user.is_authenticated() and not user.is_superuser:
         return {'token': user.token}
     return {}
 
@@ -31,12 +32,6 @@ def show_sessions(context, sessions):
 @register.inclusion_tag('dashboard/platforms.html')
 def show_platforms(platforms):
     return {'platforms': platforms.get("platforms")}
-
-
-@register.inclusion_tag('dashboard/queue.html')
-def show_queue(queue):
-    queue = [str(e) for e in queue.iteritems()]
-    return {'queue': queue}
 
 
 @register.inclusion_tag('dashboard/show_pagination.html', takes_context=True)

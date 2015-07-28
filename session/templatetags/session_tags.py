@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import template
 
 
@@ -9,6 +11,6 @@ def show_screenshot(step):
     return {'step': step}
 
 
-@register.inclusion_tag('session/vmmaster_log_steps.html')
-def show_vmmaster_log_steps(log_steps):
+@register.inclusion_tag('session/session_log_steps.html')
+def show_session_log_steps(log_steps):
     return {'log_steps': log_steps}
