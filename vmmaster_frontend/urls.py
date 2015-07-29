@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-admin.site.site_header = 'Vmmaster frontend'
+admin.site.site_header = 'vmmaster frontend'
 
 urlpatterns = patterns(
     '',

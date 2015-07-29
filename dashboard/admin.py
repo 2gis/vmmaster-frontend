@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.contrib import admin
 from .models import Session, SessionLogStep, AgentLogStep
 
@@ -7,9 +8,8 @@ from django.core.urlresolvers import reverse
 
 
 class AgentLogStepInline(admin.TabularInline):
-
     model = AgentLogStep
-    fk_name = 'vmmaster_log_step'
+    fk_name = 'session_log_step'
 
     def admin_link(self, instance):
         url = reverse('admin:dashboard_agentlogstep_change',
@@ -17,11 +17,11 @@ class AgentLogStepInline(admin.TabularInline):
         return format_html('<a href="{}">Edit</a>', url)
 
     list_display = ('admin_link',)
-    readonly_fields = ('id', 'admin_link', 'control_line', 'body', 'time',)
+    readonly_fields = ('id', 'admin_link', 'control_line', 'body',
+                       'time_created',)
 
 
 class SessionLogStepInline(admin.TabularInline):
-
     model = SessionLogStep
     fk_name = 'session'
 
@@ -31,16 +31,22 @@ class SessionLogStepInline(admin.TabularInline):
         return format_html('<a href="{}">Edit</a>', url)
 
     list_display = ('admin_link',)
-    readonly_fields = ('id', 'admin_link', 'control_line', 'body', 'screenshot', 'time')
+    readonly_fields = ('id', 'admin_link', 'control_line', 'body',
+                       'screenshot', 'time_created')
 
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-
-    list_display = ('id', 'name', 'user', 'time', 'status', 'error',)
+    list_display = ('id', 'name', 'user', 'time_created', 'time_modified',
+                    'status', 'error',)
     list_display_links = ('name',)
-    readonly_fields = ('id', 'name', 'user', 'time', 'status', 'error',)
-    ordering = ('-time',)
+    readonly_fields = ('id', 'name', 'user', 'time_created', 'time_modified',
+                       'status', 'error',)
+    ordering = ('-time_created',)
+
+    list_filter = ['user', 'status']
+
+    search_fields = ['name']
 
     inlines = [
         SessionLogStepInline,
@@ -49,8 +55,7 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(SessionLogStep)
 class SessionLogStepAdmin(admin.ModelAdmin):
-
-    ordering = ('-time',)
+    ordering = ('-time_created',)
 
     inlines = [
         AgentLogStepInline,
@@ -59,5 +64,4 @@ class SessionLogStepAdmin(admin.ModelAdmin):
 
 @admin.register(AgentLogStep)
 class AgentLogStepAdmin(admin.ModelAdmin):
-
-    ordering = ('-time',)
+    ordering = ('-time_created',)
