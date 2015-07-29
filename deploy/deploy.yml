@@ -1,6 +1,0 @@
----
-- hosts: servers
-  remote_user: "{{deploy_user}}"
-  sudo: yes
-  roles:
-    - {role: install_vmmaster_frontend}
