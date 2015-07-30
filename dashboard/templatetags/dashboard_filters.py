@@ -1,5 +1,6 @@
-import datetime
+# -*- coding: utf-8 -*-
 
+import datetime
 from django import template
 
 register = template.Library()
@@ -19,13 +20,13 @@ def filter_error(error):
     features = list()
     features.append(error.lower().rfind("err"))
     features.append(error.lower().rfind("exception"))
-    fiture_index = max(features)
-    if fiture_index == -1:
-        return error[-30:-1]
+    feature_index = max(features)
+    if feature_index == -1:
+        return error
 
     # looking for start of sentence
     starts = list()
-    starts.append(error.rfind(" ", 0, fiture_index))
-    starts.append(error.rfind("\n", 0, fiture_index))
+    starts.append(error.rfind(" ", 0, feature_index))
+    starts.append(error.rfind("\n", 0, feature_index))
     index = max(starts)
     return error[index:]
