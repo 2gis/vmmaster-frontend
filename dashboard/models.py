@@ -26,19 +26,15 @@ class Session(models.Model):
         related_name="sessions",
         on_delete=models.SET_NULL,
     )
-    vm = models.ForeignKey(
-        VirtualMachine,
-        blank=True,
-        null=True,
-        related_name="session",
-        on_delete=models.SET_NULL,
-    )
+    endpoint_id = models.IntegerField(blank=True)
+    endpoint_ip = models.CharField(max_length=100, blank=True)
+    endpoint_name = models.CharField(max_length=100, blank=True)
     name = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=100, blank=True)
 
     platform = models.CharField(max_length=100, blank=True)
     selenium_session = models.CharField(max_length=100, blank=True)
-    desired_capabilities = models.CharField(max_length=200, blank=True)
+    dc = models.CharField(max_length=200, blank=True)
     error = models.CharField(max_length=200, blank=True)
 
     time_created = models.FloatField(blank=True, null=True)
