@@ -67,7 +67,7 @@ def session_step(request, session_id, session_step_id):
     req = SessionLogStep.objects.get(id=session_step_id)
     steps = SessionLogStep.objects.filter(session_id=req.session_id).\
         order_by('time_created')
-    print steps
+
     context = {
         'request': req,
         'response': _response(req, steps)

@@ -9,15 +9,10 @@ body {
 
 .info {
     margin-left: 20px;
-    width: 250px;
 }
 
 .info table td {
     width: 200px;
-}
-
-.queue {
-    overflow-x: auto;
 }
 
 .dashboard_content {
