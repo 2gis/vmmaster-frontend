@@ -17,16 +17,16 @@ def _requests(steps):
     return requests
 
 
-def set_total_time(session_log_steps):
-    log_steps = []
-    for _next, item in zip(session_log_steps[1:], session_log_steps):
+def set_total_time(log_steps):
+    new_log_steps = []
+    for _next, item in zip(log_steps[1:], log_steps):
         try:
             item.total_time = round(_next.time_created - item.time_created, 2)
         except Exception:
             item.total_time = None
         log_steps.append(item)
 
-    return log_steps
+    return new_log_steps
 
 
 def session(request, session_id):
@@ -46,7 +46,7 @@ def log_step(request, session_id, step_id):
         session_log_step_id=session_log_step.id).order_by('time_created')
     context = {
         'log_step': log_step,
-        'agent_log_steps': _requests(agent_log_steps)
+        'agent_log_steps': _requests(set_total_time(agent_log_steps))
     }
     return render(request, 'session/session_log_step.html', context)
 
