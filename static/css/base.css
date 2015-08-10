@@ -148,7 +148,6 @@ body {
 
 .log_steps .log_step_column {
 	display: inline-block;
-	text-align: bottom;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -161,7 +160,12 @@ body {
 	width: 30%;
 }
 
+.log_steps .log_step_column.log_time {
+	width: 10%;
+}
+
 .log_steps .log_step_column.log_screenshot {
+    width: 30%;
 	max-width: 300px;
 	max-height: 300px;
 }
