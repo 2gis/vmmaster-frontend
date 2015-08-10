@@ -24,7 +24,7 @@ def set_total_time(log_steps):
             item.total_time = round(_next.time_created - item.time_created, 2)
         except Exception:
             item.total_time = None
-        log_steps.append(item)
+        new_log_steps.append(item)
 
     return new_log_steps
 
