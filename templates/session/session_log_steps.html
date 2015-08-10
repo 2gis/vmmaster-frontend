@@ -11,6 +11,7 @@
                 <div class="expand log_step_column"><div class="glyphicon glyphicon-chevron-right"></div></div>
                 <a href="session_step/{{ step.id }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
                 <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
+                <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
                 {% show_screenshot step %}
                 <div class="info"></div>
             {% endif %}

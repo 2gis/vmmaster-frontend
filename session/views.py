@@ -17,13 +17,25 @@ def _requests(steps):
     return requests
 
 
+def set_total_time(session_log_steps):
+    log_steps = []
+    for _next, item in zip(session_log_steps[1:], session_log_steps):
+        try:
+            item.total_time = round(_next.time_created - item.time_created, 2)
+        except Exception:
+            item.total_time = None
+        log_steps.append(item)
+
+    return log_steps
+
+
 def session(request, session_id):
     _session = Session.objects.get(id=session_id)
     session_log_steps = SessionLogStep.objects.filter(session_id=session_id).\
         order_by("time_created")
     context = {
         'session': _session,
-        'session_log_steps': _requests(session_log_steps)
+        'session_log_steps': _requests(set_total_time(session_log_steps))
     }
     return render(request, 'session/session.html', context)
 
