@@ -1,42 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="col-md-offset-4 col-md-4">
 <form class="form-horizontal" action="{% url 'register' %}" method="post" role="form">
     {% csrf_token %}
     {% for field in form %}
-        <div class="row">
             <div class="form-group">
-                <label for="{{ field.id }}" class="control-label col-xs-1">
-                    {{ field.label_tag }}
-                </label>
-                <div class="col-xs-2">
-                    {% if field.name == "username" %}
-                        <input class="form-control" type="text" name="{{ field.name }}" id="{{ field.id }}">
-                    {% else %}
-                        <input class="form-control" type="password" name="{{ field.name }}" id="{{ field.id }}">
-                    {% endif %}
-                    <span class="help-block">{{ field.help_text }}</span>
-                </div>
-            {% if field.errors %}
-                <div class="col-xs-4">
-                    <div class="has-error">
-                        <div class="alert alert-danger" role="alert">
-                          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                          {{ field.errors }}
+                <div class="col-md-offset-1 col-md-8">
+                    <label for="{{ field.id }}" class="control-label">
+                        {{ field.label_tag }}
+                    </label>
+                    <div>
+                        {% if field.name == "username" %}
+                            <input class="form-control" type="text" name="{{ field.name }}" id="{{ field.id }}">
+                        {% else %}
+                            <input class="form-control" type="password" name="{{ field.name }}" id="{{ field.id }}">
+                        {% endif %}
+                        <span class="help-block">{{ field.help_text }}</span>
+                {% if field.errors %}
+                    <div>
+                        <div class="has-error">
+                            <div class="alert alert-danger" role="alert">
+                              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                              {{ field.errors }}
+                            </div>
                         </div>
                     </div>
-                </div>
             {% endif %}
+                </div>
             </div>
         </div>
     {% endfor %}
-    <div class="row">
         <div class="form-group">
-            <div class="col-xs-offset-1 col-xs-2">
-                <input type="submit" class="btn btn-primary" value="Register" />
+            <div class="col-md-offset-1 col-md-8">
+                <input type="submit" class="btn btn-primary btn-block" value="Register" />
             </div>
         </div>
-    </div>
     <input type="hidden" name="next" value="{% url 'dashboard' %}" />
 </form>
+</div>
 {% endblock %}

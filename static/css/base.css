@@ -207,3 +207,7 @@ body {
 	border-bottom: 1px solid black;
 	width: 100%;
 }
+
+.regenerate-token {
+    width: 100%;
+}
