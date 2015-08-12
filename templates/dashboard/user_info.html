@@ -1,10 +1,10 @@
 <div class="user_info">
 {% if token %}
     <table class="table table-condensed table-striped">
-        <caption>token</caption>
+        <caption>your token</caption>
         <tbody><tr>
-            <td><input class="token" value="{{ token }}"><br>
-            <a class="btn btn-danger btn-sm" href="{% url 'get_new_token' %}" role="button">Regenerate token</a></td>
+            <td><input class="token form-control" value="{{ token }}"><br>
+            <a class="btn btn-danger btn-sm regenerate-token" href="{% url 'get_new_token' %}" role="button">Regenerate token</a></td>
         </tr></tbody>
     </table>
 {% endif %}
