@@ -38,7 +38,8 @@ class SessionLogStepInline(admin.TabularInline):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'user', 'time_created', 'time_modified',
-                    'status', 'error',)
+                    'status', 'error', 'endpoint_id', 'endpoint_ip',
+                    'endpoint_name')
     list_display_links = ('name',)
     readonly_fields = ('id', 'name', 'user', 'time_created', 'time_modified',
                        'status', 'error',)
@@ -46,7 +47,7 @@ class SessionAdmin(admin.ModelAdmin):
 
     list_filter = ['user', 'status']
 
-    search_fields = ['name']
+    search_fields = ['name', 'error', 'endpoint_name', 'endpoint_ip']
 
     inlines = [
         SessionLogStepInline,

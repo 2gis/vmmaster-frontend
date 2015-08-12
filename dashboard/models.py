@@ -26,13 +26,9 @@ class Session(models.Model):
         related_name="sessions",
         on_delete=models.SET_NULL,
     )
-    vm = models.ForeignKey(
-        VirtualMachine,
-        blank=True,
-        null=True,
-        related_name="session",
-        on_delete=models.SET_NULL,
-    )
+    endpoint_id = models.IntegerField(blank=True)
+    endpoint_ip = models.CharField(max_length=100, blank=True)
+    endpoint_name = models.CharField(max_length=100, blank=True)
     name = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=100, blank=True)
 
