@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from dashboard.models import Session, SessionLogStep, AgentLogStep
+from dashboard.models import Session, SessionLogStep, SubStep
 
 
 def _requests(steps):
@@ -42,11 +42,11 @@ def session(request, session_id):
 
 def log_step(request, session_id, step_id):
     session_log_step = SessionLogStep.objects.get(id=step_id)
-    agent_log_steps = AgentLogStep.objects.filter(
+    sub_steps = SubStep.objects.filter(
         session_log_step_id=session_log_step.id).order_by('time_created')
     context = {
         'log_step': log_step,
-        'agent_log_steps': _requests(set_total_time(agent_log_steps))
+        'sub_steps': _requests(set_total_time(sub_steps))
     }
     return render(request, 'session/session_log_step.html', context)
 
@@ -63,16 +63,16 @@ def _response(request, steps):
     return response
 
 
-def agent_step(request, session_id, agent_step_id):
-    req = AgentLogStep.objects.get(id=agent_step_id)
-    steps = AgentLogStep.objects.filter(
+def sub_step(request, session_id, sub_step_id):
+    req = SubStep.objects.get(id=sub_step_id)
+    steps = SubStep.objects.filter(
         session_log_step_id=req.session_log_step_id).order_by('time_created')
 
     context = {
         'request': req,
         'response': _response(req, steps)
     }
-    return render(request, 'session/agent_log_step.html', context)
+    return render(request, 'session/sub_step.html', context)
 
 
 def session_step(request, session_id, session_step_id):
@@ -84,4 +84,4 @@ def session_step(request, session_id, session_step_id):
         'request': req,
         'response': _response(req, steps)
     }
-    return render(request, 'session/agent_log_step.html', context)
+    return render(request, 'session/sub_step.html', context)

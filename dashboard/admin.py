@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from .models import Session, SessionLogStep, AgentLogStep
+from .models import Session, SessionLogStep, SubStep
 
 from django.utils.html import format_html
 from django.core.urlresolvers import reverse
 
 
-class AgentLogStepInline(admin.TabularInline):
-    model = AgentLogStep
+class SubStepInline(admin.TabularInline):
+    model = SubStep
     fk_name = 'session_log_step'
 
     def admin_link(self, instance):
-        url = reverse('admin:dashboard_agentlogstep_change',
+        url = reverse('admin:dashboard_substep_change',
                       args=(instance.id,))
         return format_html('<a href="{}">Edit</a>', url)
 
@@ -59,10 +59,10 @@ class SessionLogStepAdmin(admin.ModelAdmin):
     ordering = ('-time_created',)
 
     inlines = [
-        AgentLogStepInline,
+        SubStepInline,
     ]
 
 
-@admin.register(AgentLogStep)
-class AgentLogStepAdmin(admin.ModelAdmin):
+@admin.register(SubStep)
+class SubStepAdmin(admin.ModelAdmin):
     ordering = ('-time_created',)

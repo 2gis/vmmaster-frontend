@@ -1,7 +1,7 @@
 {% load session_filters %}
-{% for step in agent_log_steps %}
+{% for step in sub_steps %}
 <pre>
-<span>Step: <a href="agent_step/{{ step.id }}">{{ step.control_line }}</a></span>
+<span>Step: <a href="sub_step/{{ step.id }}">{{ step.control_line }}</a></span>
 <span>Time: {{ step.total_time }} sec</span>
 </pre>
 {% endfor %}
