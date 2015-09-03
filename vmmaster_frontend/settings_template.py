@@ -101,8 +101,6 @@ STATICFILES_DIRS = (
 
 VMMASTER_API_URL = "http://localhost:9001/api"
 
-VMPOOL_API_URL = "http://localhost:9999/api"
-
 AUTH_USER_MODEL = "users.VmmasterUser"
 
 TEST_RUNNER = 'users.testrunner.CustomRunner'
