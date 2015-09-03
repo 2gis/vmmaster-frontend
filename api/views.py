@@ -26,24 +26,6 @@ def _make_api_request(method, uri, headers=None, body=None):
         return {}
 
 
-def _make_vmpool_api_request(method, uri, headers=None, body=None):
-    if headers is None:
-        headers = {}
-
-    if body is None:
-        body = ""
-
-    try:
-        response = requests.request(method,
-                                    "%s/%s" % (settings.VMPOOL_API_URL, uri),
-                                    headers=headers,
-                                    data=body)
-        content = json.loads(response.content)
-        return content.get("result")
-    except:
-        return {}
-
-
 def get_sessions(user, session_name=None):
     if user.is_superuser:
         sessions = Session.objects.all()
@@ -59,7 +41,7 @@ def get_sessions(user, session_name=None):
 
 
 def get_platforms():
-    return _make_vmpool_api_request("get", "platforms")
+    return _make_api_request("get", "platforms")
 
 
 def generate_token(user):
