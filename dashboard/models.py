@@ -68,17 +68,17 @@ class SessionLogStep(models.Model):
         return "[" + str(self.id) + "] " + self.control_line
 
 
-class AgentLogStep(models.Model):
+class SubStep(models.Model):
     id = models.IntegerField(primary_key=True)
     session_log_step = models.ForeignKey(
-        SessionLogStep, blank=True, null=True, related_name="agent_steps")
+        SessionLogStep, blank=True, null=True, related_name="sub_steps")
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
     time_created = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'agent_log_steps'
+        db_table = 'sub_steps'
 
     def __str__(self):
         return "[" + str(self.id) + "] " + self.control_line
