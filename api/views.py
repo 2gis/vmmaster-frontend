@@ -37,7 +37,7 @@ def get_sessions(user, session_name=None):
     if session_name:
         sessions = sessions.filter(name__icontains=session_name)
 
-    return sessions.order_by('-time_created')
+    return sessions.order_by('-created')
 
 
 def get_platforms():

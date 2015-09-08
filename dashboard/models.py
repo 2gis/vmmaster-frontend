@@ -37,8 +37,8 @@ class Session(models.Model):
     dc = models.CharField(max_length=200, blank=True)
     error = models.CharField(max_length=200, blank=True)
 
-    time_created = models.FloatField(blank=True, null=True)
-    time_modified = models.FloatField(blank=True, null=True)
+    created = models.DateTimeField(blank=True, null=True)
+    modified = models.DateTimeField(blank=True, null=True)
 
     timeouted = models.BooleanField(blank=True, default=False)
     closed = models.BooleanField(blank=True, default=False)
@@ -58,7 +58,7 @@ class SessionLogStep(models.Model):
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
     screenshot = models.CharField(max_length=100, blank=True)
-    time_created = models.FloatField(blank=True, null=True)
+    created = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -74,7 +74,7 @@ class SubStep(models.Model):
         SessionLogStep, blank=True, null=True, related_name="sub_steps")
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
-    time_created = models.FloatField(blank=True, null=True)
+    created = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
