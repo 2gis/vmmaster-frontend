@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.filter
 def timestamp_to_date(time):
-    return datetime.datetime.fromtimestamp(time).strftime('%H:%M:%S %d.%m.%Y')
+    return time.strftime('%H:%M:%S %d.%m.%Y')
 
 
 @register.filter

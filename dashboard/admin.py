@@ -18,7 +18,7 @@ class SubStepInline(admin.TabularInline):
 
     list_display = ('admin_link',)
     readonly_fields = ('id', 'admin_link', 'control_line', 'body',
-                       'time_created',)
+                       'created',)
 
 
 class SessionLogStepInline(admin.TabularInline):
@@ -32,18 +32,18 @@ class SessionLogStepInline(admin.TabularInline):
 
     list_display = ('admin_link',)
     readonly_fields = ('id', 'admin_link', 'control_line', 'body',
-                       'screenshot', 'time_created')
+                       'screenshot', 'created')
 
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'user', 'time_created', 'time_modified',
+    list_display = ('id', 'name', 'user', 'created', 'modified',
                     'status', 'error', 'endpoint_id', 'endpoint_ip',
                     'endpoint_name')
     list_display_links = ('name',)
-    readonly_fields = ('id', 'name', 'user', 'time_created', 'time_modified',
+    readonly_fields = ('id', 'name', 'user', 'created', 'modified',
                        'status', 'error',)
-    ordering = ('-time_created',)
+    ordering = ('-created',)
 
     list_filter = ['user', 'status']
 
@@ -56,7 +56,7 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(SessionLogStep)
 class SessionLogStepAdmin(admin.ModelAdmin):
-    ordering = ('-time_created',)
+    ordering = ('-created',)
 
     inlines = [
         SubStepInline,
@@ -65,4 +65,4 @@ class SessionLogStepAdmin(admin.ModelAdmin):
 
 @admin.register(SubStep)
 class SubStepAdmin(admin.ModelAdmin):
-    ordering = ('-time_created',)
+    ordering = ('-created',)
