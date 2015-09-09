@@ -8,7 +8,10 @@ register = template.Library()
 
 @register.filter
 def timestamp_to_date(time):
-    return time.strftime('%H:%M:%S %d.%m.%Y')
+    if time:
+        return time.strftime('%H:%M:%S %d.%m.%Y')
+    else:
+        return None
 
 
 @register.filter
