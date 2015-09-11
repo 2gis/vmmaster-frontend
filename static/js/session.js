@@ -29,3 +29,40 @@ $(document).ready(function() {
     return false; // prevent default
     });
 });
+
+function photor_show(start_screenshot){
+    var screenshots_paths = JSON.parse(screenshots_ids),
+        screenshots = [],
+        host = "//" + window.location.hostname;
+
+    screenshots_paths[1].forEach(function(item, i) {
+        if (item == start_screenshot) {
+            start_screenshot = i;
+        }
+        var screenshot = {
+            url: host + "/screenshot/" + screenshots_paths[0] + "/" + item + ".png",
+            thumb: host + "/screenshot/" + screenshots_paths[0] + "/" + item + "_thumb.png"
+        };
+        screenshots.push(screenshot)
+    });
+
+    $("#popup").removeClass('_disabled');
+
+    if (screenshots.length > 1) {
+        $('.photor').photor({
+            duration: 0,
+            current: start_screenshot,
+            data: screenshots
+        });
+    } else {
+        $('.photor').photor({
+            single: true,
+            data: screenshots
+        });
+    }
+}
+
+function photor_hide(){
+    $("#popup").addClass('_disabled');
+    $('.photor').photor('destroy');
+}
