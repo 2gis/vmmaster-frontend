@@ -1,21 +1,59 @@
 {% if log_steps %}
     {% load session_filters %}
     {% load session_tags %}
-
+    {% groupify log_steps as steps_groups %}
+    {% if steps_groups|length > 1 %}
+    <div class="expand_all_button">
+        <a type="button" class="btn btn-default" href="javascript: expand_all()">Развернуть все тесты</a>
+    </div>
+    {% endif %}
     <div class="log_steps">
-    {% for step in log_steps %}
-        <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
-            {% if step.control_line|label_step %}
-                <h4><a href="session_step/{{ step.id }}">{{ step.body|extract_label|truncate_string:80 }}</a></h4>
+    {% for group in steps_groups.items %}
+        {% if "vmmasterLabel" in group.1.0.control_line %}
+            {% for step in group.1 %}
+            {% if forloop.first %}
+            <div id="{{ step.id }}" class="log_step label_group">
+                <a href="javascript: open_group('{{step.id}}')" title="{{ step.body|extract_label }}">
+                    <h4 class="group_log_step">{{ step.body|extract_label|truncate_string:80 }}</h4>
+                </a>
+                <div class="group _disabled">
             {% else %}
-                <div class="expand log_step_column"><div class="glyphicon glyphicon-chevron-right"></div></div>
-                <a href="session_step/{{ step.id }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
-                <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
-                <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
-                {% show_screenshot step %}
-                <div class="info"></div>
+                <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
+                    <div class="expand log_step_column">
+                        {% if step.control_line|extract_url == "/wd/hub/session" %}
+                        <div class="expandglyph glyphicon glyphicon-chevron-right"></div>
+                        {% endif %}
+                    </div>
+                    <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
+                    <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
+                    <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
+                    {% show_screenshot step %}
+                    <div class="info"></div>
+                </div>
             {% endif %}
-        </div>
+            {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            {% for step in group.1 %}
+            <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
+                {% if step.control_line|label_step %}
+                    <h4><a href="session_step/{{ step.id }}" title="{{ step.body|extract_label }}">{{ step.body|extract_label|truncate_string:80 }}</a></h4>
+                {% else %}
+                    <div class="expand log_step_column">
+                        {% if step.control_line|extract_url == "/wd/hub/session" %}
+                        <div class="expandglyph glyphicon glyphicon-chevron-right"></div>
+                        {% endif %}
+                    </div>
+                    <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
+                    <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
+                    <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
+                    {% show_screenshot step %}
+                    <div class="info"></div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% endif %}
     {% endfor %}
     </div>
     {% show_modal_window log_steps %}

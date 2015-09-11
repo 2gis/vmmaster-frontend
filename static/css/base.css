@@ -133,7 +133,6 @@ body {
 	display: block;
 	width: auto;
 	border-bottom: 1px solid black;
-	padding: 5px;
 }
 
 .log_steps .log_step .expand:hover {
@@ -146,6 +145,42 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+.group_log_step {
+    display: inline-block;
+}
+
+.log_step.label_group a {
+    text-decoration: none;
+}
+
+.log_step.label_group a {
+    text-decoration: none;
+    color: #000;
+}
+
+.log_step.label_group a:focus {
+        color: #000;
+    }
+
+.log_step.label_group a:hover {
+        color: #000;
+    }
+
+.log_step .glyphicon:hover {
+	background-color: #404040;
+	color: white;
+}
+
+.log_step .glyphicon.glyphicon-ok {
+	color: #00A000;
+}
+
+.log_step.label_group h4 {
+	margin: 0;
+    padding: 10px 0 10px 5px;
+}
+
 
 .log_steps .log_step_column.log_request {
 	width: 30%;
@@ -244,4 +279,35 @@ body {
 
 .photor-close span:hover {
     opacity: .5;
+}
+
+.group {
+    background-color: #fff;
+    color: #000;
+}
+
+.group._disabled {
+    display: none;
+}
+
+._visible_group{
+    background-color: #000;
+}
+
+._visible_group .group_log_step{
+    color: #fff;
+}
+
+.expand_all_button {
+    padding: 0 0 0 5px;
+}
+
+.expand_all_button .btn-default:focus {
+    background-color: #fff;
+    border-color: #adadad;
+}
+
+._active {
+    background-color: #e6e6e6 !important;
+    border-color: #adadad !important;
 }

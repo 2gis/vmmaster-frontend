@@ -79,3 +79,8 @@ def highlight(text):
 
     code = pygments.highlight(text, lexer(), formatter())
     return mark_safe(code)
+
+
+@register.filter
+def extract_url(string):
+    return string.split(" ")[1]
