@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     function open_step(id) {
         var step = $('#' + id);
-        $('.expand .glyphicon', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+        $('.expand .expandglyph.glyphicon', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
         var opened = step.hasClass('opened');
         if (opened) {
             $('.info', step).html("");
@@ -28,7 +28,52 @@ $(document).ready(function() {
     open_step(log_step_id);
     return false; // prevent default
     });
+
+    $(this).keydown(function(eventObject){
+        if (eventObject.which == 27)
+            photor_hide();
+    });
 });
+
+function expand_all() {
+    var label_groups = $('.label_group'),
+        button = $('.btn');
+
+    console.log(button);
+    label_groups.each(function(i, item) {
+        var item_obj = $("#" + item.id);
+        console.log(item.className + ' ' + item_obj.hasClass('_visible_group'));
+        if (!button.hasClass('_active') && !item_obj.hasClass('_visible_group')) {
+            open_group(item.id);
+        }
+        if (button.hasClass('_active') && item_obj.hasClass('_visible_group')) {
+            open_group(item.id);
+        }
+    });
+
+    if (!button.hasClass('_active')) {
+        button.addClass('_active');
+        button.text('Cвернуть все тесты');
+    } else {
+        button.removeClass('_active');
+        button.text('Развернуть все тесты');
+    }
+
+}
+
+function open_group(id) {
+        var step = $('#' + id),
+            group = $('#' + id + ' div.group');
+        $('.group_log_step.expandglyph.glyphicon', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+        var opened = group.hasClass('_disabled');
+        if (opened) {
+            step.addClass('_visible_group');
+            group.removeClass('_disabled');
+        } else {
+            step.removeClass('_visible_group');
+            group.addClass('_disabled');
+        }
+    }
 
 function photor_show(start_screenshot){
     var screenshots_paths = JSON.parse(screenshots_ids),
