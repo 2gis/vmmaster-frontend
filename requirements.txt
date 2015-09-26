@@ -4,3 +4,4 @@ Django==1.7.1
 requests==2.3.0
 django-bootstrap3==4.11.0
 django-endless-pagination
+versioneer==0.13

@@ -52,3 +52,9 @@ def show_pagination(context, pages):
             show.append(pages[item])
 
     return {'pages': show}
+
+
+@register.inclusion_tag('dashboard/show_version.html')
+def show_version(version):
+    return {'version': version}
+

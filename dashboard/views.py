@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from api.views import get_platforms, get_sessions
+from api.views import get_platforms, get_sessions, get_version
 
 
 def dashboard(request):
@@ -13,7 +13,8 @@ def dashboard(request):
     context = {
         'sessions': get_sessions(request.user, session_name),
         'platforms': get_platforms(),
-        'user': request.user
+        'user': request.user,
+        'version': get_version(request.user)
     }
 
     return render(request, 'dashboard/dashboard.html', context)
