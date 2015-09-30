@@ -2,6 +2,7 @@
 
 import requests
 import json
+import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
 
@@ -51,3 +52,14 @@ def generate_token(user):
         str(user.username) + ":" + str(user.password))
     )
     return _make_api_request(method=method, uri=uri, headers=headers)
+
+
+def get_version(user):
+    if user.is_superuser:
+        versioneer.VCS = 'git'
+        versioneer.versionfile_source = 'vmmaster_frontend/_version.py'
+        versioneer.versionfile_build = 'vmmaster_frontend/_version.py'
+        versioneer.tag_prefix = ''  # tags are like 0.1.0
+        versioneer.parentdir_prefix = 'vmmaster_frontend-'  # dirname like 'myproject-0.1.0'
+
+        return versioneer.get_version()
