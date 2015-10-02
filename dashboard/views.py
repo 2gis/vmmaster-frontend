@@ -12,9 +12,16 @@ def dashboard(request):
 
     context = {
         'sessions': get_sessions(request.user, session_name),
-        'platforms': get_platforms(),
         'user': request.user,
         'version': get_version(request.user)
     }
 
     return render(request, 'dashboard/dashboard.html', context)
+
+
+def platforms(request):
+    context = {
+        'platforms': get_platforms().get('platforms', None)
+    }
+
+    return render(request, 'dashboard/platforms.html', context)

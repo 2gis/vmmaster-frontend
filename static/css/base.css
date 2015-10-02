@@ -24,7 +24,18 @@ body {
 }
 
 .sessions a {
+    color: #333;
 	text-decoration: none;
+}
+
+.sessions a:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
+.sessions a:visited {
+    color: #333;
+    text-decoration: underline;
 }
 
 .sessions .session_row {
@@ -35,8 +46,7 @@ body {
 }
 
 .sessions .session_row:hover {
-	background-color: #404040;
-	color: white;
+	background-color: #D6D9D8;
 }
 
 .sessions .session_column {

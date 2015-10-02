@@ -29,11 +29,6 @@ def show_sessions(context, sessions):
     }
 
 
-@register.inclusion_tag('dashboard/platforms.html')
-def show_platforms(platforms):
-    return {'platforms': platforms.get("platforms")}
-
-
 @register.inclusion_tag('dashboard/show_pagination.html', takes_context=True)
 def show_pagination(context, pages):
     show = []
