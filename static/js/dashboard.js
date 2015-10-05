@@ -1,5 +1,11 @@
 $(document).ready(function() {
     $('.session_row').click(function(){
-        window.document.location = $(this).attr("href");
+        if (!window.event.ctrlKey) {
+            window.document.location = $(this).attr("href");
+        }
     });
+});
+
+$('a').click(function(event){
+	event.stopPropagation();
 });

@@ -5,4 +5,5 @@ from dashboard import views
 
 urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^platforms', views.platforms, name='platforms')
 ]

@@ -11,7 +11,20 @@
             <button type="submit" class="btn btn-default">find</button>
         </form>
         {% show_user_info user %}
-        {% show_platforms platforms %}
+        <div class="platforms">
+            <div id="platform_content">
+                <table class="table table-condensed table-striped">
+                <caption>platforms</caption>
+                </table>
+            </div>
+            <script>
+                $("#platform_content").load("{% url 'platforms' %}", function(response, status, xhr) {
+                    if (status != "error") {
+                        $("#platform_content").html(response);
+                    }
+                });
+            </script>
+        </div>
     </div>
     {% show_sessions sessions %}
     {% show_version version %}
