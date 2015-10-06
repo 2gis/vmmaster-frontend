@@ -2,11 +2,6 @@
     {% load session_filters %}
     {% load session_tags %}
     {% groupify log_steps as steps_groups %}
-    {% if steps_groups|length > 1 %}
-    <div class="expand_all_button">
-        <a type="button" class="btn btn-default" href="javascript: expand_all()">Expand all tests</a>
-    </div>
-    {% endif %}
     <div class="log_steps">
     {% for group in steps_groups.items %}
         {% if "vmmasterLabel" in group.1.0.control_line %}

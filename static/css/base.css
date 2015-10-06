@@ -1,10 +1,15 @@
 body {
-    padding-top: 60px;
+    padding-top: 45px;
 }
 
 .main {
     display: inline-flex;
     margin: 0 auto;
+    padding-top: 20px;
+}
+
+.sub_step_content {
+    padding-top: 20px;
 }
 
 .info {
@@ -17,10 +22,6 @@ body {
 
 .dashboard_content {
     margin-left: 20px;
-}
-
-.sessions {
-	display: table;
 }
 
 .sessions a {
@@ -38,32 +39,31 @@ body {
     text-decoration: underline;
 }
 
-.sessions .session_row {
-    display: block;
-	clear:both;
-	border-bottom: 1px solid black;
-	padding: 5px;
+.sessions .session_column{
+    vertical-align: middle !important;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sessions .session_row:hover {
 	background-color: #D6D9D8;
 }
 
-.sessions .session_column {
-	display: inline-block;
-	vertical-align: middle;
-    border-top: none;
-    padding: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.pagination span {
+    background-color: #f8f8f8 !important;
+    border-color: #e7e7e7 !important;
+    color: #333 !important;
 }
 
-.sessions .caption {
-	width:auto;
-	clear:both;
-	border-bottom: 1px solid black;
-	padding: 5px;
+.pagination a:hover{
+    color: #333 !important;
+    text-decoration: none !important;
+}
+
+.pagination a {
+    color: #333 !important;
 }
 
 .sessions .caption .session_column {
@@ -72,15 +72,21 @@ body {
 
 .session_status {
     vertical-align: middle;
-	width: 50px;
     text-align: center;
 }
 
 .session_status .status {
-    display: inline-block;
     width: 23px;
     height: 23px;
     border-radius: 50%;
+}
+
+.session_info .session_column.session_status {
+    padding-left: 15px;
+}
+
+.session_info .session_column.session_status .status {
+    display: inline-block;
 }
 
 .session_status .succeed {
@@ -117,16 +123,23 @@ body {
     animation-iteration-count: infinite;
 }
 
-.sessions .session_column.session_name {
+.session_column.session_name {
+    white-space: nowrap;
+    max-width: 300px;
+    min-width: 300px;
 	width: 300px;
 }
 
-.sessions .session_column.session_date {
-	width: 200px;
+.session_column.session_error {
+    max-width: 400px;
+    min-width: 400px;
+	width: 400px;
 }
 
-.sessions .session_column.session_error {
-	width: 400px;
+.session_column.session_screencast {
+    max-width: 30px;
+    min-width: 30px;
+	width: 30px;
 }
 
 .session_info_panel {
@@ -322,6 +335,8 @@ body {
 
 .expand_all_button {
     padding: 0 0 0 5px;
+    width: 100% !important;
+    z-index: 1000;
 }
 
 .expand_all_button .btn-default:focus {
@@ -332,4 +347,96 @@ body {
 ._active {
     background-color: #e6e6e6 !important;
     border-color: #adadad !important;
+}
+
+.navbar {
+     margin-bottom: 0 !important;
+}
+
+.session_info_panel {
+    /*padding: 5px 0 5px 0;*/
+    background-color: #fff;
+    margin: 0;
+}
+
+._info_description {
+    margin-top: 50px !important;
+}
+
+._info_title {
+    position: fixed;
+    z-index: 1000;
+    background-color: #fff;
+    margin: 0;
+    width: 100% !important;
+}
+
+.expand_all_button {
+    background-color: #fff;
+    padding: 5px;
+}
+
+.session_info_panel .panel {
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.session_info_panel .panel ul {
+    padding: 10px 0 5px 0 ;
+    margin-bottom: 0 !important;
+}
+
+.session_info_panel .container-fluid {
+    padding: 0 !important;
+}
+
+.session_info_panel .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.session_info_panel .row.error {
+    background-color: #fff;
+    width: 100% !important;
+}
+
+.session_info_panel .panel-body {
+    padding: 0;
+}
+
+.session_info_panel .panel-body .col-lg-5 {
+    padding-left: 10px;
+}
+
+.session_tabs .nav-tabs {
+    width: 100%;
+    background-color: #fff;
+    padding-top: 5px;
+}
+
+.session_tabs {
+    z-index: 1000;
+    width: 100% !important;
+}
+
+.session_tabs a {
+    margin-left: 5px;
+    color: #333;
+}
+
+.session_tabs a :hover{
+    color: #333;
+}
+
+._playing {
+    display: none;
+}
+
+#screencast {
+    margin-top: 40px;
+}
+
+.session_content {
+    padding-bottom: 40px;
 }

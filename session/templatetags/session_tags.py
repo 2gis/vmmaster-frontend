@@ -4,8 +4,10 @@ from django import template
 from datetime import datetime
 from session.templatetags.session_filters import label_step
 from dashboard.models import SessionLogStep, SubStep
+from django.conf import settings
 
 import json
+import urllib2
 
 register = template.Library()
 
@@ -133,8 +135,27 @@ def show_session_header(session):
 
 
 @register.inclusion_tag('session/session_log_steps.html')
-def show_session_log_steps(log_steps):
-    return {'log_steps': log_steps}
+def show_session_log_steps(session, log_steps):
+    return {
+        'session': session,
+        'log_steps': log_steps
+    }
+
+
+@register.inclusion_tag('session/screencast.html')
+def show_screencast(session):
+    return {'session': session}
+
+
+@register.assignment_tag
+def is_screencast_exist(host, session):
+    req = urllib2.Request('http://%s/screenshot/%s/%s.webm' % (
+        host, session.id, session.id))
+    try:
+        urllib2.urlopen(req)
+        return True
+    except urllib2.HTTPError:
+        return False
 
 
 @register.assignment_tag

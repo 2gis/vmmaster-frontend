@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block content %}
 <div class="main">
     {% load dashboard_tags %}
@@ -29,4 +29,5 @@
     {% show_sessions sessions %}
     {% show_version version %}
 </div>
+<script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock %}

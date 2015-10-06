@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+import json
 
 
 class VirtualMachine(models.Model):
@@ -45,6 +46,14 @@ class Session(models.Model):
 
     def __str__(self):
         return "[" + str(self.id) + "] " + self.name
+
+    @property
+    def take_screencast(self):
+        dc = json.loads(self.dc)
+        if dc.get('takeScreencast', None):
+            return True
+        else:
+            return False
 
     class Meta:
         managed = False

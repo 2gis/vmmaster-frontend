@@ -1,11 +1,42 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load session_filters %}
 {% load session_tags %}
 
 {% block content %}
-    <div>
+<div class="session_info_panel">
     {% show_session_header session %}
+    <div class="session_tabs">
+        <ul id="mtabs" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#steps" class="steps">Steps</a></li>
+            {% if not session.closed or session.take_screencast %}
+            <li><a data-toggle="tab" href="#screencast" class="screencast">Video</a></li>
+            {% endif %}
+        </ul>
     </div>
-    <div>
-    {% show_session_log_steps session_log_steps %}
+    {% groupify session_log_steps as steps_groups %}
+    {% if steps_groups|length > 1 %}
+    <div class="expand_all_button">
+        <a type="button" class="btn btn-default" href="javascript: expand_all()">Expand all tests</a>
     </div>
+    {% endif %}
+</div>
+<div class="session_content tab-content">
+    <div id="steps" class="tab-pane fade in active">
+        {% show_session_log_steps session session_log_steps %}
+    </div>
+    <div id="screencast" class="text-center tab-pane fade">
+        {% if session.closed %}
+            {% is_screencast_exist host session as screencast_file %}
+            {% if session.take_screencast %}
+                {% if screencast_file %}
+                    {% show_screencast session %}
+                {% else %}
+                    <p>Screencast has not recorded or not available.</p>
+                {% endif%}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+<script src="{% static 'js/session.js' %}"></script>
 {% endblock %}
