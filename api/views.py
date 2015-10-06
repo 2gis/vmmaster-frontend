@@ -45,6 +45,10 @@ def get_platforms():
     return _make_api_request("get", "platforms")
 
 
+def get_proxy_vnc_port(session_id):
+    return _make_api_request('get', "session/%s/vnc_info" % session_id)
+
+
 def generate_token(user):
     method = "POST"
     uri = "user/%s/regenerate_token" % str(user.id)

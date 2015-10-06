@@ -76,6 +76,8 @@ body {
 }
 
 .session_status .status {
+    margin-left: auto;
+    margin-right: auto;
     width: 23px;
     height: 23px;
     border-radius: 50%;
@@ -427,6 +429,23 @@ body {
 
 .session_tabs a :hover{
     color: #333;
+}
+
+.play {
+    opacity: 0.7;
+    background-color: #333;
+    text-align: center;
+    display: inline-block;
+}
+
+.play a {
+    text-decoration: none !important;
+    color: #fff;
+    vertical-align: middle;
+}
+
+.play a:hover {
+    color: #000;
 }
 
 ._playing {

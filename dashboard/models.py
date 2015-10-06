@@ -43,6 +43,7 @@ class Session(models.Model):
 
     timeouted = models.BooleanField(blank=True, default=False)
     closed = models.BooleanField(blank=True, default=False)
+    take_screencast = models.BooleanField(blank=True, default=False)
 
     def __str__(self):
         return "[" + str(self.id) + "] " + self.name
