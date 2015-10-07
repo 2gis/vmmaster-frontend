@@ -1,11 +1,13 @@
 $(document).ready(function() {
-    $('.session_row').click(function(){
-        if (!window.event.ctrlKey) {
-            window.document.location = $(this).attr("href");
-        }
-    });
-});
-
-$('a').click(function(event){
+    $('a').click(function(event){
 	event.stopPropagation();
+    });
+
+    $('.session_row').click(function(){
+        window.document.location = $(this).attr("href");
+    });
+
+    $('.session_row').hover(function() {
+        $(this).css('cursor','pointer');
+    });
 });
