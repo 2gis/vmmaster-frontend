@@ -4,7 +4,7 @@
     {% groupify log_steps as steps_groups %}
     {% if steps_groups|length > 1 %}
     <div class="expand_all_button">
-        <a type="button" class="btn btn-default" href="javascript: expand_all()">Развернуть все тесты</a>
+        <a type="button" class="btn btn-default" href="javascript: expand_all()">Expand all tests</a>
     </div>
     {% endif %}
     <div class="log_steps">
@@ -25,7 +25,7 @@
                         {% endif %}
                     </div>
                     <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
-                    <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
+                    <div class="log_step_column log_body" data-toggle="tooltip" title="{{ step.body }}">{{ step.body|truncate_string }}</div>
                     <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
                     {% show_screenshot step %}
                     <div class="info"></div>
@@ -46,7 +46,7 @@
                         {% endif %}
                     </div>
                     <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
-                    <div class="log_step_column log_body">{{ step.body|truncate_string }}</div>
+                    <div class="log_step_column log_body" data-toggle="tooltip" title="{{ step.body }}">{{ step.body|truncate_string }}</div>
                     <div class="log_step_column log_time">{{ step.total_time }} sec.</div>
                     {% show_screenshot step %}
                     <div class="info"></div>
@@ -58,5 +58,5 @@
     </div>
     {% show_modal_window log_steps %}
 {% else %}
-    <p>No log steps.</p>
+    <div class="well">No log steps.</div>
 {% endif %}

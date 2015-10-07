@@ -17,13 +17,13 @@
             {% for session in sessions %}
             <tr class="session_row" href="/session/{{ session.id }}">
                 <td class="session_column session_status">
-                    <div class="status {{ session.status }}"></div>
+                    <div class="status {{ session.status }}" data-toggle="tooltip" title="{{ session.status }}"></div>
                 </td>
                 <td class="session_column session_name">
                     <a href="/session/{{ session.id }}">{{ session.name }}</a>
                 </td>
                 <td class="session_column session_date">{{ session.created|timestamp_to_date }}</td>
-                <td class="session_column session_error">{{ session.error|filter_error }}</td>
+                <td class="session_column session_error" data-toggle="tooltip" title="{{ session.error }}">{{ session.error|filter_error }}</td>
             </tr>
             {% endfor %}
         {% endif %}

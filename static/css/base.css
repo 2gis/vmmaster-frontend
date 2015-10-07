@@ -51,7 +51,6 @@ body {
 
 .sessions .session_column {
 	display: inline-block;
-	text-align: left;
 	vertical-align: middle;
     border-top: none;
     padding: 0;
@@ -71,7 +70,8 @@ body {
 	font-weight: bold;
 }
 
-.sessions .session_column.session_status {
+.session_status {
+    vertical-align: middle;
 	width: 50px;
     text-align: center;
 }
@@ -127,6 +127,18 @@ body {
 
 .sessions .session_column.session_error {
 	width: 400px;
+}
+
+.session_info_panel {
+    margin: 10px;
+    text-align: left;
+	vertical-align: middle;
+	display: table;
+	width: 100%;
+}
+
+.grey-block {
+    color: #a9a9a9;
 }
 
 .log_steps {
