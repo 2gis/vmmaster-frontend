@@ -53,10 +53,10 @@ function expand_all() {
 
     if (!button.hasClass('_active')) {
         button.addClass('_active');
-        button.text('Cвернуть все тесты');
+        button.text('Collapse all tests');
     } else {
         button.removeClass('_active');
-        button.text('Развернуть все тесты');
+        button.text('Expand all tests');
     }
 
 }

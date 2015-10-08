@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% load session_tags %}
 
 {% block content %}
     <div>
-        {% include "session/log.html" %}
+    {% show_session_header session %}
+    </div>
+    <div>
+    {% show_session_log_steps session_log_steps %}
     </div>
 {% endblock %}

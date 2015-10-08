@@ -30,12 +30,12 @@ def set_total_time(log_steps):
     return new_log_steps
 
 
-def session(request, session_id):
-    _session = Session.objects.get(id=session_id)
+def session_main(request, session_id):
+    session = Session.objects.get(id=session_id)
     session_log_steps = SessionLogStep.objects.filter(session_id=session_id).\
         order_by("created")
     context = {
-        'session': _session,
+        'session': session,
         'session_log_steps': _requests(set_total_time(session_log_steps))
     }
     return render(request, 'session/session.html', context)

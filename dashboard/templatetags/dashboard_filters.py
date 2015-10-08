@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 from django import template
 
 register = template.Library()
