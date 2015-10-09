@@ -23,14 +23,16 @@ def truncate_string(string, max_size=40):
 @register.filter
 def code_status(code=None):
     if code is None:
-        code = ""
+        code = "unknown"
     else:
         code = str(code)
 
     if code.startswith("5"):
         return "error"
+    elif code.startswith("2"):
+        return "success"
     else:
-        return ""
+        return "unknown"
 
 
 @register.filter
