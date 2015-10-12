@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from dashboard.models import Session, SessionLogStep, SubStep
+from datetime import datetime
 
 
 def _requests(steps):
@@ -19,14 +20,18 @@ def _requests(steps):
 
 def set_total_time(log_steps):
     new_log_steps = []
-    for _next, item in zip(log_steps[1:], log_steps):
+    for item, _next in map(lambda i, j: (i, j), log_steps, log_steps[1:]):
         try:
-            total_time = (_next.created - item.created).total_seconds()
-            item.total_time = round(total_time, 2)
+            if _next:
+                total_time = _next.created - item.created
+            elif item.session.closed:
+                total_time = item.session.modified - item.created
+            else:
+                total_time = datetime.now() - item.created
+            item.total_time = round(total_time.total_seconds(), 2)
         except Exception:
             item.total_time = None
         new_log_steps.append(item)
-
     return new_log_steps
 
 

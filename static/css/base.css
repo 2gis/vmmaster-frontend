@@ -224,8 +224,8 @@ body {
 	background-color: #ba4549;
 }
 
-.log_steps .log_step.success {
-	background-color: #5ba467;
+.log_steps .log_step.unknown {
+	background-color: #d3d3d3;
 }
 
 .log_step_navigation {
