@@ -7,6 +7,8 @@ import pygments
 from pygments.lexers import PythonLexer, JsonLexer
 from pygments.formatters import HtmlFormatter
 
+from dashboard.models import SubStep
+
 register = template.Library()
 
 
@@ -86,3 +88,9 @@ def highlight(text):
 @register.filter
 def extract_url(string):
     return string.split(" ")[1]
+
+
+@register.filter
+def got_sub_steps(step):
+    return SubStep.objects.filter(session_log_step=step).count() > 0
+

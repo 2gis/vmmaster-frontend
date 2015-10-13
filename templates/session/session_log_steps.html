@@ -15,8 +15,10 @@
             {% else %}
                 <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
                     <div class="expand log_step_column">
-                        {% if step.control_line|extract_url == "/wd/hub/session" %}
+                        {% if step|got_sub_steps %}
                         <div class="expandglyph glyphicon glyphicon-chevron-right"></div>
+                        {% else %}
+                        <div class="glyphicon glyphicon-none"></div>
                         {% endif %}
                     </div>
                     <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
@@ -32,14 +34,16 @@
         {% else %}
             {% for step in group.1 %}
             <div id="{{ step.id }}" class="log_step {{ step.response_status|code_status }} {{ step.control_line|label_step }}">
+                <div class="expand log_step_column">
+                    {% if step|got_sub_steps %}
+                    <div class="expandglyph glyphicon glyphicon-chevron-right"></div>
+                    {% else %}
+                    <div class="glyphicon glyphicon-none"></div>
+                    {% endif %}
+                </div>
                 {% if step.control_line|label_step %}
                     <h4><a href="session_step/{{ step.id }}" title="{{ step.body|extract_label }}">{{ step.body|extract_label|truncate_string:80 }}</a></h4>
                 {% else %}
-                    <div class="expand log_step_column">
-                        {% if step.control_line|extract_url == "/wd/hub/session" %}
-                        <div class="expandglyph glyphicon glyphicon-chevron-right"></div>
-                        {% endif %}
-                    </div>
                     <a href="session_step/{{ step.id }}" title="{{ step.control_line }}"><div class="log_step_column log_request">{{ step.control_line|truncate_string }}</div></a>
                     <div class="log_step_column log_body" data-toggle="tooltip" title="{{ step.body }}">{{ step.body|truncate_string }}</div>
                     <div class="log_step_column log_time">{{ step.total_time }} sec.</div>

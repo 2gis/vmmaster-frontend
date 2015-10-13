@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load session_filters %}
+{% load session_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10">
+        <div id="log_step">
+            <div class="log_step_request info">{{ request.control_line }}</div>
+            <div class="log_step_body info">{{ request.body|pretty_json|highlight }}</div>
+            <div class="log_step_request info">{{ response.control_line }}</div>
+            <div class="log_step_body info">{{ response.body|pretty_json|highlight }}</div>
+        </div>
+    </div>
+    <div class="col-md-2">
+    {% show_screenshot request %}
+    </div>
+    {% show_modal_window request %}
+</div>
+{% endblock %}

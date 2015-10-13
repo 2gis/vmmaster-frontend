@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from dashboard.models import Session, SessionLogStep, SubStep
 from datetime import datetime
 from django.http import HttpResponse
@@ -38,7 +39,12 @@ def set_total_time(log_steps):
 
 
 def session_main(request, session_id):
-    session = Session.objects.get(id=session_id)
+    try:
+        session = Session.objects.get(id=session_id)
+    except ObjectDoesNotExist:
+        context = {'session_id': session_id}
+        return render(request, 'session/session_not_exists.html', context)
+
     session_log_steps = SessionLogStep.objects.filter(session_id=session_id).\
         order_by("created")
     context = {
@@ -57,7 +63,7 @@ def log_step(request, session_id, step_id):
         'log_step': log_step,
         'sub_steps': _requests(set_total_time(sub_steps))
     }
-    return render(request, 'session/session_log_step.html', context)
+    return render(request, 'session/sub_steps_inline.html', context)
 
 
 def _response(request, steps):
@@ -85,6 +91,7 @@ def sub_step(request, session_id, sub_step_id):
 
 
 def session_step(request, session_id, session_step_id):
+
     req = SessionLogStep.objects.get(id=session_step_id)
     steps = SessionLogStep.objects.filter(session_id=req.session_id).\
         order_by('created')
@@ -93,7 +100,7 @@ def session_step(request, session_id, session_step_id):
         'request': req,
         'response': _response(req, steps)
     }
-    return render(request, 'session/sub_step.html', context)
+    return render(request, 'session/step.html', context)
 
 
 def proxy_vnc_port(request, session_id):
