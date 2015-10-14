@@ -4,6 +4,7 @@
         <tr>
             <td class="session_column session_status">status</td>
             <td class="session_column session_name">name</td>
+            <td class="session_column session_screencast"></td>
             <td class="session_column session_date">date</td>
             <td class="session_column session_error">error</td>
         </tr>
@@ -12,15 +13,27 @@
         {% if sessions %}
             {% load endless %}
             {% load dashboard_filters %}
+            {% load dashboard_tags %}
 
             {% paginate sessions %}
             {% for session in sessions %}
-            <tr class="session_row" href="/session/{{ session.id }}">
+            <tr class="session_row" href="/session/{{ session.id }}#steps">
                 <td class="session_column session_status">
                     <div class="status {{ session.status }}" data-toggle="tooltip" title="{{ session.status }}"></div>
                 </td>
                 <td class="session_column session_name">
-                    <a href="/session/{{ session.id }}">{{ session.name }}</a>
+                    <a href="/session/{{ session.id }}#steps">{{ session.name }}</a>
+                </td>
+                <td class="session_column session_screencast">
+                    <a href="/session/{{ session.id }}#screencast" title="show screencast">
+                    {% if not session.closed %}
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    {% else %}
+                        {% if session.take_screencast %}
+                        <span class="glyphicon glyphicon-film"></span>
+                        {% endif %}
+                    {% endif %}
+                    </a>
                 </td>
                 <td class="session_column session_date">{{ session.created|timestamp_to_date }}</td>
                 <td class="session_column session_error" data-toggle="tooltip" title="{{ session.error }}">{{ session.error|filter_error }}</td>

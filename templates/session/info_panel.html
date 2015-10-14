@@ -1,47 +1,47 @@
-<div class="session_info_panel">
-    <div class="panel"><div class="panel-body"
-    <div class="container-fluid">
-        <div class="row">
-            <ul class="list-inline">
-                <li class="session_column session_status">
-                    <div class="status {{ session_status }}" data-toggle="tooltip" title="{{ session_status }}"></div>
-                </li>
-                <li class="session_column session_name">
-                    <h4>{{ session_name }} <small>{{ session_id }}</small></h4>
-                </li>
-            </ul>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-5 grey-block">
-                {% if status_message %}
-                    <p><strong>{{ status_message }}</strong></p>
-                {% endif %}
-                {% if platform %}
-                    <p><strong>{{ platform|capfirst }}</strong></p>
-                {% endif %}
-                {% if browser %}
-                    <p><strong>{{ browser|capfirst }}</strong></p>
-                {% endif %}
-                {% if java %}
-                    <p><strong>{{ java|capfirst }}</strong></p>
-                {% endif %}
+<div class="session_info panel">
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row _info_title">
+                <ul class="list-inline">
+                    <li class="session_column session_status">
+                        <div class="status {{ session_status }}" data-toggle="tooltip" title="{{ session_status }}"></div>
+                    </li>
+                    <li class="session_column session_name">
+                        <h4>{{ session_name }} <small>{{ session_id }}</small></h4>
+                    </li>
+                </ul>
             </div>
-            <div class="col-lg-5 grey-block">
-                <p><strong>Owner</strong> {{ username }}</p>
-                <p><strong>Started</strong> {{ started }}</p>
-                <p><strong>Ended</strong> {{ ended }}</p>
-                <p><strong>Duration</strong> {{ duration }} sec.</p>
-            </div>
-        </div>
 
-        <div class="row">
-            {% if session_error %}
-                <div class="alert alert-danger col-lg-12">
-                    <p>{{ session_error|safe }}</p>
+            <div class="row _info_description">
+                <div class="col-lg-5 grey-block">
+                    {% if status_message %}
+                        <p><strong>{{ status_message }}</strong></p>
+                    {% endif %}
+                    {% if platform %}
+                        <p><strong>{{ platform|capfirst }}</strong></p>
+                    {% endif %}
+                    {% if browser %}
+                        <p><strong>{{ browser|capfirst }}</strong></p>
+                    {% endif %}
+                    {% if java %}
+                        <p><strong>{{ java|capfirst }}</strong></p>
+                    {% endif %}
                 </div>
-            {% endif %}
+                <div class="col-lg-5 grey-block">
+                    <p><strong>Owner</strong> {{ username }}</p>
+                    <p><strong>Started</strong> {{ started }}</p>
+                    <p><strong>Ended</strong> {{ ended }}</p>
+                    <p><strong>Duration</strong> {{ duration }} sec.</p>
+                </div>
+            </div>
+
+            <div class="row _info_error">
+                {% if session_error %}
+                    <div class="alert alert-danger col-lg-12">
+                        <p>{{ session_error|safe }}</p>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-    </div></div>
 </div>

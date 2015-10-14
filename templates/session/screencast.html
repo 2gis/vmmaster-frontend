@@ -1,0 +1,9 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'css/plyr.css' %}">
+<video controls>
+    <!-- Video files -->
+    <source src="/screenshot/{{ session.id }}/{{ session.id }}.webm" type="video/webm">
+    <a href="/screenshot/{{ session.id }}/{{ session.id }}.webm">Screencast</a>
+</video>
+<script src="{% static 'js/plyr.js' %}"></script>
