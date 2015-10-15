@@ -3,6 +3,8 @@
 from django.shortcuts import render
 from dashboard.models import Session, SessionLogStep, SubStep
 from datetime import datetime
+from django.http import HttpResponse
+from api.views import get_proxy_vnc_port
 
 
 def _requests(steps):
@@ -92,3 +94,11 @@ def session_step(request, session_id, session_step_id):
         'response': _response(req, steps)
     }
     return render(request, 'session/sub_step.html', context)
+
+
+def proxy_vnc_port(request, session_id):
+    response = get_proxy_vnc_port(session_id)
+    if response:
+        response = response.get('vnc_proxy_port', None)
+
+    return HttpResponse(response)

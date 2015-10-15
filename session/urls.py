@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^(?P<session_id>\d+)/sub_step/(?P<sub_step_id>\d+)/$',
         views.sub_step),
     url(r'^(?P<session_id>\d+)/session_step/(?P<session_step_id>\d+)/$',
-        views.session_step)
+        views.session_step),
+    url(r'^(?P<session_id>\d+)/proxy_vnc_port$', views.proxy_vnc_port, name='proxy_vnc_port')
 ]

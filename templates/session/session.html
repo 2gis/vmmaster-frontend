@@ -33,8 +33,10 @@
                     {% show_screencast session %}
                 {% else %}
                     <p>Screencast has not recorded or not available.</p>
-                {% endif%}
+                {% endif %}
             {% endif %}
+        {% else %}
+            {% show_vnc session %}
         {% endif %}
     </div>
 </div>
