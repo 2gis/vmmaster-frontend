@@ -17,12 +17,12 @@
 
             {% paginate sessions %}
             {% for session in sessions %}
-            <tr class="session_row" href="/session/{{ session.id }}#steps">
+            <tr class="session_row" href="/session/{{ session.id }}">
                 <td class="session_column session_status">
                     <div class="status {{ session.status }}" data-toggle="tooltip" title="{{ session.status }}"></div>
                 </td>
                 <td class="session_column session_name">
-                    <a href="/session/{{ session.id }}#steps">{{ session.name }}</a>
+                    <a href="/session/{{ session.id }}">{{ session.name }}</a>
                 </td>
                 <td class="session_column session_screencast">
                     <a href="/session/{{ session.id }}#screencast" title="show screencast">

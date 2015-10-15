@@ -8,9 +8,9 @@ $(document).ready(function() {
                     'display': 'none'
                 });
             } else {
-            $(".expand_all_button").css({
-                'display': 'block'
-             });
+                $(".expand_all_button").css({
+                    'display': 'block'
+                 });
             }
         }
     });
