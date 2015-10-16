@@ -150,7 +150,7 @@ def show_screencast(session):
 @register.assignment_tag
 def is_screencast_exist(host, session):
     req = urllib2.Request('http://%s/screenshot/%s/%s.webm' % (
-        host, session.id, session.id))
+        host.split(':')[0], session.id, session.id))
     try:
         urllib2.urlopen(req)
         return True

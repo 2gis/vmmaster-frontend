@@ -4,9 +4,8 @@
         <tr>
             <td class="session_column session_status">status</td>
             <td class="session_column session_name">name</td>
-            <td class="session_column session_screencast"></td>
             <td class="session_column session_date">date</td>
-            <td class="session_column session_error">error</td>
+            <td class="session_column session_error">info</td>
         </tr>
         </thead>
         <tbody>
@@ -19,24 +18,27 @@
             {% for session in sessions %}
             <tr class="session_row" href="/session/{{ session.id }}">
                 <td class="session_column session_status">
-                    <div class="status {{ session.status }}" data-toggle="tooltip" title="{{ session.status }}"></div>
+                    <span class="label label-{{ session.status|text_status }}">{{ session.status }}</span>
                 </td>
                 <td class="session_column session_name">
                     <a href="/session/{{ session.id }}">{{ session.name }}</a>
                 </td>
-                <td class="session_column session_screencast">
+                <td class="session_column session_date">{{ session.created|timestamp_to_date }}</td>
+                <td class="session_column session_error" data-toggle="tooltip" title="{{ session.error }}">
                     <a href="/session/{{ session.id }}#screencast" title="show screencast">
-                    {% if not session.closed %}
+                    {% if not session.closed and session.status == 'running' %}
                         <span class="glyphicon glyphicon-eye-open"></span>
                     {% else %}
-                        {% if session.take_screencast %}
+                        {% if session.closed and session.take_screencast %}
                         <span class="glyphicon glyphicon-film"></span>
                         {% endif %}
                     {% endif %}
                     </a>
+                    {% filter_error session.error as error%}
+                    {% if session.status == 'failed' and error != '' %}
+                    <span class="label label-{{ session.status|text_status }}">{{ error }}</span>
+                    {% endif %}
                 </td>
-                <td class="session_column session_date">{{ session.created|timestamp_to_date }}</td>
-                <td class="session_column session_error" data-toggle="tooltip" title="{{ session.error }}">{{ session.error|filter_error }}</td>
             </tr>
             {% endfor %}
         {% endif %}
