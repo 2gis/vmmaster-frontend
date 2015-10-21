@@ -99,6 +99,27 @@ body {
     background-color: #ba4549;
 }
 
+.label-success {
+    background-color: #5ba467 !important;
+}
+
+.label-danger {
+    background-color: #ba4549 !important;
+}
+
+.label-warning {
+    background-color: #d9d507 !important;
+}
+
+.session_status .label {
+    display: list-item;
+    font-size: 90% !important;
+}
+
+.label {
+    font-size: 100% !important;
+}
+
 @-webkit-keyframes pulsing {
     0%   {background: yellow;}
     90%  {background: lightgray;}
@@ -116,6 +137,12 @@ body {
     -webkit-animation-iteration-count: infinite;
     animation: pulsing 2s;
     animation-iteration-count: infinite;
+}
+
+.session_column.session_screencast {
+    max-width: 30px;
+    min-width: 30px;
+    width: 30px;
 }
 
 .session_status .waiting {
@@ -136,12 +163,6 @@ body {
     max-width: 400px;
     min-width: 400px;
 	width: 400px;
-}
-
-.session_column.session_screencast {
-    max-width: 30px;
-    min-width: 30px;
-	width: 30px;
 }
 
 .session_info_panel {
