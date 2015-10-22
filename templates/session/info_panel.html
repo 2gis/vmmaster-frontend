@@ -1,10 +1,11 @@
+{% load dashboard_filters %}
 <div class="session_info panel">
     <div class="panel-body">
         <div class="container-fluid">
             <div class="row _info_title">
                 <ul class="list-inline">
                     <li class="session_column session_status">
-                        <div class="status {{ session_status }}" data-toggle="tooltip" title="{{ session_status }}"></div>
+                        <span class="label label-{{ session_status|text_status }}">{{ session_status }}</span>
                     </li>
                     <li class="session_column session_name">
                         <h4>{{ session_name }} <small>{{ session_id }}</small></h4>
