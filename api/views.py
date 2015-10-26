@@ -2,11 +2,15 @@
 
 import requests
 import json
+from rest_framework.pagination import PageNumberPagination
 import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
 
 from dashboard.models import Session
+from rest_framework import generics
+from rest_framework.response import Response
+from serializers import SessionSerializer
 
 
 def _make_api_request(method, uri, headers=None, body=None):
@@ -67,3 +71,60 @@ def get_version(user):
         versioneer.parentdir_prefix = 'vmmaster_frontend-'  # dirname like 'myproject-0.1.0'
 
         return versioneer.get_version()
+
+
+class SessionPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
+class SessionList(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            sessions = Session.objects.all()
+        elif request.user.is_authenticated():
+            sessions = Session.objects.filter(user=request.user)
+        else:
+            sessions = Session.objects.filter(user=1)
+
+        sessions = sessions.order_by('-created')
+        serializer = SessionSerializer(sessions, many=True)
+        paginator = SessionPagination()
+        data = paginator.paginate_queryset(serializer.data, request)
+
+        return paginator.get_paginated_response(data)
+        # return Response(serializer.data)
+
+
+class SessionDetail(generics.RetrieveAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+
+
+class Platforms(generics.RetrieveAPIView):
+    def get(self, request, *args, **kwargs):
+        return Response(_make_api_request("get", "platforms"))
+
+
+class GetToken(generics.RetrieveAPIView):
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if request.user.is_authenticated() and not request.user.is_superuser:
+            data = ({'token': request.user.token})
+
+        return Response(data)
+
+
+class GenerateToken(generics.RetrieveAPIView):
+    def get(self, request, *args, **kwargs):
+        uri = "user/%s/regenerate_token" % str(request.user.id)
+        headers = dict(Authorization="Basic " + urlsafe_b64encode(
+            str(request.user.username) + ":" + str(request.user.password))
+        )
+
+        result = _make_api_request(method="POST", uri=uri, headers=headers)
+        if result:
+            return GetToken().get(request, *args, **kwargs)
+        else:
+            return Response({})

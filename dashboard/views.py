@@ -25,3 +25,18 @@ def platforms(request):
     }
 
     return render(request, 'dashboard/platforms.html', context)
+
+
+def dashboard2(request):
+    try:
+        session_name = request.GET["q"]
+    except:
+        session_name = None
+
+    context = {
+        'sessions': get_sessions(request.user, session_name),
+        'user': request.user,
+        'version': get_version(request.user)
+    }
+
+    return render(request, 'dashboard/dashboard2.html', context)

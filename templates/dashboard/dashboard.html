@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<div class="main">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.29/browser.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+
+<div class="main" id="s">
     {% load dashboard_tags %}
     <div class="info">
         <form class="navbar-form" role="search" action="{% url 'dashboard' %}" method="get">
@@ -10,24 +14,24 @@
             </div>
             <button type="submit" class="btn btn-default">find</button>
         </form>
-        {% show_user_info user %}
+        <div class="user_info" id="user_info"></div>
         <div class="platforms">
             <div id="platform_content">
                 <table class="table table-condensed table-striped">
                 <caption>platforms</caption>
                 </table>
             </div>
-            <script>
-                $("#platform_content").load("{% url 'platforms' %}", function(response, status, xhr) {
-                    if (status != "error") {
-                        $("#platform_content").html(response);
-                    }
-                });
-            </script>
         </div>
     </div>
-    {% show_sessions sessions %}
+    <div class="dashboard_content">
+        <div id="sessions"></div>
+    </div>
     {% show_version version %}
 </div>
-<script src="{% static 'js/dashboard.js' %}"></script>
+
+
+{% load assets %}
+{% assets "dashboard_js" %}
+    <script type="text/babel" src="{{ ASSET_URL }}"></script>
+{% endassets %}
 {% endblock %}

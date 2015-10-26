@@ -1,3 +1,5 @@
+var domain = '//' + window.location.host;
+
 $(document).ready(function() {
     $('a').click(function(event){
 	event.stopPropagation();
@@ -11,3 +13,18 @@ $(document).ready(function() {
         $(this).css('cursor','pointer');
     });
 });
+
+ReactDOM.render(
+    <Sessions />,
+    document.getElementById('sessions')
+);
+
+ReactDOM.render(
+    <UserInfo />,
+    document.getElementById('user_info')
+);
+
+ReactDOM.render(
+    <Platforms />,
+    document.getElementById('platform_content')
+);
