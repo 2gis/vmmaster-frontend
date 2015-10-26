@@ -244,8 +244,8 @@ body {
 }
 
 .log_step .glyphicon-none:hover {
-    background-color: white;
-	color: white;
+    background-color: transparent;
+	color: transparent;
 }
 
 .log_step.label_group h4 {
