@@ -234,8 +234,8 @@ body {
 }
 
 .log_step .glyphicon-none {
-    background-color: white;
-	color: white;
+    background-color: transparent;
+	color: transparent;
 }
 
 .log_step .glyphicon-none:before {
