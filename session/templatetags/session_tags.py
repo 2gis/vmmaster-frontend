@@ -57,13 +57,14 @@ def get_sub_steps(step_id):
 @register.inclusion_tag('session/info_panel.html')
 def show_session_header(session):
     status_message = None
-    if session.status in ("waiting", "failed"):
-        if not session.endpoint_ip:
-            status_message = "Waiting for endpoint..."
+
+    if session.endpoint_name:
+        if session.status == "waiting":
+            status_message = "Starting on %s..." % session.endpoint_name
         else:
-            status_message = "Starting on endpoint..."
-    elif session.endpoint_name:
-        status_message = "Started on %s" % session.endpoint_name
+            status_message = "Started on %s" % session.endpoint_name
+    else:
+        status_message = "Waiting for endpoint..."
 
     ended = None
     if session.closed:
