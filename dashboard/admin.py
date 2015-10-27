@@ -37,17 +37,21 @@ class SessionLogStepInline(admin.TabularInline):
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'user', 'created', 'modified',
-                    'status', 'error', 'endpoint_id', 'endpoint_ip',
-                    'endpoint_name')
+    list_display = (
+        'id', 'name', 'user', 'created', 'modified',
+        'status', 'error', 'endpoint_id', 'endpoint_ip',
+        'endpoint_name', 'timeouted', 'closed', 'take_screencast'
+    )
+
     list_display_links = ('name',)
+
     readonly_fields = ('id', 'name', 'user', 'created', 'modified',
                        'status', 'error',)
     ordering = ('-created',)
 
-    list_filter = ['user', 'status']
+    list_filter = ['user', 'status', 'timeouted', 'closed']
 
-    search_fields = ['name', 'error', 'endpoint_name', 'endpoint_ip']
+    search_fields = ['id', 'name', 'error', 'endpoint_name', 'endpoint_ip']
 
     inlines = [
         SessionLogStepInline,
@@ -56,7 +60,15 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(SessionLogStep)
 class SessionLogStepAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'session', 'control_line', 'body', 'created', 'screenshot',
+    )
+
     ordering = ('-created',)
+
+    list_filter = ['session']
+
+    search_fields = ['id', 'control_line', 'body']
 
     inlines = [
         SubStepInline,
@@ -65,4 +77,12 @@ class SessionLogStepAdmin(admin.ModelAdmin):
 
 @admin.register(SubStep)
 class SubStepAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'session_log_step', 'control_line', 'body', 'created',
+    )
+
     ordering = ('-created',)
+
+    list_filter = ['session_log_step']
+
+    search_fields = ['id', 'control_line', 'body']

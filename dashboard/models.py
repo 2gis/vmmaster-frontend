@@ -46,7 +46,7 @@ class Session(models.Model):
     take_screencast = models.BooleanField(blank=True, default=False)
 
     def __str__(self):
-        return "[" + str(self.id) + "] " + self.name
+        return str(self.id)
 
     @property
     def take_screencast(self):
@@ -75,7 +75,7 @@ class SessionLogStep(models.Model):
         db_table = 'session_log_steps'
 
     def __str__(self):
-        return "[" + str(self.id) + "] " + self.control_line
+        return str(self.id)
 
 
 class SubStep(models.Model):
@@ -91,4 +91,4 @@ class SubStep(models.Model):
         db_table = 'sub_steps'
 
     def __str__(self):
-        return "[" + str(self.id) + "] " + self.control_line
+        return str(self.id)
