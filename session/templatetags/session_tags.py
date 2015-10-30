@@ -66,14 +66,6 @@ def show_session_header(session):
     else:
         status_message = "Waiting for endpoint..."
 
-    ended = None
-    if session.closed:
-        ended = session.modified.strftime('%H:%M:%S %d.%m.%Y')
-        duration = round(
-            (session.modified - session.created).total_seconds(), 2)
-    else:
-        duration = round((datetime.now() - session.created).total_seconds(), 2)
-
     first_step = None
     browser_info = None
     steps = get_steps(session.id)
@@ -119,6 +111,11 @@ def show_session_header(session):
         browser = browser_info.get("browserName", "") + " " + \
             browser_info.get("version", "")
 
+    if session.deleted:
+        session_deleted = session.deleted.strftime('%H:%M:%S %d.%m.%Y')
+    else:
+        session_deleted = ""
+
     return {
         "status_message": status_message,
         "session_id": session.id,
@@ -126,8 +123,8 @@ def show_session_header(session):
         "session_status": session.status,
         "session_error": format_error(session.error),
         "started": session.created.strftime('%H:%M:%S %d.%m.%Y'),
-        "ended": ended,
-        "duration": duration,
+        "ended": session_deleted,
+        "duration": session.duration,
         "username": session.user.username,
         "platform": platform,
         "java": java,

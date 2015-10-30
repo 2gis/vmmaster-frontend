@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+from datetime import datetime
 import json
 
 
@@ -40,6 +41,7 @@ class Session(models.Model):
 
     created = models.DateTimeField(blank=True, null=True)
     modified = models.DateTimeField(blank=True, null=True)
+    deleted = models.DateTimeField(blank=True, null=True)
 
     timeouted = models.BooleanField(blank=True, default=False)
     closed = models.BooleanField(blank=True, default=False)
@@ -55,6 +57,13 @@ class Session(models.Model):
             return True
         else:
             return False
+
+    @property
+    def duration(self):
+        if self.deleted:
+            return round((self.deleted - self.created).total_seconds(), 2)
+        else:
+            return round((datetime.now() - self.created).total_seconds(), 2)
 
     class Meta:
         managed = False
