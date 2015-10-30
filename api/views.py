@@ -31,24 +31,6 @@ def _make_api_request(method, uri, headers=None, body=None):
         return {}
 
 
-def get_sessions(user, session_name=None):
-    if user.is_superuser:
-        sessions = Session.objects.all()
-    elif user.is_authenticated():
-        sessions = Session.objects.filter(user=user)
-    else:
-        sessions = Session.objects.filter(user=1)
-
-    if session_name:
-        sessions = sessions.filter(name__icontains=session_name)
-
-    return sessions.order_by('-created')
-
-
-def get_platforms():
-    return _make_api_request("get", "platforms")
-
-
 def get_proxy_vnc_port(session_id):
     return _make_api_request('get', "session/%s/vnc_info" % session_id)
 
@@ -81,6 +63,8 @@ class SessionPagination(PageNumberPagination):
 
 class SessionList(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
+        search_phrase = request.REQUEST.get('search', None)
+
         if request.user.is_superuser:
             sessions = Session.objects.all()
         elif request.user.is_authenticated():
@@ -89,12 +73,15 @@ class SessionList(generics.ListAPIView):
             sessions = Session.objects.filter(user=1)
 
         sessions = sessions.order_by('-created')
+
+        if search_phrase:
+            sessions = sessions.filter(name__icontains=search_phrase)
+
         serializer = SessionSerializer(sessions, many=True)
         paginator = SessionPagination()
         data = paginator.paginate_queryset(serializer.data, request)
 
         return paginator.get_paginated_response(data)
-        # return Response(serializer.data)
 
 
 class SessionDetail(generics.RetrieveAPIView):
@@ -109,22 +96,17 @@ class Platforms(generics.RetrieveAPIView):
 
 class GetToken(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
-        data = {}
+        data = None
         if request.user.is_authenticated() and not request.user.is_superuser:
-            data = ({'token': request.user.token})
+            data = request.user.token
 
         return Response(data)
 
 
 class GenerateToken(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
-        uri = "user/%s/regenerate_token" % str(request.user.id)
-        headers = dict(Authorization="Basic " + urlsafe_b64encode(
-            str(request.user.username) + ":" + str(request.user.password))
-        )
-
-        result = _make_api_request(method="POST", uri=uri, headers=headers)
+        result = generate_token(request.user)
         if result:
-            return GetToken().get(request, *args, **kwargs)
+            return Response(result.get('token', None))
         else:
             return Response({})

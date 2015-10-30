@@ -21,6 +21,3 @@ class SessionSerializer(serializers.ModelSerializer):
             'modified',
             'take_screencast'
         )
-
-        def created(self):
-            self.fields

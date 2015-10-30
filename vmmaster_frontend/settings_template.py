@@ -35,9 +35,7 @@ DJANGO_CORE_APPS = [
 
 THIRD_PARTY_APPS = [
     'bootstrap3',
-    'endless_pagination',
-    'rest_framework',
-    'django_assets'
+    'rest_framework'
 ]
 
 PROJECT_APPS = [
