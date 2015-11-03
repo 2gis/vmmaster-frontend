@@ -1,0 +1,6 @@
+
+module.exports = {
+    DASHBOARD_SEARCH: 'DASHBOARD_SEARCH',
+    DASHBOARD_CHANGE: 'DASHBOARD_CHANGE'
+};
+

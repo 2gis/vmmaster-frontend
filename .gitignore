@@ -4,3 +4,5 @@
 settings.py
 vmmaster-frontend.ini
 vmmaster-frontend.conf
+
+node_modules

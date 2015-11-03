@@ -35,7 +35,7 @@ DJANGO_CORE_APPS = [
 
 THIRD_PARTY_APPS = [
     'bootstrap3',
-    'endless_pagination'
+    'rest_framework'
 ]
 
 PROJECT_APPS = [
@@ -44,6 +44,10 @@ PROJECT_APPS = [
     'api',
     'users'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+}
 
 INSTALLED_APPS = DJANGO_CORE_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 

@@ -1,0 +1,33 @@
+{
+  "name": "vmmaster-frontend",
+  "version": "1.0.0",
+  "description": "awesome react-powerful django app",
+  "main": "",
+  "dependencies": {
+    "flux": "^2.0.3",
+    "bootstrap": "^3.3.2",
+    "jquery": "^1.11.1",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "babel": "^5.8.29",
+    "jsx-loader": "^0.13.2",
+    "webpack-dev-server": "^1.12.1",
+    "babel-loader": "^6.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev:watch": "webpack --config config/webpack/env/development.js --watch",
+    "dev:build": "webpack --config config/webpack/env/build.js",
+    "build": "webpack --config config/webpack/env/build.js -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2gis/vmmaster-frontend"
+  },
+  "author": "",
+  "license": "unlicense",
+  "bugs": {
+    "url": "https://github.com/2gis/vmmaster-frontend/issues"
+  },
+  "homepage": "https://github.com/2gis/vmmaster-frontend"
+}
