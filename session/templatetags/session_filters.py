@@ -94,3 +94,15 @@ def extract_url(string):
 def got_sub_steps(step):
     return SubStep.objects.filter(session_log_step=step).count() > 0
 
+
+@register.filter
+def text_status(status):
+    if status == 'waiting':
+        return 'default'
+    if status == 'running':
+        return 'warning'
+    if status == 'failed':
+        return 'danger'
+    else:
+        return 'success'
+
