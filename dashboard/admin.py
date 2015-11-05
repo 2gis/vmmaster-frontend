@@ -38,9 +38,10 @@ class SessionLogStepInline(admin.TabularInline):
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'user', 'created', 'modified',
-        'status', 'error', 'endpoint_id', 'endpoint_ip',
-        'endpoint_name', 'timeouted', 'closed', 'take_screencast'
+        'id', 'name', 'user',
+        'created', 'modified', 'deleted', 'duration', 'status', 'error',
+        'endpoint_id', 'endpoint_ip', 'endpoint_name',
+        'timeouted', 'closed', 'take_screencast'
     )
 
     list_display_links = ('name',)
