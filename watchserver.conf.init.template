@@ -1,0 +1,10 @@
+description "WatchServer with WebSockets"
+
+start on started vmmaster-frontend
+stop on stopping vmmaster-frontend
+
+chdir /<path_work_directory>
+
+exec /usr/local/bin/twistd -l watchserver.log --pidfile watchserver.pid -ny watcher/wsserver.py
+
+respawn

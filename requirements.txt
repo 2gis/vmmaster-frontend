@@ -7,3 +7,4 @@ django-endless-pagination
 versioneer==0.13
 djangorestframework==3.2.4
 django-assets==0.11
+Twisted==15.4.0

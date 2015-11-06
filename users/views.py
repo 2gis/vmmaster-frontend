@@ -61,7 +61,9 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("dashboard"))
+    response = HttpResponseRedirect(reverse("dashboard"))
+    response.delete_cookie('sessionid')
+    return response
 
 
 def get_new_token(request):
