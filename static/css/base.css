@@ -1,19 +1,26 @@
-body {
-    padding-top: 45px;
+#sessions {
+    padding-top: 50px;
+    position: fixed;
+    height: 100%;
 }
 
-.sessions .session_column.session_loader {
-    height: 100px;
+.sessions .session_loader {
+    height: 200px;
+    background-color: #fff;
+}
+
+.sessions .session_loader td {
     border-bottom: none;
 }
 
 .sessions .session_column .loader {
-    position: absolute;
+    position: relative;
     left: 47%;
 }
 
 .sessions .session_column .loader:before {
     position: absolute;
+    top: 50px;
     right: 50%;
     left: 50%;
     margin: -20px 0 0 0;
@@ -32,10 +39,41 @@ body {
         }
     }
 
-.main {
-    display: inline-flex;
+.hat {
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+}
+
+#content {
+    position: fixed;
     margin: 0 auto;
-    padding-top: 20px;
+    top: 50px;
+    width: 100%;
+}
+
+table.sessions {
+    height: 100%;
+}
+
+table.sessions thead, table.sessions tbody {
+    display: block;
+}
+
+table.sessions tbody {
+    overflow: auto;
+    height: 100%;
+}
+
+.userinfo {
+    margin-left: 5px;
+    margin-right: 5px;
+    position: fixed;
+}
+
+.userinfo table td {
+    width: 200px;
 }
 
 .sub_step_content {
@@ -47,12 +85,23 @@ body {
     margin-right: 5px;
 }
 
-.info table td {
-    width: 200px;
+.dashboard_content {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    padding-left: 210px;
 }
 
-.dashboard_content {
-    margin-left: 20px;
+#find_session {
+    padding: 5px 0 5px 0;
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1;
+}
+
+#find_session .navbar-form {
+    padding-left: 5px;
 }
 
 .sessions a {
@@ -72,7 +121,6 @@ body {
 
 .sessions .session_column{
     vertical-align: middle !important;
-    border-bottom: 1px solid #ddd;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -80,10 +128,6 @@ body {
 
 .sessions .session_row:hover {
 	background-color: #D6D9D8;
-}
-
-.sessions .session_row {
-    /*display: flex;*/
 }
 
 .pagination span {
@@ -187,17 +231,29 @@ body {
     animation-iteration-count: infinite;
 }
 
-.session_column.session_name {
-    white-space: nowrap;
-    max-width: 300px;
-    min-width: 300px;
-	width: 300px;
+.session_column {
+    width: 100%;
 }
 
-.session_column.session_error {
+.session_column.session_status {
+    width: 80px;
+    min-width: 80px;
+}
+
+.session_column.session_date {
+    width: 150px;
+    min-width: 150px;
+}
+
+.session_column.session_name {
+    white-space: nowrap;
     max-width: 400px;
     min-width: 400px;
 	width: 400px;
+}
+
+.session_column.session_error {
+	width: 100%;
 }
 
 .session_info_panel {
