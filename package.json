@@ -12,7 +12,9 @@
     "babel": "^5.8.29",
     "jsx-loader": "^0.13.2",
     "webpack-dev-server": "^1.12.1",
-    "babel-loader": "^6.0.0"
+    "babel-loader": "^6.0.0",
+    "autobahn": "^0.9.8",
+    "ws": "^0.8.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher').AppDispatcher;
-var DashboardConstants = require('../constants/SessionsConstants');
+var SessionsConstants = require('../constants/SessionsConstants');
 
 
 function getUrlParameter(sParam) {
@@ -16,15 +16,16 @@ function getUrlParameter(sParam) {
     }
 }
 
-var _page_init = 1*getUrlParameter('page');
-if(!_page_init) _page_init = 1 ;
+var _offset_init = 1*getUrlParameter('offset');
+if(!_offset_init) _offset_init = 0 ;
 var _query_init = getUrlParameter('query');
 if(!_query_init) _query_init = '';
 
 var _state = {
     hasMore: true,
     sessions: [],
-    page: _page_init,
+    offset: _offset_init,
+    limit: 10,
     total: 0,
     query: _query_init
 };
@@ -37,7 +38,8 @@ var _resetState = function () {
     _state = {
         hasMore: true,
         sessions: [],
-        page: _page_init,
+        offset: _offset_init,
+        limit: 10,
         total: 0,
         query: _query_init
     };
@@ -45,7 +47,7 @@ var _resetState = function () {
 
 var _search = function() {
     $.ajax({
-        url: _props.url+'?search='+_state.query+"&page="+_state.page,
+        url: _props.url+'?search='+_state.query+"&offset="+_state.offset+"&limit="+_state.limit,
         dataType: 'json',
         cache: false
     })
@@ -57,17 +59,17 @@ var _search = function() {
             }
             _state.total = data.count;
 
-            if (_state.sessions.length == _state.total) {
+            if (_state.sessions.length == _state.total || !data.next) {
                 _state.hasMore = false;
             } else {
                 _state.hasMore = true;
             }
-            DashboardStore.emitChange();
+            SessionsStore.emitChange();
         })
         .fail(function(xhr, status, err) {
             _state.hasMore = false;
             console.log(err.toString());
-            DashboardStore.emitChange();
+            SessionsStore.emitChange();
         });
 };
 
@@ -80,7 +82,42 @@ var _update_href = function() {
     $(location).attr('hash', hash);
 };
 
-var DashboardStore = $.extend({}, EventEmitter.prototype, {
+var _update_exist_sessions = function (sessions) {
+    var updateSessions = JSON.parse(sessions);
+    var partSessions = updateSessions.map(function(session) {
+        var session_fields = session.fields;
+        session_fields.dc = JSON.parse(session_fields.dc);
+        session_fields.take_screencast = session_fields.dc.takeScreencast;
+        session_fields.id = session.pk;
+        return session_fields;
+    });
+    _state.sessions.forEach(function (session, i, arr) {
+        partSessions.forEach(function (nsession, ni, narr) {
+            if (session.id == nsession.id) {
+                console.log('Replaced session', session.id);
+                _state.sessions[i] = nsession;
+            }
+        });
+    });
+    SessionsStore.emitChange();
+};
+
+var _update_new_sessions = function(sessions) {
+    var newSessions = JSON.parse(sessions);
+    var partSessions = newSessions.map(function(session) {
+        var session_fields = session.fields;
+        session_fields.dc = JSON.parse(session_fields.dc);
+        session_fields.take_screencast = session_fields.dc.takeScreencast;
+        session_fields.id = session.pk;
+        console.log('Adding new session ', session_fields.id);
+        return session_fields;
+    });
+    _state.sessions = partSessions.concat(_state.sessions);
+    _state.offset += partSessions.length;
+    SessionsStore.emitChange();
+};
+
+var SessionsStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
     },
@@ -95,23 +132,29 @@ var DashboardStore = $.extend({}, EventEmitter.prototype, {
     }
 });
 
-DashboardStore.dispatchToken = AppDispatcher.register(function(action) {
+SessionsStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.actionType) {
-        case DashboardConstants.DASHBOARD_SEARCH:
+        case SessionsConstants.SESSIONS_SEARCH:
             _resetState();
             _state.query = action.query;
-            _state.page = 1;
+            _state.offset = 0;
             _update_href();
             _search();
             break;
-        case DashboardConstants.DASHBOARD_CHANGE:
-            _state.page = action.page;
+        case SessionsConstants.SESSIONS_CHANGE:
+            _state.offset = action.offset;
             _search();
+            break;
+        case SessionsConstants.NEW_SESSIONS:
+            _update_new_sessions(action.sessions);
+            break;
+        case SessionsConstants.UPDATE_SESSIONS:
+            _update_exist_sessions(action.sessions);
             break;
     }
     return true;
 });
 
 
-module.exports.DashboardStore = DashboardStore;
+module.exports.SessionsStore = SessionsStore;
 module.exports.reloadDashboard = _reloadDashboard;

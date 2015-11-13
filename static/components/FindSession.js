@@ -1,12 +1,12 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var DashboardActions = require('../actions/SessionsActions').DashboardActions;
-var DashboardStore = require('../stores/SessionsStore').DashboardStore;
+var SessionsActions = require('../actions/SessionsActions').SessionsActions;
+var SessionsStore = require('../stores/SessionsStore').SessionsStore;
 
 
 var FindSession = React.createClass({
     getInitialState: function() {
-        var _state = DashboardStore.getState();
+        var _state = SessionsStore.getState();
         return {
             search: _state.query
         }
@@ -31,7 +31,7 @@ var FindSession = React.createClass({
             search: query
         });
         this.promise = setTimeout(function () {
-            DashboardActions.search(query);
+            SessionsActions.search(query);
         }.bind(this), 400);
     },
 
@@ -39,7 +39,7 @@ var FindSession = React.createClass({
         this.setState({
             search: ''
         });
-        DashboardActions.search('');
+        SessionsActions.search('');
     }
 });
 

@@ -11,7 +11,7 @@ function topPosition(domElt) {
 
 var InfiniteScroll = React.createClass({
     componentDidMount: function () {
-        this.pageLoaded = this.props.pageStart;
+        this.offsetLoaded = this.props.offsetStart;
         this.attachScrollListener();
     },
 
@@ -44,7 +44,7 @@ var InfiniteScroll = React.createClass({
 
         if (topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight < Number(this.props.threshold)) {
             this.detachScrollListener();
-            this.props.loadMore(this.pageLoaded += 1);
+            this.props.loadMore(this.offsetLoaded += 10);
 
         }
     },

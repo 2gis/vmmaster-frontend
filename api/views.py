@@ -2,7 +2,7 @@
 
 import requests
 import json
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination
 import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
@@ -11,6 +11,7 @@ from dashboard.models import Session
 from rest_framework import generics
 from rest_framework.response import Response
 from serializers import SessionSerializer
+from rest_framework import viewsets
 
 
 def _make_api_request(method, uri, headers=None, body=None):
@@ -55,33 +56,35 @@ def get_version(user):
         return versioneer.get_version()
 
 
-class SessionPagination(PageNumberPagination):
+class SessionPagination(LimitOffsetPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 10
 
 
-class SessionList(generics.ListAPIView):
-    def get(self, request, *args, **kwargs):
-        search_phrase = request.REQUEST.get('search', None)
+class SessionList(viewsets.ModelViewSet):
+    queryset = Session.objects.order_by('-created')
+    serializer_class = SessionSerializer
+    pagination_class = SessionPagination
 
-        if request.user.is_superuser:
-            sessions = Session.objects.all()
-        elif request.user.is_authenticated():
-            sessions = Session.objects.filter(user=request.user)
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        search_phrase = self.request.REQUEST.get('search', '')
+
+        if self.request.user.is_superuser:
+            return self.queryset\
+                .filter(name__icontains=search_phrase)
+
+        elif self.request.user.is_authenticated():
+            return self.queryset\
+                .filter(user=self.request.user)\
+                .filter(name__icontains=search_phrase)
         else:
-            sessions = Session.objects.filter(user=1)
-
-        sessions = sessions.order_by('-created')
-
-        if search_phrase:
-            sessions = sessions.filter(name__icontains=search_phrase)
-
-        serializer = SessionSerializer(sessions, many=True)
-        paginator = SessionPagination()
-        data = paginator.paginate_queryset(serializer.data, request)
-
-        return paginator.get_paginated_response(data)
+            return self.queryset.filter(user=1)\
+                .filter(name__icontains=search_phrase)
 
 
 class SessionDetail(generics.RetrieveAPIView):

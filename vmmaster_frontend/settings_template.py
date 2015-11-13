@@ -42,7 +42,8 @@ PROJECT_APPS = [
     'dashboard',
     'session',
     'api',
-    'users'
+    'users',
+    'watcher'
 ]
 
 REST_FRAMEWORK = {
@@ -88,7 +89,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = None  # use system timezone
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -108,3 +109,4 @@ VMMASTER_API_URL = "http://localhost:9001/api"
 AUTH_USER_MODEL = "users.VmmasterUser"
 
 TEST_RUNNER = 'users.testrunner.CustomRunner'
+WATCHSERVER_PORT = 8001
