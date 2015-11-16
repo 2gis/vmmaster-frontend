@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var $ = require('jquery');
 
 
 function topPosition(domElt) {
@@ -24,36 +25,39 @@ var InfiniteScroll = React.createClass({
     },
 
     attachScrollListener: function () {
+        var el = ReactDOM.findDOMNode(this);
         if (!this.props.hasMore) {
             return;
         }
 
-        window.addEventListener('scroll', this.scrollListener);
-        window.addEventListener('resize', this.scrollListener);
+        el.addEventListener('scroll', this.scrollListener);
+        el.addEventListener('resize', this.scrollListener);
         this.scrollListener();
     },
 
     detachScrollListener: function () {
-        window.removeEventListener('scroll', this.scrollListener);
-        window.removeEventListener('resize', this.scrollListener);
+        var el = ReactDOM.findDOMNode(this);
+        el.removeEventListener('scroll', this.scrollListener);
+        el.removeEventListener('resize', this.scrollListener);
     },
 
     scrollListener: function () {
         var el = ReactDOM.findDOMNode(this);
-        var scrollTop = (window.pageYOffset) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        var scrollTop = el.scrollTop;
 
-        if (topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight < Number(this.props.threshold)) {
+        if (topPosition(el) + el.scrollHeight - scrollTop - window.innerHeight < Number(this.props.threshold)) {
             this.detachScrollListener();
             this.props.loadMore(this.offsetLoaded += 10);
-
         }
     },
 
     render: function () {
         return (
-            <tbody>
+            <tbody className="infinite-scroll">
                 {this.props.children}
+                <tr className="session_loader">
                 {this.props.hasMore && (this.props.loader)}
+                </tr>
             </tbody>
         );
     }

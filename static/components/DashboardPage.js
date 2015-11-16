@@ -11,7 +11,7 @@ var DashboardPage = React.createClass({
     render: function () {
         return (
             <div className="main" >
-                <div className="info">
+                <div className="userinfo">
 
                     <div className="user_info" id="user_info">
                         <UserInfo />

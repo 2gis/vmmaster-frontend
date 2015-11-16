@@ -45,15 +45,19 @@ def generate_token(user):
     return _make_api_request(method=method, uri=uri, headers=headers)
 
 
-def get_version(user):
-    if user.is_superuser:
-        versioneer.VCS = 'git'
-        versioneer.versionfile_source = 'vmmaster_frontend/_version.py'
-        versioneer.versionfile_build = 'vmmaster_frontend/_version.py'
-        versioneer.tag_prefix = ''  # tags are like 0.1.0
-        versioneer.parentdir_prefix = 'vmmaster_frontend-'  # dirname like 'myproject-0.1.0'
+def get_version():
+    versioneer.VCS = 'git'
+    versioneer.versionfile_source = 'vmmaster_frontend/_version.py'
+    versioneer.versionfile_build = 'vmmaster_frontend/_version.py'
+    versioneer.tag_prefix = ''  # tags are like 0.1.0
+    versioneer.parentdir_prefix = 'vmmaster_frontend-'  # dirname like 'myproject-0.1.0'
 
-        return versioneer.get_version()
+    return versioneer.get_version()
+
+
+def get_backend_version():
+    version = _make_api_request(method="GET", uri="version")
+    return version.get('version', None)
 
 
 class SessionPagination(LimitOffsetPagination):

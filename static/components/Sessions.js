@@ -39,7 +39,6 @@ var Sessions = React.createClass({
 
     render: function () {
         return (
-            <div id="sessions">
                 <table className="table sessions">
                     <thead className="caption">
                     <tr>
@@ -54,13 +53,12 @@ var Sessions = React.createClass({
                         <InfiniteScroll
                             offsetStart={0}
                             loadMore={this.handleInfiniteLoad}
-                            loader={<tr><td className="session_column session_loader" colSpan="4"><span className="loader"></span></td></tr>}
+                            loader={<td className="session_column" colSpan="4"><span className="loader"></span></td>}
                             hasMore={this.state.hasMore}
                             threshold={250}>
                             {this.state.sessions}
                         </InfiniteScroll>}
                 </table>
-            </div>
         );
     },
 
