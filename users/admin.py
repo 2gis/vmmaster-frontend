@@ -32,7 +32,11 @@ class VmmasterUserAdmin(UserAdmin):
     form = VmmasterUserChangeForm
 
     # 'List of users' form fields
-    list_display = ('username', 'token', 'group', 'allowed_machines', 'is_active', 'date_joined', 'last_login')
+    list_display = (
+        'username', 'token',
+        'group', 'allowed_machines', 'max_stored_sessions',
+        'is_active', 'date_joined', 'last_login'
+    )
     search_fields = ('username',)
     readonly_fields = ['date_joined', 'last_login']
     ordering = ('id',)
@@ -41,7 +45,8 @@ class VmmasterUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password',)}),
         (None, {'fields': ('is_active',)}),
-        (_('Vmmaster'), {'fields': ('group', 'allowed_machines', 'token')}),
+        (_('Vmmaster'), {'fields': (
+            'group', 'allowed_machines', 'token', 'max_stored_sessions',)}),
         (None, {'fields': ('date_joined', 'last_login',)}),
     )
 
@@ -50,7 +55,8 @@ class VmmasterUserAdmin(UserAdmin):
         (None, {'classes': ('wide',),
                 'fields': ('username', 'password1', 'password2',)}),
         (None, {'fields': ('is_active',)}),
-        (_('Vmmaster'), {'fields': ('group', 'allowed_machines',)}),
+        (_('Vmmaster'), {'fields': (
+            'group', 'allowed_machines', 'max_stored_sessions',)}),
     )
 
     # FIXME: ref links to 'groups', 'user_permissions', 'is_staff', 'is_superuser'

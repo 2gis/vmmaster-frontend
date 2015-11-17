@@ -51,6 +51,11 @@ class VmmasterUser(AbstractBaseUser):
         verbose_name="Virtual machines limit",
         default=1
     )
+    max_stored_sessions = models.IntegerField(
+        db_column='max_stored_sessions',
+        verbose_name="Max sessions to keep",
+        default=100
+    )
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ()
