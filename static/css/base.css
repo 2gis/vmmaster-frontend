@@ -51,6 +51,8 @@
     margin: 0 auto;
     top: 50px;
     width: 100%;
+    overflow: scroll;
+    height: 100%;
 }
 
 table.sessions {
