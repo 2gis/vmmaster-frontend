@@ -41,12 +41,21 @@ var Session = React.createClass({
         return error
     },
 
+    formatDateTime: function (date_string) {
+        if (date_string) {
+            var date = new Date(date_string).toGMTString().split(',')[1];
+            return date.split('GMT')[0]
+        } else {
+            return '';
+        }
+    },
+
     render: function () {
         var label = 'label label-' + this.statusIcon(this.props.session.status),
             session_id = '/session/' + this.props.session.id,
             icon = 'glyphicon ' + this.viewIcon(this.props.session),
             error = this.formatError(this.props.session),
-            created_date = new Date(this.props.session.created).toLocaleString(),
+            created_date = this.formatDateTime(this.props.session.created),
             link = "/session/" + this.props.session.id + "#screencast";
         return (
             <tr className="session_row" href={session_id} >
