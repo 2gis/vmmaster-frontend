@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load session_filters %}
 {% load session_tags %}
+{% load staticfiles %}
 
 {% block content %}
 <div class="row">
@@ -17,4 +18,5 @@
     </div>
     {% show_modal_window request %}
 </div>
+<script src="{% static 'js/session.js' %}"></script>
 {% endblock %}
