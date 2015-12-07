@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Session
+from dashboard.models import Session, SessionLogStep, SubStep
 
 
 class SessionSerializer(serializers.ModelSerializer):
@@ -18,6 +18,31 @@ class SessionSerializer(serializers.ModelSerializer):
             'endpoint_ip',
             'endpoint_name',
             'created',
+            'deleted',
             'modified',
-            'take_screencast'
+            'take_screencast',
+            'duration'
+        )
+
+
+class SessionStepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SessionLogStep
+        fields = (
+            'id',
+            'control_line',
+            'body',
+            'screenshot',
+            'created'
+        )
+
+
+class SessionSubStepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubStep
+        fields = (
+            'id',
+            'control_line',
+            'body',
+            'created'
         )

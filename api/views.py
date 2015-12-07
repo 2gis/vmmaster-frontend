@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
 
 import requests
 import json
@@ -7,10 +8,10 @@ import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
 
-from dashboard.models import Session
+from dashboard.models import Session, SessionLogStep, SubStep
 from rest_framework import generics
 from rest_framework.response import Response
-from serializers import SessionSerializer
+from serializers import SessionSerializer, SessionStepSerializer, SessionSubStepSerializer
 from rest_framework import viewsets
 
 
@@ -60,22 +61,18 @@ def get_backend_version():
     return version.get('version', None)
 
 
-class SessionPagination(LimitOffsetPagination):
+class APIPagination(LimitOffsetPagination):
     page_size = 10
-    page_size_query_param = 'page_size'
     max_page_size = 10
+    default_limit = 10
 
 
-class SessionList(viewsets.ModelViewSet):
+class SessionList(viewsets.ReadOnlyModelViewSet):
     queryset = Session.objects.order_by('-created')
     serializer_class = SessionSerializer
-    pagination_class = SessionPagination
+    pagination_class = APIPagination
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
         search_phrase = self.request.REQUEST.get('search', '')
 
         if self.request.user.is_superuser:
@@ -92,8 +89,62 @@ class SessionList(viewsets.ModelViewSet):
 
 
 class SessionDetail(generics.RetrieveAPIView):
-    queryset = Session.objects.all()
+    queryset = Session.objects
     serializer_class = SessionSerializer
+
+
+class SessionSteps(viewsets.ReadOnlyModelViewSet):
+    queryset = SessionLogStep.objects
+    serializer_class = SessionStepSerializer
+    pagination_class = APIPagination
+
+    @property
+    def session_id(self):
+        return self.request.path_info.split('session/')[1].split('/')[0]
+
+    def get_queryset(self):
+        return self.queryset\
+            .filter(session_id=self.session_id)\
+
+
+    def list(self, request, *args, **kwargs):
+        try:
+            session = Session.objects.get(id=self.session_id)
+            return super(SessionSteps, self).list(request, *args, **kwargs)
+        except ObjectDoesNotExist:
+            return Response(status=404, data="Sessions not found")
+
+
+class SessionStepDetail(generics.RetrieveAPIView):
+    queryset = SessionLogStep.objects
+    serializer_class = SessionStepSerializer
+
+
+class SessionSubSteps(viewsets.ReadOnlyModelViewSet):
+    queryset = SubStep.objects
+    serializer_class = SessionSubStepSerializer
+    pagination_class = APIPagination
+
+    @property
+    def step_id(self):
+        return self.request.path_info.split('step/')[1].split('/')[0]
+
+    def get_queryset(self):
+        return self.queryset\
+            .filter(session_log_step_id=self.step_id)\
+            .order_by('-created')
+
+    def list(self, request, *args, **kwargs):
+        try:
+            step = SessionLogStep.objects.get(id=self.step_id)
+            return super(SessionSubSteps, self).list(request, *args, **kwargs)
+        except ObjectDoesNotExist:
+            return Response(status=404, data="Session steps not found")
+
+
+class SessionSubStepDetail(generics.RetrieveAPIView):
+    queryset = SubStep.objects
+    serializer_class = SessionSubStepSerializer
 
 
 class Platforms(generics.RetrieveAPIView):
