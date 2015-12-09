@@ -163,8 +163,4 @@ class GetToken(generics.RetrieveAPIView):
 
 class GenerateToken(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
-        result = generate_token(request.user)
-        if result:
-            return Response(result.get('token', None))
-        else:
-            return Response({})
+        return Response(request.user.regenerate_token())

@@ -3,8 +3,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
-
-from api.views import generate_token
+from uuid import uuid4
 
 
 class VmmasterUserManager(BaseUserManager):
@@ -15,6 +14,7 @@ class VmmasterUserManager(BaseUserManager):
             date_joined=timezone.now(),
             last_login=timezone.now(),
         )
+        u.generate_token()
         u.set_password(password)
         u.save(using=self._db)
         return u
@@ -102,8 +102,20 @@ class VmmasterUser(AbstractBaseUser):
     def __str__(self):
         return self.username
 
+    def __init__(self, *args, **kwargs):
+        super(VmmasterUser, self).__init__(*args, **kwargs)
+        if not self.token:
+            self.generate_token()
+
+    def generate_token(self):
+        self.token = str(uuid4())
+        return self.token
+
+    def regenerate_token(self):
+        self.generate_token()
+        self.save()
+        return self.token
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         super(VmmasterUser, self).save()
-        if not self.token:
-            generate_token(self)
