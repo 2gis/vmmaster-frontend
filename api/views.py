@@ -8,10 +8,11 @@ import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
 
-from dashboard.models import Session, SessionLogStep, SubStep
+from dashboard.models import Session, SessionLogStep, SubStep, Platform
 from rest_framework import generics
 from rest_framework.response import Response
-from serializers import SessionSerializer, SessionStepSerializer, SessionSubStepSerializer
+from serializers import SessionSerializer, SessionStepSerializer, \
+    SessionSubStepSerializer
 from rest_framework import viewsets
 
 
@@ -149,7 +150,12 @@ class SessionSubStepDetail(generics.RetrieveAPIView):
 
 class Platforms(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
-        return Response(_make_api_request("get", "platforms"))
+        if Platform.objects.count():
+            return Response({'platforms': sorted(
+                [i.name for i in Platform.objects.distinct('name').all()]
+            )})
+        else:
+            return Response({})
 
 
 class GetToken(generics.RetrieveAPIView):

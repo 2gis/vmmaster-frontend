@@ -101,3 +101,13 @@ class SubStep(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class Platform(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, blank=False)
+    node = models.CharField(max_length=100, blank=False)
+
+    class Meta:
+        managed = False
+        db_table = 'platforms'
