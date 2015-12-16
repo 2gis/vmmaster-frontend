@@ -78,6 +78,9 @@ class SessionLogStep(models.Model):
     body = models.CharField(max_length=100, blank=True)
     screenshot = models.CharField(max_length=100, blank=True)
     created = models.DateTimeField(blank=True, null=True)
+    response_status = None
+    duration = None
+    substeps = None
 
     class Meta:
         managed = False

@@ -22,9 +22,7 @@
     {% endif %}
 </div>
 <div class="session_content tab-content">
-    <div id="steps" class="tab-pane fade in active">
-        {% show_session_log_steps session session_log_steps %}
-    </div>
+    <div id="steps" class="tab-pane fade in active"></div>
     <div id="screencast" class="text-center tab-pane fade">
         {% if session.closed %}
             {% is_screencast_exist host session as screencast_file %}
@@ -40,5 +38,7 @@
         {% endif %}
     </div>
 </div>
+{% show_modal_window log_steps %}
+<script src="{% static 'assets/session.js' %}"></script>
 <script src="{% static 'js/session.js' %}"></script>
 {% endblock %}

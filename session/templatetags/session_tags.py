@@ -132,14 +132,6 @@ def show_session_header(session):
     }
 
 
-@register.inclusion_tag('session/session_log_steps.html')
-def show_session_log_steps(session, log_steps):
-    return {
-        'session': session,
-        'log_steps': log_steps
-    }
-
-
 @register.inclusion_tag('session/screencast.html')
 def show_screencast(session):
     return {'session': session}

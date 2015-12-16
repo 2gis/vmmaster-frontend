@@ -2,19 +2,8 @@ var $ = require('jquery');
 var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher').AppDispatcher;
 var SessionsConstants = require('../constants/SessionsConstants');
+var getUrlParameter = require('../utils/Utils').getUrlParameter;
 
-
-function getUrlParameter(sParam) {
-    var sPageURL = $(location).attr('hash');
-    sPageURL = sPageURL.substr(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)  {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)  {
-            return sParameterName[1];
-        }
-    }
-}
 
 var _offset_init = 1*getUrlParameter('offset');
 if(!_offset_init) _offset_init = 0 ;

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 import requests
@@ -103,10 +104,45 @@ class SessionSteps(viewsets.ReadOnlyModelViewSet):
     def session_id(self):
         return self.request.path_info.split('session/')[1].split('/')[0]
 
-    def get_queryset(self):
-        return self.queryset\
-            .filter(session_id=self.session_id)\
+    @staticmethod
+    def _requests(steps):
+        it = iter(steps)
+        requests = []
+        for req in it:
+            try:
+                response_status = next(it).control_line.split(" ")[0]
+            except StopIteration:
+                response_status = None
+            setattr(req, 'response_status', response_status)
+            requests.append(req)
+        return requests
 
+    @staticmethod
+    def set_total_time(log_steps):
+        new_log_steps = []
+        for item, _next in map(lambda i, j: (i, j), log_steps, log_steps[1:]):
+            try:
+                if _next:
+                    duration = _next.created - item.created
+                elif item.closed:
+                    duration = item.modified - item.created
+                else:
+                    duration = datetime.now() - item.created
+                item.duration = round(duration.total_seconds(), 2)
+            except Exception:
+                item.duration = None
+
+            if SubStep.objects.filter(session_log_step=item).count() > 0:
+                item.substeps = True
+
+            new_log_steps.append(item)
+        return new_log_steps
+
+    def get_queryset(self):
+        steps = self.queryset\
+            .filter(session_id=self.session_id)\
+            .order_by('created')
+        return self._requests(self.set_total_time(steps))
 
     def list(self, request, *args, **kwargs):
         try:
@@ -133,7 +169,7 @@ class SessionSubSteps(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return self.queryset\
             .filter(session_log_step_id=self.step_id)\
-            .order_by('-created')
+            .order_by('created')
 
     def list(self, request, *args, **kwargs):
         try:

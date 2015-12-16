@@ -1,6 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var $ = require('jquery');
 
 
 function topPosition(domElt) {
@@ -52,6 +51,39 @@ var InfiniteScroll = React.createClass({
     },
 
     render: function () {
+        var divMode = false;
+
+        if (this.props.hasOwnProperty("divMode")) {
+            divMode = this.props.divMode;
+        }
+
+        if (divMode == true) {
+            return <DivScroll props={this.props}/>;
+        } else {
+            return <TableScroll props={this.props}/>;
+        }
+    }
+});
+
+
+var DivScroll = React.createClass({
+    render: function () {
+        this.props = this.props.props;
+        return (
+            <div className="infinite-scroll">
+                {this.props.children}
+                <div className="session_loader">
+                {this.props.hasMore && (this.props.loader)}
+                </div>
+            </div>
+        );
+    }
+});
+
+
+var TableScroll = React.createClass({
+    render: function () {
+        this.props = this.props.props;
         return (
             <tbody className="infinite-scroll">
                 {this.props.children}

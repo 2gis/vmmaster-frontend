@@ -31,18 +31,26 @@ $(document).ready(function() {
 
     $(function() {
         var screencast = $("#screencast").children()[1],
-            tabs_height = $('.session_tabs').height(),
-            info_title_height = $('.info_title').height(),
+            info_height = $('.session_info_panel').height(),
             window_height = $(window).height() - 100,
-            new_height = window_height - tabs_height - info_title_height;
+            new_height = window_height - info_height;
 
-        if (new_height > 600) {
-            screencast.height = '600';
-        } else if (new_height < 400) {
-            screencast.height = '400';
-        } else {
-            screencast.height = new_height;
+        if (screencast) {
+            if (new_height > 600) {
+                screencast.height = '600';
+            } else if (new_height < 400) {
+                screencast.height = '400';
+            } else {
+                screencast.height = new_height;
+            }
         }
+    });
+
+    $(function() {
+        var steps = $(".session_content .tab-pane"),
+            info_height = $('.session_info_panel').height();
+
+        steps.css("padding-top", info_height + 5);
     });
 
     $(function() {
@@ -50,29 +58,6 @@ $(document).ready(function() {
         tabs.each(function(i, item) {
             item.onclick = change_hash
         });
-    });
-
-    function open_step(id) {
-        var step = $('#' + id);
-        $('.expand .expandglyph.glyphicon', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-        var opened = step.hasClass('opened');
-        if (opened) {
-            $('.info', step).html("");
-            step.removeClass('opened');
-            window.location.hash = '_';
-        } else {
-            var url = document.location.origin + document.location.pathname + 'step/' + id + '/';
-            $.get(url, function (data) {
-                $('.info', step).html(data);
-            });
-            step.addClass('opened');
-        }
-    }
-
-    $('div.expand').click(function() {
-        var log_step_id = $(this).parent().attr('id');
-        open_step(log_step_id);
-        return false; // prevent default
     });
 
     $(this).keydown(function(eventObject){
@@ -156,9 +141,15 @@ function open_group(id) {
     }
 
 function photor_show(start_screenshot){
-    var screenshots_paths = JSON.parse(screenshots_ids),
+    var screenshots_paths = [],
         screenshots = [],
         host = "//" + window.location.hostname;
+
+    try {
+        screenshots_paths = JSON.parse(screenshots_ids);
+    } catch (err) {
+        screenshots_paths = window.screenshots_ids;
+    }
 
     screenshots_paths[1].forEach(function(item, i) {
         if (item == start_screenshot) {

@@ -49,7 +49,7 @@ def session_main(request, session_id):
         order_by("created")
     context = {
         'session': session,
-        'session_log_steps': _requests(set_total_time(session_log_steps)),
+        'session_log_steps': session_log_steps,
         'host': request.META['HTTP_HOST']
     }
     return render(request, 'session/session.html', context)
