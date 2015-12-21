@@ -5,7 +5,7 @@ var getSessionId = require('../utils/Utils').getSessionId;
 var StepsActions = require('../actions/StepsActions').StepsActions;
 var StepsStore = require('../stores/StepsStore').StepsStore;
 var InfiniteScroll = require('./InfiniteScroll').InfiniteScroll;
-var reloadDashboard = require('../stores/StepsStore').reloadDashboard;
+var reloadSteps = require('../stores/StepsStore').reloadSteps;
 var WebSockets = require('ws');
 
 
@@ -25,7 +25,7 @@ var NoSteps = React.createClass({
 
 var Steps = React.createClass({
     getDefaultProps: function () {
-        reloadDashboard();
+        reloadSteps();
     },
 
     getInitialState: function() {
@@ -40,7 +40,7 @@ var Steps = React.createClass({
 
     handleInfiniteLoad: function(offset) {
         setTimeout(function () {
-            StepsActions.change_page(this.state.offset+30)
+            StepsActions.change_page(this.state.offset+100)
         }.bind(this), 400);
     },
 

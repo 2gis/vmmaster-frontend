@@ -1,0 +1,5 @@
+
+module.exports = {
+    SUBSTEPS_SEARCH: 'SUBSTEPS_SEARCH',
+    FIRST_SUBSTEP: 'FIRST_SUBSTEP'
+};

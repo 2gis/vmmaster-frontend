@@ -50,6 +50,9 @@ class Session(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def username(self):
+        return self.user.username
+
     @property
     def take_screencast(self):
         dc = json.loads(self.dc)
@@ -78,7 +81,7 @@ class SessionLogStep(models.Model):
     body = models.CharField(max_length=100, blank=True)
     screenshot = models.CharField(max_length=100, blank=True)
     created = models.DateTimeField(blank=True, null=True)
-    response_status = None
+    response = None
     duration = None
     substeps = None
 
@@ -97,6 +100,8 @@ class SubStep(models.Model):
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=100, blank=True)
     created = models.DateTimeField(blank=True, null=True)
+    response = None
+    duration = None
 
     class Meta:
         managed = False

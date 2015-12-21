@@ -15,16 +15,21 @@ var StepsActions = {
             offset: offset
         });
     },
-    found_new_sessions: function(sessions) {
+    found_new_sessions: function(steps) {
         AppDispatcher.dispatch({
             actionType: StepsConstants.NEW_STEPS,
             steps: steps
         });
     },
-    update_sessions: function (sessions) {
+    update_sessions: function (steps) {
         AppDispatcher.dispatch({
             actionType: StepsConstants.UPDATE_STEPS,
             steps: steps
+        });
+    },
+    get_first_step: function () {
+        AppDispatcher.dispatch({
+            actionType: StepsConstants.FIRST_STEP
         });
     }
 };

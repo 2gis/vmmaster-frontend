@@ -47,13 +47,6 @@ $(document).ready(function() {
     });
 
     $(function() {
-        var steps = $(".session_content .tab-pane"),
-            info_height = $('.session_info_panel').height();
-
-        steps.css("padding-top", info_height + 5);
-    });
-
-    $(function() {
         var tabs = $(".nav-tabs").children().children();
         tabs.each(function(i, item) {
             item.onclick = change_hash

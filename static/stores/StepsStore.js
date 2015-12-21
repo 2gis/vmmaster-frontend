@@ -8,18 +8,16 @@ var getSessionId = require('../utils/Utils').getSessionId;
 
 var _offset_init = 1*getUrlParameter('offset');
 if(!_offset_init) _offset_init = 0 ;
-var _query_init = getUrlParameter('query');
-if(!_query_init) _query_init = '';
 var _session_id = getSessionId();
 
 
 var _state = {
     hasMore: true,
     steps: [],
+    first_step: '',
     offset: _offset_init,
-    limit: 30,
-    total: 0,
-    query: _query_init
+    limit: 100,
+    total: 0
 };
 
 var _props = {
@@ -31,9 +29,8 @@ var _resetState = function () {
         hasMore: true,
         steps: [],
         offset: _offset_init,
-        limit: 30,
-        total: 0,
-        query: _query_init
+        limit: 100,
+        total: 0
     };
 };
 
@@ -61,13 +58,8 @@ var _search = function() {
         });
 };
 
-var _reloadDashboard = function() {
+var _reloadSteps = function() {
     _search('');
-};
-
-var _update_href = function() {
-    var hash = '&query='+_state.query;
-    $(location).attr('hash', hash);
 };
 
 var _update_exist_steps = function (steps) {
@@ -105,6 +97,22 @@ var _update_new_steps = function(steps) {
     StepsStore.emitChange();
 };
 
+_first_step = function () {
+    $.ajax({
+        url: _props.url+"?offset="+_state.offset+"&limit=1",
+        dataType: 'json',
+        cache: false
+    })
+        .done(function(data) {
+            _state.first_step = data.results[0];
+            StepsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            StepsStore.emitChange();
+        });
+};
+
 var StepsStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
@@ -124,7 +132,6 @@ StepsStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.actionType) {
         case StepsConstants.STEPS_SEARCH:
             _resetState();
-            _state.query = action.query;
             _state.offset = 0;
             _update_href();
             _search();
@@ -139,11 +146,14 @@ StepsStore.dispatchToken = AppDispatcher.register(function(action) {
         case StepsConstants.UPDATE_STEPS:
             _update_exist_steps(action.steps);
             break;
+        case StepsConstants.FIRST_STEP:
+            _first_step();
+            break;
     }
     return true;
 });
 
 
 module.exports.StepsStore = StepsStore;
-module.exports.reloadDashboard = _reloadDashboard;
+module.exports.reloadSteps = _reloadSteps;
 module.exports.getSessionId = getSessionId;

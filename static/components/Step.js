@@ -2,13 +2,13 @@ var React = require('react');
 var getSessionId = require('../utils/Utils').getSessionId;
 
 
-var getStepStatus = function (code) {
+var getStepStatus = function (response) {
     var status = 'unknown';
 
-    if (code) {
-        if (code.startsWith("5")) {
+    if (response && response.status) {
+        if (response.status.startsWith("5")) {
             status = "error";
-        } else if (code.startsWith("2")) {
+        } else if (response.status.startsWith("2")) {
             status = "success";
         }
     }
@@ -56,7 +56,7 @@ var Step = React.createClass({
         var step = this.props.step,
             session_id = getSessionId(),
             step_ref = "session_step/" + step.id,
-            step_class = "log_step " + getStepStatus(step.response_status),
+            step_class = "log_step " + getStepStatus(step.response),
             icon_class = "glyphicon " + this.icon(step),
             screenshot_href = "javascript:photor_show(" + step.id + ")",
             screenshot_src = "/screenshot/" + session_id + "/" + step.id + "_thumb.png";
