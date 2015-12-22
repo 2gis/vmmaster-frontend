@@ -8,8 +8,6 @@ from django.core.urlresolvers import reverse
 from forms import VmmasterUserCreationForm
 from forms import VmmasterUserAuthenticationForm
 
-from api.views import generate_token
-
 
 def register_view(request):
     if request.method == 'POST':
@@ -64,9 +62,3 @@ def logout_view(request):
     response = HttpResponseRedirect(reverse("dashboard"))
     response.delete_cookie('sessionid')
     return response
-
-
-def get_new_token(request):
-    if not request.user.is_anonymous():
-        generate_token(request.user)
-    return HttpResponseRedirect(reverse("dashboard"))
