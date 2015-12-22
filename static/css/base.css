@@ -4,7 +4,7 @@
     height: 100%;
 }
 
-.sessions .session_loader {
+.session_loader {
     height: 200px;
     background-color: #fff;
 }
@@ -13,12 +13,12 @@
     border-bottom: none;
 }
 
-.sessions .session_column .loader {
+.loader {
     position: relative;
     left: 47%;
 }
 
-.sessions .session_column .loader:before {
+.loader:before {
     position: absolute;
     top: 50px;
     right: 50%;
@@ -167,6 +167,7 @@ table.sessions tbody {
 
 .session_info .session_column.session_status {
     padding-left: 15px;
+    margin-bottom: 10px;
 }
 
 .session_info .session_column.session_status .status {
@@ -194,8 +195,8 @@ table.sessions tbody {
 }
 
 .session_status .label {
-    display: list-item;
     font-size: 90% !important;
+    display: list-item;
 }
 
 .label {
@@ -260,37 +261,51 @@ table.sessions tbody {
 }
 
 .session_info_panel {
+    position: fixed;
     text-align: left;
 	vertical-align: middle;
-	display: table;
 	width: 100%;
+    z-index: 1;
 }
 
 .grey-block {
     color: #a9a9a9;
 }
 
-.log_steps {
-	display: table;
-	width: 100%;
+.session_content {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px;
 }
 
-.log_steps a {
+#steps {
+    position: fixed;
+	width: 100%;
+    height: 100%;
+}
+
+#steps .infinite-scroll {
+    overflow: scroll;
+    height: 100%;
+}
+
+#steps a {
 	text-decoration: none;
 	color: black;
 }
 
-.log_steps .log_step {
+#steps .log_step {
 	display: block;
 	width: auto;
 	border-bottom: 1px solid black;
 }
 
-.log_steps .log_step .expand:hover {
+#steps .log_step .expand:hover {
 	color: white;
 }
 
-.log_steps .log_step_column {
+#steps .log_step_column {
 	display: inline-block;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -347,15 +362,15 @@ table.sessions tbody {
 }
 
 
-.log_steps .log_step_column.log_request {
+#steps .log_step_column.log_request {
 	width: 30%;
 }
 
-.log_steps .log_step_column.log_body {
+#steps .log_step_column.log_body {
 	width: 30%;
 }
 
-.log_steps .log_step_column.log_time {
+#steps .log_step_column.log_time {
 	width: 10%;
 }
 
@@ -363,11 +378,11 @@ table.sessions tbody {
     padding: 30px 0 0 0;
 }
 
-.log_steps .log_step.error {
+#steps .log_step.error {
 	background-color: #ba4549;
 }
 
-.log_steps .log_step.unknown {
+#steps .log_step.unknown {
 	background-color: #d3d3d3;
 }
 
@@ -581,9 +596,6 @@ table.sessions tbody {
 }
 
 #screencast {
-    margin-top: 40px;
-}
-
-.session_content {
-    padding-bottom: 40px;
+    overflow: scroll;
+    height: 100%;
 }
