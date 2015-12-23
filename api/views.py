@@ -63,6 +63,47 @@ def get_backend_version():
     return version.get('version', None)
 
 
+def _requests(steps):
+    it = iter(steps)
+    requests = []
+    for req in it:
+        try:
+            next_item = next(it)
+            response = {
+                'status': next_item.control_line.split(" ")[0],
+                'body': next_item.body,
+                'created': next_item.created
+            }
+            req = set_total_time(req, next_item)
+        except StopIteration:
+            response = None
+
+        setattr(req, 'response', response)
+        req = set_substeps(req)
+        requests.append(req)
+    return requests
+
+
+def set_total_time(step, _next):
+    try:
+        if _next:
+            duration = _next.created - step.created
+        elif step.closed:
+            duration = step.modified - step.created
+        else:
+            duration = datetime.now() - step.created
+        step.duration = round(duration.total_seconds(), 2)
+    except Exception:
+        step.duration = None
+    return step
+
+
+def set_substeps(step):
+    if SubStep.objects.filter(session_log_step=step).count() > 0:
+        step.substeps = True
+    return step
+
+
 class APIPagination(LimitOffsetPagination):
     page_size = 10
     max_page_size = 10
@@ -104,45 +145,11 @@ class SessionSteps(viewsets.ReadOnlyModelViewSet):
     def session_id(self):
         return self.request.path_info.split('session/')[1].split('/')[0]
 
-    @staticmethod
-    def _requests(steps):
-        it = iter(steps)
-        requests = []
-        for req in it:
-            try:
-                response_status = next(it).control_line.split(" ")[0]
-            except StopIteration:
-                response_status = None
-            setattr(req, 'response_status', response_status)
-            requests.append(req)
-        return requests
-
-    @staticmethod
-    def set_total_time(log_steps):
-        new_log_steps = []
-        for item, _next in map(lambda i, j: (i, j), log_steps, log_steps[1:]):
-            try:
-                if _next:
-                    duration = _next.created - item.created
-                elif item.closed:
-                    duration = item.modified - item.created
-                else:
-                    duration = datetime.now() - item.created
-                item.duration = round(duration.total_seconds(), 2)
-            except Exception:
-                item.duration = None
-
-            if SubStep.objects.filter(session_log_step=item).count() > 0:
-                item.substeps = True
-
-            new_log_steps.append(item)
-        return new_log_steps
-
     def get_queryset(self):
         steps = self.queryset\
             .filter(session_id=self.session_id)\
             .order_by('created')
-        return self._requests(self.set_total_time(steps))
+        return _requests(steps)
 
     def list(self, request, *args, **kwargs):
         try:
@@ -167,9 +174,10 @@ class SessionSubSteps(viewsets.ReadOnlyModelViewSet):
         return self.request.path_info.split('step/')[1].split('/')[0]
 
     def get_queryset(self):
-        return self.queryset\
+        steps = self.queryset\
             .filter(session_log_step_id=self.step_id)\
             .order_by('created')
+        return _requests(steps)
 
     def list(self, request, *args, **kwargs):
         try:

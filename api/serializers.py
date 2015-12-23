@@ -21,7 +21,8 @@ class SessionSerializer(serializers.ModelSerializer):
             'deleted',
             'modified',
             'take_screencast',
-            'duration'
+            'duration',
+            'username',
         )
 
 
@@ -34,9 +35,9 @@ class SessionStepSerializer(serializers.ModelSerializer):
             'body',
             'screenshot',
             'created',
-            'response_status',
+            'response',
             'duration',
-            'substeps'
+            'substeps',
         )
 
 
@@ -47,5 +48,7 @@ class SessionSubStepSerializer(serializers.ModelSerializer):
             'id',
             'control_line',
             'body',
-            'created'
+            'created',
+            'response',
+            'duration',
         )

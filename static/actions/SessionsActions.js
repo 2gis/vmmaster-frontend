@@ -26,6 +26,11 @@ var SessionsActions = {
             actionType: SessionsConstants.UPDATE_SESSIONS,
             sessions: sessions
         });
+    },
+    session_info: function () {
+        AppDispatcher.dispatch({
+            actionType: SessionsConstants.SESSION_INFO
+        });
     }
 };
 

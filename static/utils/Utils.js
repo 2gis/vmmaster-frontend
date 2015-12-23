@@ -18,5 +18,24 @@ function getSessionId() {
 }
 
 
+function formatDateTime(date_string) {
+    if (date_string) {
+        var date = new Date(date_string).toGMTString().split(',')[1];
+        return date.split('GMT')[0]
+    } else {
+        return '';
+    }
+}
+
+
+function calculatePadding() {
+    var steps = $(".session_content .tab-pane"),
+        info_height = $('#session_info_panel').height();
+    steps.css("padding-top", info_height);
+}
+
+
 module.exports.getUrlParameter = getUrlParameter;
 module.exports.getSessionId = getSessionId;
+module.exports.formatDateTime = formatDateTime;
+module.exports.calculatePadding = calculatePadding;

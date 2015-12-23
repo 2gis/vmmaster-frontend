@@ -3,6 +3,7 @@ var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher').AppDispatcher;
 var SessionsConstants = require('../constants/SessionsConstants');
 var getUrlParameter = require('../utils/Utils').getUrlParameter;
+var getSessionId = require('../utils/Utils').getSessionId;
 
 
 var _offset_init = 1*getUrlParameter('offset');
@@ -13,14 +14,16 @@ if(!_query_init) _query_init = '';
 var _state = {
     hasMore: true,
     sessions: [],
+    session: [],
     offset: _offset_init,
     limit: 10,
     total: 0,
     query: _query_init
 };
 
-var _props = {
-    url: '/api/v1/sessions'
+var _urls = {
+    sessions_list: '/api/v1/sessions',
+    session_detail: '/api/v1/session'
 };
 
 var _resetState = function () {
@@ -36,7 +39,7 @@ var _resetState = function () {
 
 var _search = function() {
     $.ajax({
-        url: _props.url+'?search='+_state.query+"&offset="+_state.offset+"&limit="+_state.limit,
+        url: _urls.sessions_list+'?search='+_state.query+"&offset="+_state.offset+"&limit="+_state.limit,
         dataType: 'json',
         cache: false
     })
@@ -106,6 +109,22 @@ var _update_new_sessions = function(sessions) {
     SessionsStore.emitChange();
 };
 
+var _get_session_info = function () {
+    $.ajax({
+        url: _urls.session_detail + '/' + getSessionId() + '/',
+        dataType: 'json',
+        cache: false
+    })
+        .done(function(data) {
+            _state.session = data;
+            SessionsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            SessionsStore.emitChange();
+        });
+};
+
 var SessionsStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
@@ -139,6 +158,9 @@ SessionsStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case SessionsConstants.UPDATE_SESSIONS:
             _update_exist_sessions(action.sessions);
+            break;
+        case SessionsConstants.SESSION_INFO:
+            _get_session_info();
             break;
     }
     return true;
