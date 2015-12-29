@@ -4,11 +4,6 @@
 {% load session_tags %}
 
 {% block content %}
-<div class="session_info_panel" id="session_info_panel"></div>
-<div class="session_content tab-content">
-    <div id="steps" class="tab-pane fade in active"></div>
-    <div id="screencast" class="text-center tab-pane fade"></div>
-</div>
 {% show_modal_window log_steps %}
 <script src="{% static 'assets/session.js' %}"></script>
 <script src="{% static 'js/session.js' %}"></script>

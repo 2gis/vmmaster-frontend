@@ -30,7 +30,7 @@ function formatDateTime(date_string) {
 
 function calculatePadding() {
     var steps = $(".session_content .tab-pane"),
-        info_height = $('#session_info_panel').height();
+        info_height = $('.session_info_panel').height();
     steps.css("padding-top", info_height);
 }
 
