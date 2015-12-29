@@ -2,16 +2,16 @@
 /*global window, $, Util, RFB, */
 "use strict";
 
-var INCLUDE_URI = '/static/js/vnc/';
-
-// Load supporting scripts
-Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
-                   "keysymdef.js", "keyboard.js", "input.js", "display.js",
-                   "inflator.js", "rfb.js", "keysym.js"]);
-
 var rfb;
 var resizeTimeout;
 var host, port, password, path, token, screencast_size;
+
+var head = document.getElementsByTagName('head')[0],
+    script = document.createElement('script');
+
+script.type = 'text/javascript';
+script.src = "/static/js/vnc/util.js";
+head.appendChild(script);
 
 
 function UIresize() {
@@ -94,7 +94,7 @@ window.onscriptsload  = function (){
     WebUtil.init_logging(WebUtil.getQueryVar('logging', 'warn'));
 };
 
-function connect(host) {
+function connect(host, port) {
     // if port == 80 (or 443) then it won't be present and should be
     // set manually
     if (!port) {

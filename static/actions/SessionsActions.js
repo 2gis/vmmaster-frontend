@@ -31,6 +31,16 @@ var SessionsActions = {
         AppDispatcher.dispatch({
             actionType: SessionsConstants.SESSION_INFO
         });
+    },
+    video_exist_check: function () {
+        AppDispatcher.dispatch({
+            actionType: SessionsConstants.VIDEO_EXIST_CHECK
+        });
+    },
+    get_vnc_port: function () {
+        AppDispatcher.dispatch({
+            actionType: SessionsConstants.GET_VNC_PORT
+        });
     }
 };
 

@@ -6,6 +6,7 @@ from dashboard.models import Session, SessionLogStep, SubStep
 from datetime import datetime
 from django.http import HttpResponse
 from api.views import get_proxy_vnc_port
+from vmmaster_frontend import settings
 
 
 def _requests(steps):
@@ -38,6 +39,13 @@ def set_total_time(log_steps):
     return new_log_steps
 
 
+def get_proxy_vnc_host(api_url_string):
+    try:
+        return api_url_string.split("/")[2].split(":")[0]
+    except IndexError:
+        return ''
+
+
 def session_main(request, session_id):
     try:
         session = Session.objects.get(id=session_id)
@@ -50,7 +58,8 @@ def session_main(request, session_id):
     context = {
         'session': session,
         'session_log_steps': session_log_steps,
-        'host': request.META['HTTP_HOST']
+        'host': request.META['HTTP_HOST'],
+        'proxy_vnc_host': get_proxy_vnc_host(settings.VMMASTER_API_URL)
     }
     return render(request, 'session/session.html', context)
 

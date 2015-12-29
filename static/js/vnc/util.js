@@ -11,6 +11,7 @@
 
 // Globals defined here
 var Util = {};
+var INCLUDE_URI = '/static/js/vnc/';
 
 
 /*
@@ -620,3 +621,8 @@ Util.Flash = (function () {
     version = v.match(/\d+/g);
     return {version: parseInt(version[0] || 0 + '.' + version[1], 10) || 0, build: parseInt(version[2], 10) || 0};
 }());
+
+// Load supporting scripts
+Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
+                   "keysymdef.js", "keyboard.js", "input.js", "display.js",
+                   "inflator.js", "rfb.js", "keysym.js"]);

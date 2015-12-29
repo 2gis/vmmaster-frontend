@@ -43,14 +43,6 @@ def is_screencast_exist(host, session):
         return False
 
 
-@register.inclusion_tag('session/vnc.html')
-def show_vnc(session):
-    return {
-        'session': session,
-        'proxy_vnc_host': settings.VMMASTER_API_URL.split("/")[2].split(":")[0]
-    }
-
-
 @register.inclusion_tag('session/screencast.html')
 def show_screencast(session):
     return {'session': session}

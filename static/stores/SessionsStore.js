@@ -18,7 +18,9 @@ var _state = {
     offset: _offset_init,
     limit: 10,
     total: 0,
-    query: _query_init
+    query: _query_init,
+    saved_video_exist: false,
+    vnc_port: null
 };
 
 var _urls = {
@@ -33,7 +35,9 @@ var _resetState = function () {
         offset: _offset_init,
         limit: 10,
         total: 0,
-        query: _query_init
+        query: _query_init,
+        saved_video_exist: false,
+        vnc_port: null
     };
 };
 
@@ -125,6 +129,38 @@ var _get_session_info = function () {
         });
 };
 
+var _savedVideoExist = function () {
+    var session_id = getSessionId();
+    $.ajax({
+        url: "/screenshot/" + session_id + "/" + session_id + ".webm",
+        cache: true
+    })
+        .done(function(data) {
+            _state.saved_video_exist = true;
+            SessionsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            SessionsStore.emitChange();
+        });
+};
+
+var _get_vnc_port = function () {
+    var session_id = getSessionId();
+    $.ajax({
+        url: "/session/" + session_id + "/proxy_vnc_port",
+        cache: true
+    })
+        .done(function(data) {
+            _state.vnc_port = data;
+            SessionsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            SessionsStore.emitChange();
+        });
+};
+
 var SessionsStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
@@ -161,6 +197,12 @@ SessionsStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case SessionsConstants.SESSION_INFO:
             _get_session_info();
+            break;
+        case SessionsConstants.VIDEO_EXIST_CHECK:
+            _savedVideoExist();
+            break;
+        case SessionsConstants.GET_VNC_PORT:
+            _get_vnc_port();
             break;
     }
     return true;
