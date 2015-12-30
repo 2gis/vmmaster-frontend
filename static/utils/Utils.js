@@ -34,8 +34,20 @@ function calculatePadding() {
     steps.css("padding-top", info_height);
 }
 
+function addScriptsToHead(urls) {
+    for (var i in urls) {
+        var head = document.getElementsByTagName('head')[0],
+            script = document.createElement('script');
+
+        script.type = 'text/javascript';
+        script.src = urls[i];
+        head.appendChild(script);
+    }
+}
+
 
 module.exports.getUrlParameter = getUrlParameter;
 module.exports.getSessionId = getSessionId;
 module.exports.formatDateTime = formatDateTime;
 module.exports.calculatePadding = calculatePadding;
+module.exports.addScriptsToHead = addScriptsToHead;

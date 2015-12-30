@@ -59,42 +59,6 @@ $(document).ready(function() {
     });
 });
 
-$(window).scroll(function () {
-    var max_description_height = $('._info_description').height() + $('._info_error').height(),
-        expand_button = $('.expand_all_button'),
-        session_tabs = $('.session_tabs'),
-        tabs_margin = 49 - $('.session_info').height(),
-        button_margin = session_tabs.height() + tabs_margin,
-        content_margin = expand_button.height() + session_tabs.height() + 1;
-
-    if ($(this).scrollTop() > max_description_height) {
-        session_tabs.css({
-            'position': 'fixed',
-            'margin-top': tabs_margin
-        });
-        $('.session_content').css({
-            'margin-top': content_margin + 10
-        });
-        expand_button.css({
-            'position': 'fixed',
-            'margin-top': button_margin
-        });
-    }
-    if ($(this).scrollTop() <= max_description_height) {
-        session_tabs.css({
-            'position': 'relative',
-            'margin-top': '0'
-        });
-        $('.session_content').css({
-            'margin-top': '0'
-        });
-        expand_button.css({
-            'position': 'inherit',
-            'margin-top': '0'
-        });
-    }
-});
-
 function expand_all() {
     var label_groups = $('.label_group'),
         button = $('.btn');
