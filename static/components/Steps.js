@@ -9,9 +9,6 @@ var reloadSteps = require('../stores/StepsStore').reloadSteps;
 var WebSockets = require('ws');
 
 
-window.screenshots_ids = [];
-
-
 var NoSteps = React.createClass({
     render: function () {
         return (
@@ -66,28 +63,9 @@ var Steps = React.createClass({
         return steps_list;
     },
 
-    setScreenshotsIdsForPhotor: function (steps) {
-        var session_id = parseInt(getSessionId()),
-            log_steps = [];
-
-        if (typeof steps == "object") {
-            for (var key in steps) {
-                var step = steps[key];
-                if (step.screenshot) {
-                    log_steps.push(step.id);
-                }
-            }
-            window.screenshots_ids = [session_id, log_steps];
-        } else {
-            window.screenshots_ids = [session_id, [steps.id]]
-        }
-    },
-
     _onChange: function() {
         var _state = StepsStore.getState(),
             steps = this.getList(_state.steps);
-
-        this.setScreenshotsIdsForPhotor(_state.steps);
 
         this.setState({
             steps: steps,

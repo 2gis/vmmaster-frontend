@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var Steps = require('./Steps').Steps;
 var SessionInfo = require('./SessionInfo').SessionInfo;
 var ScreenCast = require('./Screencast').ScreenCast;
+var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 
 
 var SessionPage = React.createClass({
@@ -14,6 +15,7 @@ var SessionPage = React.createClass({
                     <Steps />
                     <ScreenCast />
                 </div>
+                <div id="photo_gallery"></div>
             </div>
         );
     }

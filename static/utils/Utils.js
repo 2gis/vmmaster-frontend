@@ -34,12 +34,29 @@ function calculatePadding() {
     steps.css("padding-top", info_height);
 }
 
+function addLinksToHead(urls) {
+    var attrs = {
+        rel: 'stylesheet'
+    };
+    for (var i in urls) {
+        var head = document.getElementsByTagName('head')[0],
+            script = document.createElement('link');
+
+        script.rel = attrs.rel;
+        script.href = urls[i];
+        head.appendChild(script);
+    }
+}
+
 function addScriptsToHead(urls) {
+    var attrs = {
+        type:'text/javascript'
+    };
     for (var i in urls) {
         var head = document.getElementsByTagName('head')[0],
             script = document.createElement('script');
 
-        script.type = 'text/javascript';
+        script.type = attrs.type;
         script.src = urls[i];
         head.appendChild(script);
     }
@@ -51,3 +68,4 @@ module.exports.getSessionId = getSessionId;
 module.exports.formatDateTime = formatDateTime;
 module.exports.calculatePadding = calculatePadding;
 module.exports.addScriptsToHead = addScriptsToHead;
+module.exports.addLinksToHead = addLinksToHead;

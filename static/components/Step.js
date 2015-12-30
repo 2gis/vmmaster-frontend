@@ -1,5 +1,8 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var getSessionId = require('../utils/Utils').getSessionId;
+var PhotoGallery = require('./PhotoGallery').PhotoGallery;
+var StepsActions = require('../actions/StepsActions').StepsActions;
 
 
 var getStepStatus = function (response) {
@@ -52,13 +55,19 @@ var Step = React.createClass({
         }
     },
 
+    handleScreenshotClick: function () {
+        ReactDOM.render(
+            <PhotoGallery start_screenshot={ this.props.step.id } />,
+            document.getElementById('photo_gallery')
+        );
+    },
+
     render: function () {
         var step = this.props.step,
             session_id = getSessionId(),
             step_ref = "session_step/" + step.id,
             step_class = "log_step " + getStepStatus(step.response),
             icon_class = "glyphicon " + this.icon(step),
-            screenshot_href = "javascript:photor_show(" + step.id + ")",
             screenshot_src = "/screenshot/" + session_id + "/" + step.id + "_thumb.png";
 
         return (
@@ -73,7 +82,7 @@ var Step = React.createClass({
                 <div className="log_step_column log_time">{ step.duration } sec.</div>
                 <div id="screenshot" className="log_step_column log_screenshot">
                 { step.screenshot?
-                    <a href={ screenshot_href }>
+                    <a onClick={ this.handleScreenshotClick } href="#">
                         <img src={ screenshot_src }></img>
                     </a>:''
                 }

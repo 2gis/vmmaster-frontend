@@ -14,6 +14,7 @@
     "webpack-dev-server": "^1.12.1",
     "babel-loader": "^6.0.0",
     "autobahn": "^0.9.8",
+    "photor": "git://github.com/2gis/photor.git#v2.0rc",
     "ws": "^0.8.0"
   },
   "devDependencies": {},
