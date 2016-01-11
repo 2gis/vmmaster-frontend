@@ -31,6 +31,11 @@ var StepsActions = {
         AppDispatcher.dispatch({
             actionType: StepsConstants.FIRST_STEP
         });
+    },
+    get_step_by_id: function () {
+        AppDispatcher.dispatch({
+            actionType: StepsConstants.GET_STEP_BY_ID
+        });
     }
 };
 

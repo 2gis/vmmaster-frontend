@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var getSessionId = require('../utils/Utils').getSessionId;
+var prettyJson = require('../utils/Utils').prettyJson;
 var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 var StepsActions = require('../actions/StepsActions').StepsActions;
 
@@ -29,45 +30,55 @@ var truncateString = function (string, max_size) {
 };
 
 
-var Step = React.createClass({
-    icon: function (step) {
-        if (step.substeps) {
-            return "expandglyph glyphicon-chevron-right"
-        } else {
-            return "glyphicon-none"
-        }
+var icon = function (step) {
+    if (step.substeps) {
+        return "expandglyph glyphicon-chevron-right"
+    } else {
+        return "glyphicon-none"
+    }
+};
+
+
+var handleIconClick = function (stepId) {
+    var step = $('#' + stepId);
+    $('.expand .glyphicon.expandglyph', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+    var opened = step.hasClass('opened');
+    if (opened) {
+        $('.info', step).html("");
+        step.removeClass('opened');
+    } else {
+        var url = document.location.origin + document.location.pathname + 'inline_step/' + stepId + '/';
+        $.get(url, function (data) {
+            $('.info', step).html(data);
+        });
+        step.addClass('opened');
+    }
+};
+
+
+var handleScreenshotClick = function (stepId) {
+    ReactDOM.render(
+        <PhotoGallery start_screenshot={ stepId } />,
+        document.getElementById('photo_gallery')
+    );
+};
+
+
+var InlineStep = React.createClass({
+    handleScreenClick: function () {
+        handleScreenshotClick(this.props.step.id);
     },
 
     handleIconClick: function () {
-        var stepId = this.props.step.id,
-            step = $('#' + stepId);
-        $('.expand .glyphicon.expandglyph', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-        var opened = step.hasClass('opened');
-        if (opened) {
-            $('.info', step).html("");
-            step.removeClass('opened');
-        } else {
-            var url = document.location.origin + document.location.pathname + 'step/' + stepId + '/';
-            $.get(url, function (data) {
-                $('.info', step).html(data);
-            });
-            step.addClass('opened');
-        }
-    },
-
-    handleScreenshotClick: function () {
-        ReactDOM.render(
-            <PhotoGallery start_screenshot={ this.props.step.id } />,
-            document.getElementById('photo_gallery')
-        );
+        handleIconClick(this.props.step.id)
     },
 
     render: function () {
         var step = this.props.step,
             session_id = getSessionId(),
-            step_ref = "session_step/" + step.id,
+            step_ref = "step/" + step.id,
             step_class = "log_step " + getStepStatus(step.response),
-            icon_class = "glyphicon " + this.icon(step),
+            icon_class = "glyphicon " + icon(step),
             screenshot_src = "/screenshot/" + session_id + "/" + step.id + "_thumb.png";
 
         return (
@@ -82,7 +93,7 @@ var Step = React.createClass({
                 <div className="log_step_column log_time">{ step.duration } sec.</div>
                 <div id="screenshot" className="log_step_column log_screenshot">
                 { step.screenshot?
-                    <a onClick={ this.handleScreenshotClick } href="#">
+                    <a onClick={ this.handleScreenClick } href="#">
                         <img src={ screenshot_src }></img>
                     </a>:''
                 }
@@ -94,6 +105,49 @@ var Step = React.createClass({
 });
 
 
-module.exports.Step = Step;
+var SingleStep = React.createClass({
+    handleScreenClick: function () {
+        handleScreenshotClick(this.props.step.id);
+    },
+
+    render: function () {
+        var step = this.props.step,
+            session_id = getSessionId(),
+            screenshot_src = "/screenshot/" + session_id + "/" + step.id + "_thumb.png";
+
+        return (
+            <div className="row">
+                <div className="col-md-10">
+                    <div id="log_step">
+                        <div className="log_step_request info">{ step.control_line }</div>
+                        <pre style={{padding: '5px', margin: '5px'}}>{ prettyJson(step.body) }</pre>
+                        {
+                            step.response
+                            ?
+                            <div>
+                                <div className="log_step_request info">{ step.response.status }</div>
+                                <pre style={{padding: '5px', margin: '5px'}}>{ prettyJson(step.response.body) }</pre>
+                            </div>
+                            :
+                            <pre style={{padding: '5px', margin: '5px'}}>No response</pre>
+                        }
+                    </div>
+                </div>
+                <div className="col-md-2" style={{padding: '10px'}}>
+                { step.screenshot?
+                    <a onClick={ this.handleScreenClick } href="#">
+                        <img src={ screenshot_src }></img>
+                    </a>:''
+                }
+                </div>
+            </div>
+        );
+    }
+});
+
+
+
+module.exports.Step = InlineStep;
+module.exports.SingleStep = SingleStep;
 module.exports.getStepStatus = getStepStatus;
 module.exports.truncateString = truncateString;

@@ -9,10 +9,10 @@ helpers_urls = [
 
 urlpatterns = [
     url(r'^(?P<session_id>\d+)/$', views.session_main),
-    url(r'^(?P<session_id>\d+)/step/(?P<step_id>\d+)/$', views.log_step),
-    url(r'^(?P<session_id>\d+)/sub_step/(?P<sub_step_id>\d+)/$',
-        views.sub_step),
-    url(r'^(?P<session_id>\d+)/session_step/(?P<session_step_id>\d+)/$',
+    url(r'^(?P<session_id>\d+)/inline_step/(?P<step_id>\d+)/$', views.log_step),
+    url(r'^(?P<session_id>\d+)/step/(?P<session_step_id>\d+)/$',
         views.session_step),
+    url(r'^(?P<session_id>\d+)/step/([0-9]+)/sub_step/(?P<sub_step_id>\d+)/$',
+        views.sub_step),
     url(r'^(?P<session_id>\d+)/proxy_vnc_port$', views.proxy_vnc_port, name='proxy_vnc_port')
 ]

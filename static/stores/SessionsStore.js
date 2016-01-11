@@ -24,8 +24,7 @@ var _state = {
 };
 
 var _urls = {
-    sessions_list: '/api/v1/sessions',
-    session_detail: '/api/v1/session'
+    sessions_list: '/api/v1/sessions'
 };
 
 var _resetState = function () {
@@ -115,7 +114,7 @@ var _update_new_sessions = function(sessions) {
 
 var _get_session_info = function () {
     $.ajax({
-        url: _urls.session_detail + '/' + getSessionId() + '/',
+        url: _urls.sessions_list + '/' + getSessionId() + '/',
         dataType: 'json',
         cache: false
     })

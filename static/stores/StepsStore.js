@@ -4,6 +4,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher').AppDispatcher;
 var StepsConstants = require('../constants/StepsConstants');
 var getUrlParameter = require('../utils/Utils').getUrlParameter;
 var getSessionId = require('../utils/Utils').getSessionId;
+var getStepId = require('../utils/Utils').getStepId;
 
 
 var _offset_init = 1*getUrlParameter('offset');
@@ -21,7 +22,7 @@ var _state = {
 };
 
 var _props = {
-    url: '/api/v1/session/' + _session_id + '/steps/'
+    url: '/api/v1/sessions/' + _session_id + '/steps'
 };
 
 var _resetState = function () {
@@ -113,6 +114,22 @@ _first_step = function () {
         });
 };
 
+var _get_step_by_id = function () {
+    $.ajax({
+        url: _props.url + '/' + getStepId() + '/',
+        dataType: 'json',
+        cache: false
+    })
+        .done(function(data) {
+            _state.steps.push(data);
+            StepsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            StepsStore.emitChange();
+        });
+};
+
 var StepsStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
@@ -148,6 +165,9 @@ StepsStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case StepsConstants.FIRST_STEP:
             _first_step();
+            break;
+        case StepsConstants.GET_STEP_BY_ID:
+            _get_step_by_id();
             break;
     }
     return true;
