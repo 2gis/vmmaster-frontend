@@ -84,7 +84,7 @@ var SessionInfo = React.createClass({
             first_sub_step = this.state.first_sub_step;
 
         return (
-            <div>
+            <div className="session_info_panel">
                 <InfoPanel session={ session } first_step={ first_step } first_sub_step={ first_sub_step }/>
                 <SessionTabs session={ session }/>
                 <Snippets/>

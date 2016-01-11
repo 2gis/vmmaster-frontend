@@ -32,15 +32,20 @@ var ScreenCast = React.createClass({
     },
 
     render: function () {
+        var screencast_type = <div></div>;
         if (this.state.session) {
             if (this.state.session.closed) {
-                return <SavedVideo session={ this.state.session } saved_video_exist={ this.state.saved_video_exist }/>;
+                screencast_type = <SavedVideo session={ this.state.session } saved_video_exist={ this.state.saved_video_exist }/>;
             } else {
-                return <VncStream session={ this.state.session } vnc_port={ this.state.vnc_port }/>;
+                screencast_type = <VncStream session={ this.state.session } vnc_port={ this.state.vnc_port }/>;
             }
-        } else {
-            return (<div></div>);
         }
+
+        return (
+            <div id="screencast" className="text-center tab-pane fade">
+                { screencast_type }
+            </div>
+        );
     }
 });
 

@@ -180,10 +180,9 @@ var Steps = React.createClass({
     },
 
     render: function () {
-        if (this.state.steps.length == 0) {
-            return <NoSteps />
-        } else {
-            return <InfiniteScroll
+        var steps = <NoSteps />;
+        if (this.state.steps.length != 0) {
+            steps = <InfiniteScroll
                         divMode={true}
                         offsetStart={0}
                         loadMore={this.handleInfiniteLoad}
@@ -193,6 +192,12 @@ var Steps = React.createClass({
                         { this.state.steps }
                     </InfiniteScroll>
         }
+
+        return (
+            <div id="steps" className="tab-pane fade in active">
+                { steps }
+            </div>
+        );
     }
 });
 
