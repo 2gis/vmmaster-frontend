@@ -4,6 +4,8 @@ var getSessionId = require('../utils/Utils').getSessionId;
 var prettyJson = require('../utils/Utils').prettyJson;
 var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 var StepsActions = require('../actions/StepsActions').StepsActions;
+var SubStepsActions = require('../actions/SubStepsActions').SubStepsActions;
+var SubStepsStore = require('../stores/SubStepsStore').SubStepsStore;
 
 
 var getStepStatus = function (response) {
@@ -39,23 +41,6 @@ var icon = function (step) {
 };
 
 
-var handleIconClick = function (stepId) {
-    var step = $('#' + stepId);
-    $('.expand .glyphicon.expandglyph', step).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-    var opened = step.hasClass('opened');
-    if (opened) {
-        $('.info', step).html("");
-        step.removeClass('opened');
-    } else {
-        var url = document.location.origin + document.location.pathname + 'inline_step/' + stepId + '/';
-        $.get(url, function (data) {
-            $('.info', step).html(data);
-        });
-        step.addClass('opened');
-    }
-};
-
-
 var handleScreenshotClick = function (stepId) {
     ReactDOM.render(
         <PhotoGallery start_screenshot={ stepId } />,
@@ -64,13 +49,81 @@ var handleScreenshotClick = function (stepId) {
 };
 
 
+var SubStepsBlock = React.createClass({
+    render: function () {
+        var substep_href = "step/" + this.props.substep.session_log_step_id + "/sub_step/" + this.props.substep.id;
+        return (
+            <pre>
+                <span>Step: <a href={substep_href}>{ this.props.substep.control_line }</a></span><br/>
+                <span>Time: { this.props.substep.duration } sec</span>
+            </pre>
+        );
+    }
+});
+
+var SubStepsList = React.createClass({
+    render: function () {
+        return (
+            <div>
+                {this.props.children}
+            </div>
+        );
+    }
+});
+
+
 var InlineStep = React.createClass({
+    getInitialState: function() {
+        return {
+            substeps: null
+        };
+    },
+
     handleScreenClick: function () {
         handleScreenshotClick(this.props.step.id);
     },
 
     handleIconClick: function () {
-        handleIconClick(this.props.step.id)
+        if (!this.state.substeps) {
+            SubStepsActions.get_sub_steps_for_step(this.props.step.id);
+        }
+
+        var htmlstep = $('#' + this.props.step.id),
+            substep_block = $('#substeps_inline'),
+            opened = htmlstep.hasClass('opened');
+
+        $('.expand .glyphicon.expandglyph', htmlstep).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+
+        if (opened) {
+            htmlstep.removeClass('opened');
+            substep_block.hide();
+        } else {
+            htmlstep.addClass('opened');
+            substep_block.show();
+        }
+    },
+
+    _onChangeSubSteps: function() {
+        var _state = SubStepsStore.getState(),
+            new_substeps = _state.first_sub_step.map(function(substep) {
+            return <SubStepsBlock key={substep.id} substep={substep}/>;
+        });
+
+        this.setState({
+            substeps: new_substeps
+        });
+    },
+
+    componentWillUnmount: function() {
+        if (this.props.step.substeps) {
+            SubStepsStore.removeChangeListener(this._onChangeSubSteps);
+        }
+    },
+
+    componentDidMount: function() {
+        if (this.props.step.substeps) {
+            SubStepsStore.addChangeListener(this._onChangeSubSteps);
+        }
     },
 
     render: function () {
@@ -98,7 +151,14 @@ var InlineStep = React.createClass({
                     </a>:''
                 }
                 </div>
-                <div className="info"></div>
+                <div className="info" id="substeps_inline" style={{display: 'none'}}>
+                    { this.state.substeps
+                        ?
+                        <SubStepsList>{this.state.substeps}</SubStepsList>
+                        :
+                        <pre key="0">Loading...</pre>
+                    }
+                </div>
             </div>
         );
     }

@@ -60,14 +60,14 @@ var _search = function(step_id) {
 };
 
 
-_first_sub_step = function (step_id) {
+_get_sub_steps_for_step = function (step_id) {
     $.ajax({
-        url: _props.url + step_id + '/substeps/' + '?offset=' + _state.offset + '&limit=1',
+        url: _props.url + step_id + '/substeps/' + '?offset=' + _state.offset + '&limit=100',
         dataType: 'json',
         cache: false
     })
         .done(function(data) {
-            _state.first_sub_step = data.results[0];
+            _state.first_sub_step = data.results;
             SubStepsStore.emitChange();
         })
         .fail(function(xhr, status, err) {
@@ -116,8 +116,8 @@ SubStepsStore.dispatchToken = AppDispatcher.register(function(action) {
             _state.offset = 0;
             _search(action.step_id);
             break;
-        case SubStepsConstants.FIRST_SUBSTEP:
-            _first_sub_step(action.step_id);
+        case SubStepsConstants.GET_SUBSTEPS_FOR_STEP:
+            _get_sub_steps_for_step(action.step_id);
             break;
         case SubStepsConstants.GET_SUBSTEP_BY_ID:
             _get_substep_by_id();
