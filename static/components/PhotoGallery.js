@@ -80,7 +80,7 @@ var PhotoGallery = React.createClass({
             this.setState({
                 screenshots: this.state.screenshots,
                 photorInstance: instance,
-                start_screenshot: this.state.screenshot_id
+                start_screenshot: this.state.start_screenshot
             });
         }
     },

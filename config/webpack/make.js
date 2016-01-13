@@ -10,7 +10,9 @@ module.exports = function makeWebpackConfig(env) {
         context: path.join(dirname, './'), // исходная директория
         entry: {
             dashboard: path.join(dirname, './static/components/DashboardPage'),
-            session: path.join(dirname, './static/components/SessionPage')
+            session: path.join(dirname, './static/components/SessionPage'),
+            step: path.join(dirname, './static/components/StepPage'),
+            substep: path.join(dirname, './static/components/SubStepPage')
         }, // файл для сборки, если несколько - указываем hash (entry name => filename)
         output: {
             path: path.join(dirname, 'static/assets'), // выходная директория

@@ -14,6 +14,11 @@ var SubStepsActions = {
             actionType: SubStepsConstants.FIRST_SUBSTEP,
             step_id: step_id
         });
+    },
+    get_substep_by_id: function () {
+        AppDispatcher.dispatch({
+            actionType: SubStepsConstants.GET_SUBSTEP_BY_ID
+        });
     }
 };
 

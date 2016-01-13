@@ -11,10 +11,26 @@ function getUrlParameter(sParam) {
 }
 
 
-function getSessionId() {
+function getIdFromUri(value) {
     var sPageUrl = $(location).attr('pathname');
     sPageUrl = sPageUrl.substr(1);
-    return sPageUrl.split('session')[1].replace(new RegExp("/",'g'),'');
+    sPageUrl = sPageUrl.split(value)[1].split("/")[1];
+    return sPageUrl;
+}
+
+
+function getSessionId() {
+    return getIdFromUri('session');
+}
+
+
+function getStepId() {
+    return getIdFromUri('step');
+}
+
+
+function getSubStepId() {
+    return getIdFromUri('sub_step');
 }
 
 
@@ -63,8 +79,24 @@ function addScriptsToHead(urls) {
 }
 
 
+function prettyJson(json_string) {
+    try {
+        var json = JSON.parse(json_string),
+        pretty_json = JSON.stringify(json, null, 4);
+
+        pretty_json = JSON.stringify(pretty_json, null, "\t");
+        return JSON.parse(pretty_json);
+    } catch (e) {
+        return json_string;
+    }
+}
+
+
 module.exports.getUrlParameter = getUrlParameter;
+module.exports.prettyJson = prettyJson;
 module.exports.getSessionId = getSessionId;
+module.exports.getStepId = getStepId;
+module.exports.getSubStepId = getSubStepId;
 module.exports.formatDateTime = formatDateTime;
 module.exports.calculatePadding = calculatePadding;
 module.exports.addScriptsToHead = addScriptsToHead;
