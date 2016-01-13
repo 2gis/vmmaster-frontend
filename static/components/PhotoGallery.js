@@ -4,6 +4,7 @@ var getSessionId = require('../utils/Utils').getSessionId;
 var StepsStore = require('../stores/StepsStore').StepsStore;
 var addLinksToHead = require('../utils/Utils').addLinksToHead;
 var photor = require('photor');
+var $ = require('jquery');
 
 
 var PhotoGallery = React.createClass({

@@ -5,7 +5,7 @@
   "main": "",
   "dependencies": {
     "flux": "^2.0.3",
-    "bootstrap": "^3.3.2",
+    "bootstrap": "^3.2.0",
     "jquery": "^1.11.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
@@ -15,6 +15,7 @@
     "babel-loader": "^6.0.0",
     "autobahn": "^0.9.8",
     "photor": "git://github.com/2gis/photor.git#v2.0rc",
+    "imports-loader": "^0.6.5",
     "ws": "^0.8.0"
   },
   "devDependencies": {},

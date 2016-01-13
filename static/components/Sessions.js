@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var Session = require('./Session').Session;
 var SessionsActions = require('../actions/SessionsActions').SessionsActions;
 var SessionsStore = require('../stores/SessionsStore').SessionsStore;

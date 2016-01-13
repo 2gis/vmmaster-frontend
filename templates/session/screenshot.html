@@ -1,9 +1,0 @@
-{% if step.screenshot %}
-    <div id="screenshot" class="log_step_column log_screenshot">
-        <a href="javascript:photor_show('{{ step.id }}')">
-            <img src="/screenshot/{{ step.session_id }}/{{ step.id }}_thumb.png">
-        </a>
-    </div>
-{% else %}
-    <div id="screenshot" class="log_step_column log_screenshot"></div>
-{% endif %}

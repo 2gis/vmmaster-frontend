@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var UserInfoActions = require('../actions/UserInfoActions').UserInfoActions;
 var UserInfoStore = require('../stores/UserInfoStore').UserInfoStore;
 
@@ -64,3 +63,4 @@ var UserInfo = React.createClass({
 
 
 module.exports.TokenForm = TokenForm;
+module.exports.UserInfo = UserInfo;
