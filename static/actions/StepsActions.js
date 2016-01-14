@@ -36,6 +36,11 @@ var StepsActions = {
         AppDispatcher.dispatch({
             actionType: StepsConstants.GET_STEP_BY_ID
         });
+    },
+    get_substeps_for_step: function () {
+        AppDispatcher.dispatch({
+            actionType: StepsConstants.GET_SUBSTEPS_FOR_STEP
+        });
     }
 };
 

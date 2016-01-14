@@ -9,9 +9,9 @@ var SubStepsActions = {
             step_id: step_id
         });
     },
-    get_first_sub_step: function (step_id) {
+    get_sub_steps_for_step: function (step_id) {
         AppDispatcher.dispatch({
-            actionType: SubStepsConstants.FIRST_SUBSTEP,
+            actionType: SubStepsConstants.GET_SUBSTEPS_FOR_STEP,
             step_id: step_id
         });
     },

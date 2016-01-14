@@ -44,8 +44,7 @@ var SessionInfo = React.createClass({
             });
 
             if (!_state.first_sub_step && this.state.first_step) {
-                SubStepsActions.get_first_sub_step(this.state.first_step.id);
-
+                SubStepsActions.get_sub_steps_for_step(this.state.first_step.id);
             }
         }
     },
@@ -58,7 +57,7 @@ var SessionInfo = React.createClass({
         this.setState({
             session: session,
             first_step: first_step,
-            first_sub_step: _state.first_sub_step
+            first_sub_step: _state.first_sub_step[0]
         });
     },
 
