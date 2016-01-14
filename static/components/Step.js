@@ -6,6 +6,7 @@ var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 var StepsActions = require('../actions/StepsActions').StepsActions;
 var SubStepsActions = require('../actions/SubStepsActions').SubStepsActions;
 var SubStepsStore = require('../stores/SubStepsStore').SubStepsStore;
+var $ = require('jquery');
 
 
 var getStepStatus = function (response) {

@@ -24,7 +24,8 @@ module.exports = function makeWebpackConfig(env) {
         },
         module: {
             loaders: [
-                {test: /\.js$/, loader: 'jsx-loader', exclude: /node_modules/}
+                {test: /\.js$/, loader: 'jsx-loader', exclude: /node_modules/},
+                {test: /node_modules\/bootstrap\/js\//, loader: 'imports?jQuery=jquery'}
             ],
             noParse: [
                 path.resolve(dirname, reactPath)

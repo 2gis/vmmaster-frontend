@@ -1,3 +1,9 @@
+// common requirements for common.js
+var $ = require('jquery');
+window.$ = $; // jquery for js/session.js
+require('bootstrap');
+
+
 function getUrlParameter(sParam) {
     var sPageURL = $(location).attr('hash');
     sPageURL = sPageURL.substr(1);

@@ -6,9 +6,6 @@
         <link rel="shortcut icon" href="{{STATIC_URL}}/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.min.css">
-        <script src="{{STATIC_URL}}js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}assets/common.js"></script>
         <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
     </head>
     <body>
@@ -16,6 +13,7 @@
         {% block control_panel %}
             {% show_hat user %}
         {% endblock %}
+        <script type="text/javascript" charset="utf8" src="{{STATIC_URL}}assets/common.js"></script>
         <div id="content">
             {% block content %}{% endblock %}
         </div>

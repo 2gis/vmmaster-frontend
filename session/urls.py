@@ -3,13 +3,9 @@
 from django.conf.urls import url
 from . import views
 
-helpers_urls = [
-    url(r'^step/$', views.log_step, name='log_step')
-]
 
 urlpatterns = [
     url(r'^(?P<session_id>\d+)/$', views.session_main),
-    url(r'^(?P<session_id>\d+)/inline_step/(?P<step_id>\d+)/$', views.log_step),
     url(r'^(?P<session_id>\d+)/step/(?P<session_step_id>\d+)/$',
         views.session_step),
     url(r'^(?P<session_id>\d+)/step/([0-9]+)/sub_step/(?P<sub_step_id>\d+)/$',

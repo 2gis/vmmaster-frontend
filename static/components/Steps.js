@@ -1,7 +1,6 @@
 var React = require('react');
 var Step = require('./Step').Step;
 var LabelStep = require('./LabelStep').LabelStep;
-var getSessionId = require('../utils/Utils').getSessionId;
 var StepsActions = require('../actions/StepsActions').StepsActions;
 var StepsStore = require('../stores/StepsStore').StepsStore;
 var InfiniteScroll = require('./InfiniteScroll').InfiniteScroll;

@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var PlatformsActions = require('../actions/PlatformsActions').PlatformsActions;
 var PlatformsStore = require('../stores/PlatformsStore').PlatformsStore;
 

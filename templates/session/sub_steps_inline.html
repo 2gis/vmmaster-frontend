@@ -1,7 +1,0 @@
-{% load session_filters %}
-{% for step in sub_steps %}
-<pre>
-<span>Step: <a href="step/{{ step.session_log_step_id}}/sub_step/{{ step.id }}">{{ step.control_line }}</a></span>
-<span>Time: {{ step.total_time }} sec</span>
-</pre>
-{% endfor %}
