@@ -16,7 +16,14 @@ def get_proxy_vnc_host(api_url_string):
 
 def session_main(request, session_id):
     try:
-        session = Session.objects.get(id=session_id)
+        if request.user.is_superuser:
+            queryset = Session.objects
+        elif request.user.is_authenticated():
+            queryset = Session.objects.filter(user=request.user)
+        else:
+            queryset = Session.objects.filter(user=1)
+
+        session = queryset.get(id=session_id)
     except ObjectDoesNotExist:
         context = {'session_id': session_id}
         return render(request, 'session/session_not_exists.html', context)
