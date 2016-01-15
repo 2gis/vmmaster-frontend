@@ -10,3 +10,4 @@ django-assets==0.11
 Twisted==15.4.0
 autobahn==0.10.9
 psycopg2==2.4.5
+txaio-2.1.0
