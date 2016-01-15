@@ -1,5 +1,7 @@
 var React = require('react');
 var Step = require('./Step').Step;
+var Snippets = require('./SessionInfo').Snippets;
+var ExpandButton = require('./SessionInfo').ExpandButton;
 var LabelStep = require('./LabelStep').LabelStep;
 var StepsActions = require('../actions/StepsActions').StepsActions;
 var StepsStore = require('../stores/StepsStore').StepsStore;
@@ -28,6 +30,7 @@ var Steps = React.createClass({
         return {
             steps: [],
             json_steps: [],
+            snippets: [],
             hasMore: true,
             offset: 10,
             query: '',
@@ -42,7 +45,8 @@ var Steps = React.createClass({
 
     getList: function (steps_data) {
         var groups = this.groupify(steps_data),
-            steps_list = [];
+            steps_list = [],
+            snippets = [];
 
         for (var key in groups) {
             var steps = groups[key];
@@ -53,21 +57,24 @@ var Steps = React.createClass({
                     return <Step key={step.id} step={step}/>
                 });
                 steps_list.push(<LabelStep key={label_step.id} step={label_step}>{steps}</LabelStep>);
+                snippets.push(<ExpandButton key={0}/>);
             } else {
                 steps.forEach(function(step, i , arr) {
                     steps_list.push(<Step key={step.id} step={step}/>);
                 });
             }
         }
-        return steps_list;
+        return [snippets, steps_list];
     },
 
     _onChange: function() {
         var _state = StepsStore.getState(),
-            steps = this.getList(_state.steps);
+            snippets = this.getList(_state.steps)[0],
+            steps = this.getList(_state.steps)[1];
 
         this.setState({
             steps: steps,
+            snippets: snippets,
             json_steps: _state.steps,
             hasMore: _state.hasMore,
             offset: _state.offset,
@@ -158,6 +165,7 @@ var Steps = React.createClass({
 
     render: function () {
         var steps = <NoSteps />;
+
         if (this.state.steps.length != 0) {
             steps = <InfiniteScroll
                         divMode={true}
@@ -167,11 +175,12 @@ var Steps = React.createClass({
                         hasMore={this.state.hasMore}
                         threshold={250}>
                         { this.state.steps }
-                    </InfiniteScroll>
+                    </InfiniteScroll>;
         }
 
         return (
-            <div id="steps" className="tab-pane fade in active">
+            <div id="steps" className="tab-pane fade active in">
+                <Snippets>{ this.state.snippets }</Snippets>
                 { steps }
             </div>
         );

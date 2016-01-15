@@ -526,6 +526,7 @@ table.sessions tbody {
     margin-bottom: 0;
     border: 0;
     border-radius: 0;
+    height: 50px;
 }
 
 .session_info_panel .panel ul {
@@ -600,4 +601,9 @@ table.sessions tbody {
 #screencast {
     overflow: scroll;
     height: 100%;
+}
+
+#screencast div {
+    padding-top: 40px;
+    padding-bottom: 40px;
 }

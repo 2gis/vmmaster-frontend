@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Steps = require('./Steps').Steps;
 var SessionInfo = require('./SessionInfo').SessionInfo;
+var SessionDescription = require('./SessionDescription').SessionDescription;
 var ScreenCast = require('./Screencast').ScreenCast;
 var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 
@@ -12,6 +13,7 @@ var SessionPage = React.createClass({
             <div>
                 <SessionInfo />
                 <div className="session_content tab-content">
+                    <SessionDescription />
                     <Steps />
                     <ScreenCast />
                 </div>
