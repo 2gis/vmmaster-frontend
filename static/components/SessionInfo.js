@@ -9,6 +9,14 @@ var calculatePadding = require('../utils/Utils').calculatePadding;
 var statusIcon = require('./Session').statusIcon;
 
 
+var change_tab_from_url = function () {
+    if (window.location.hash) {
+        var tab_for_open = window.location.hash.replace("#", "");
+        $("." + tab_for_open).click();
+    }
+};
+
+
 var SessionInfo = React.createClass({
     getDefaultProps: function () {
         SessionsActions.session_info();
@@ -85,6 +93,10 @@ var SessionTabs = React.createClass({
         window.location.hash = $(".nav-tabs .active a")[0].href.split("/").pop();
     },
 
+    componentDidMount: function () {
+        change_tab_from_url();
+    },
+
     render: function () {
         var session = this.props.session;
         return (
@@ -102,10 +114,7 @@ var SessionTabs = React.createClass({
 
 var ExpandButton = React.createClass({
     componentDidMount: function () {
-        if (window.location.hash) {
-            var tab_for_open = window.location.hash.replace("#", "");
-            $("." + tab_for_open).click();
-        }
+        change_tab_from_url();
     },
 
     render: function () {
