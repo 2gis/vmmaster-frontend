@@ -52,7 +52,7 @@ var handleScreenshotClick = function (stepId) {
 
 var SubStepsBlock = React.createClass({
     render: function () {
-        var substep_href = "step/" + this.props.substep.session_log_step_id + "/sub_step/" + this.props.substep.id;
+        var substep_href = "step/" + this.props.step_id + "/sub_step/" + this.props.substep.id;
         return (
             <pre>
                 <span>Step: <a href={substep_href}>{ this.props.substep.control_line }</a></span><br/>
@@ -106,8 +106,9 @@ var InlineStep = React.createClass({
 
     _onChangeSubSteps: function() {
         var _state = SubStepsStore.getState(),
+            step_id = this.props.step.id,
             new_substeps = _state.first_sub_step.map(function(substep) {
-            return <SubStepsBlock key={substep.id} substep={substep}/>;
+            return <SubStepsBlock key={substep.id} substep={substep} step_id={step_id}/>;
         });
 
         this.setState({
