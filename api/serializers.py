@@ -23,6 +23,7 @@ class SessionSerializer(serializers.ModelSerializer):
             'take_screencast',
             'duration',
             'username',
+            'selenium_log',
         )
 
 

@@ -20,6 +20,7 @@ var _state = {
     total: 0,
     query: _query_init,
     saved_video_exist: false,
+    selenium_log: '',
     vnc_port: null
 };
 
@@ -36,6 +37,7 @@ var _resetState = function () {
         total: 0,
         query: _query_init,
         saved_video_exist: false,
+        selenium_log: '',
         vnc_port: null
     };
 };
@@ -144,6 +146,22 @@ var _savedVideoExist = function () {
         });
 };
 
+var _get_selenium_log = function () {
+    var session_id = getSessionId();
+    $.ajax({
+        url: "/screenshot/" + session_id + "/selenium_server.log",
+        cache: true
+    })
+        .done(function(data) {
+            _state.selenium_log = data;
+            SessionsStore.emitChange();
+        })
+        .fail(function(xhr, status, err) {
+            console.log(err.toString());
+            SessionsStore.emitChange();
+        });
+};
+
 var _get_vnc_port = function () {
     var session_id = getSessionId();
     $.ajax({
@@ -199,6 +217,9 @@ SessionsStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case SessionsConstants.VIDEO_EXIST_CHECK:
             _savedVideoExist();
+            break;
+        case SessionsConstants.GET_SELENIUM_LOG:
+            _get_selenium_log();
             break;
         case SessionsConstants.GET_VNC_PORT:
             _get_vnc_port();

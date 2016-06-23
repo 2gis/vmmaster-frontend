@@ -18,10 +18,6 @@ var change_tab_from_url = function () {
 
 
 var SessionInfo = React.createClass({
-    getDefaultProps: function () {
-        SessionsActions.session_info();
-    },
-
     getInitialState: function() {
         return {
             session: ''
@@ -104,6 +100,7 @@ var SessionTabs = React.createClass({
                 <ul id="mtabs" className="nav nav-tabs">
                     <li><a data-toggle="tab" href="#description" className="description" onClick={this.handleClick}>Description</a></li>
                     <li className="active"><a data-toggle="tab" href="#steps" className="steps" onClick={this.handleClick}>Steps</a></li>
+                    <li><a data-toggle="tab" href="#selenium_log" className="selenium_log" onClick={this.handleClick}>Selenium Log</a></li>
                     { this.screencastTab(session) }
                 </ul>
             </div>
