@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 
 import requests
 import json
@@ -37,6 +38,13 @@ def _make_api_request(method, uri, headers=None, body=None):
 
 def get_proxy_vnc_port(session_id):
     return _make_api_request('get', "session/%s/vnc_info" % session_id)
+
+
+def get_endpoints(request):
+    return HttpResponse(
+        content=json.dumps(_make_api_request('get', "pool")),
+        content_type="application/json"
+    )
 
 
 def generate_token(user):
@@ -138,18 +146,24 @@ class SessionList(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         search_phrase = self.request.REQUEST.get('search', '')
+        status = self.request.REQUEST.get('status', '')
 
         if self.request.user.is_superuser:
-            return self.queryset\
-                .filter(name__icontains=search_phrase)
-
+            queryset = self.queryset
         elif self.request.user.is_authenticated():
-            return self.queryset\
-                .filter(user=self.request.user)\
-                .filter(name__icontains=search_phrase)
+            queryset = self.queryset\
+                .filter(user=self.request.user)
         else:
-            return self.queryset.filter(user=1)\
-                .filter(name__icontains=search_phrase)
+            queryset = self.queryset.filter(user=1)
+
+        return queryset.filter(name__icontains=search_phrase)\
+            .filter(status__icontains=status)
+
+
+class SessionStatusList(SessionList):
+    def get_queryset(self):
+        status = self.request.REQUEST.get('status', '')
+        return self.queryset.filter(status__icontains=status)
 
 
 class SessionSteps(viewsets.ReadOnlyModelViewSet):
