@@ -1,13 +1,19 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var SessionsActions = require('../actions/SessionsActions').SessionsActions;
 var Steps = require('./Steps').Steps;
 var SessionInfo = require('./SessionInfo').SessionInfo;
 var SessionDescription = require('./SessionDescription').SessionDescription;
 var ScreenCast = require('./Screencast').ScreenCast;
+var SeleniumLog = require('./SeleniumLog').SeleniumLog;
 var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 
 
 var SessionPage = React.createClass({
+    getDefaultProps: function () {
+        SessionsActions.session_info();
+    },
+
     render: function () {
         return (
             <div>
@@ -16,6 +22,7 @@ var SessionPage = React.createClass({
                     <SessionDescription />
                     <Steps />
                     <ScreenCast />
+                    <SeleniumLog />
                 </div>
                 <div id="photo_gallery"></div>
             </div>

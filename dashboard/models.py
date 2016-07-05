@@ -46,6 +46,7 @@ class Session(models.Model):
     timeouted = models.BooleanField(blank=True, default=False)
     closed = models.BooleanField(blank=True, default=False)
     take_screencast = models.BooleanField(blank=True, default=False)
+    selenium_log = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
         return str(self.id)

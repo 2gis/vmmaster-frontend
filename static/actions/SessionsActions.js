@@ -37,6 +37,11 @@ var SessionsActions = {
             actionType: SessionsConstants.VIDEO_EXIST_CHECK
         });
     },
+    get_selenium_log: function () {
+        AppDispatcher.dispatch({
+            actionType: SessionsConstants.GET_SELENIUM_LOG
+        });
+    },
     get_vnc_port: function () {
         AppDispatcher.dispatch({
             actionType: SessionsConstants.GET_VNC_PORT

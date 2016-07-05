@@ -9,10 +9,6 @@ var formatDateTime = require('../utils/Utils').formatDateTime;
 
 
 var SessionDescription = React.createClass({
-    getDefaultProps: function () {
-        SessionsActions.session_info();
-    },
-
     getInitialState: function() {
         return {
             session: '',
