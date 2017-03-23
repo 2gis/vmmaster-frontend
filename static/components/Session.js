@@ -20,12 +20,10 @@ var Session = React.createClass({
     viewIcon: function (session) {
         if (!session.closed && session.status == 'running') {
             return "glyphicon-eye-open";
+        } else if (session.closed && (session.take_screencast || session.status == "failed")) {
+            return "glyphicon-film";
         } else {
-            if (session.closed && session.take_screencast) {
-                return "glyphicon-film";
-            } else {
-                return "glyphicon-none"
-            }
+            return "glyphicon-none";
         }
     },
 
@@ -33,10 +31,10 @@ var Session = React.createClass({
         var error = '';
         if (session.status == 'failed' && session.error) {
             error = session.error.split('\n');
-            if (error[error.length-1] == '') {
-                error = error[error.length-2]
+            if (error[error.length - 1] == '') {
+                error = error[error.length - 2]
             } else {
-                error = error[error.length-1]
+                error = error[error.length - 1]
             }
         }
         return error
@@ -50,7 +48,7 @@ var Session = React.createClass({
             created_date = formatDateTime(this.props.session.created),
             link = "/session/" + this.props.session.id + "#screencast";
         return (
-            <tr className="session_row" href={session_id} >
+            <tr className="session_row" href={session_id}>
                 <td className="session_column session_status">
                     <span className={label}>{ this.props.session.status }</span>
                 </td>
@@ -63,11 +61,11 @@ var Session = React.createClass({
                         <span className={icon}></span>
                     </a>
                     <span> </span>
-                    {this.props.session.error?<span className="label label-danger">{error}</span>:''}
+                    {this.props.session.error ? <span className="label label-danger">{error}</span> : ''}
                 </td>
             </tr>
         );
-    }
+    },
 });
 
 

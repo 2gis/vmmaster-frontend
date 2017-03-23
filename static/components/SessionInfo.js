@@ -76,10 +76,10 @@ var SessionInfo = React.createClass({
 
 var SessionTabs = React.createClass({
     screencastTab: function (session) {
-        if (!session.closed || session.take_screencast) {
+        if (session.take_screencast || session.status == "failed") {
             return (
                 <li>
-                    <a data-toggle="tab" href="#screencast" className="screencast" onClick={this.handleClick}>Video</a>
+                    <a data-toggle="tab" href="#screencast" className="screencast" onClick={this.handleClick}>Screencast</a>
                 </li>
             );
         }
@@ -90,6 +90,10 @@ var SessionTabs = React.createClass({
     },
 
     componentDidMount: function () {
+        change_tab_from_url();
+    },
+
+    componentDidUpdate: function () {
         change_tab_from_url();
     },
 
