@@ -133,17 +133,15 @@ var _get_session_info = function () {
 var _savedVideoExist = function () {
     var session_id = getSessionId();
     $.ajax({
-        url: "/screenshot/" + session_id + "/" + session_id + ".webm",
-        cache: true
-    })
-        .done(function(data) {
-            _state.saved_video_exist = true;
-            SessionsStore.emitChange();
-        })
-        .fail(function(xhr, status, err) {
-            console.log(err.toString());
-            SessionsStore.emitChange();
-        });
+        url: "/screenshot/" + session_id + "/" + session_id + ".flv",
+        cache: true,
+        statusCode: {
+          200: function (response) {
+             _state.saved_video_exist = true;
+             SessionsStore.emitChange();
+          }
+        }
+    });
 };
 
 var _get_selenium_log = function () {

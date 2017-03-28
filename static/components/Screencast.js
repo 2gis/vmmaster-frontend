@@ -8,7 +8,7 @@ var ScreenCast = React.createClass({
     getInitialState: function() {
         return {
             session: '',
-            saved_video_exist: false,
+            saved_video_exist: true,
             vnc_port: null
         };
     },
@@ -36,14 +36,16 @@ var ScreenCast = React.createClass({
         if (this.state.session) {
             if (this.state.session.closed) {
                 screencast_type = <SavedVideo session={ this.state.session } saved_video_exist={ this.state.saved_video_exist }/>;
-            } else {
+            } else if (this.state.session.status == "running") {
                 screencast_type = <VncStream session={ this.state.session } vnc_port={ this.state.vnc_port }/>;
+            } else {
+                screencast_type = "";
             }
         }
 
         return (
             <div id="screencast" className="text-center tab-pane fade">
-                { screencast_type }
+                { screencast_type ? screencast_type : <div className="well">Screencast has not recorded. For recording set "takeScreencast" (Selenium DesiredCapabilities property) to "True".</div> }
             </div>
         );
     }
@@ -52,29 +54,47 @@ var ScreenCast = React.createClass({
 
 var SavedVideo = React.createClass({
     getInitialState: function () {
+        addScriptsToHead([
+            "/static/js/video.js",
+            "/static/js/videojs-ie8.min.js"
+        ]);
+
         SessionsActions.video_exist_check();
-        addScriptsToHead(["/static/js/plyr.js"]);
         return {};
     },
 
-    render: function () {
-        var video_reference = "/screenshot/" + this.props.session.id + "/" + this.props.session.id + ".webm";
-
+    showBlock: function (type) {
         if (this.props.saved_video_exist) {
-            return (
-                <div>
-                    <link rel="stylesheet" href="/static/css/plyr.css"></link>
-                    <video controls>
-                        <source src={ video_reference } type="video/webm"></source>
-                        <a href={ video_reference }>Screencast</a>
-                    </video>
-                </div>
-            );
+            if (type == "video") {
+                return "block";
+            } else {
+                return "none";
+            }
         } else {
-            return (
-                <div className="well">Screencast has not recorded or not available.</div>
-            );
+            if (type == "video") {
+                return "none";
+            } else {
+                return "block";
+            }
         }
+    },
+
+    render: function () {
+        var video_reference = "/screenshot/" + this.props.session.id + "/" + this.props.session.id + ".flv";
+
+        return (
+            <div>
+                <link href="/static/css/video-js.css" rel="stylesheet"></link>
+                <video style={{display: this.showBlock("video")}} id="vmmaster-video" className="video-js vjs-big-play-centered vjs-styles-dimensions" controls preload="auto" data-setup=''>
+                    <source src={ video_reference } type='video/x-flv'></source>
+                    <p className="vjs-no-js">
+                      To view this video please enable JavaScript, and consider upgrading to a web browser that
+                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                    </p>
+                </video>
+                <div style={{display: this.showBlock("warning")}} className="well">Screencast has not loaded. Please wait...</div>
+            </div>
+        );
     }
 });
 
@@ -103,13 +123,13 @@ var VncStream = React.createClass({
             }];
 
         } else if (new_height < 400) {
-            screencast_size = [600, 400];
+            screencast_size = [600, 600];
             return [{
                 'width': 600,
                 'height': 400
             }, {
                 'top': 150,
-                'fontSize': 150
+                'fontSize': 75
             }];
 
         } else {
@@ -133,13 +153,13 @@ var VncStream = React.createClass({
             return (
                 <div>
                     <div id="noVNC_screen">
-                        <div className="play" style={play_div_styles}>
+                        <div className="play" >
                             { this.props.session.endpoint_ip ?
-                                <a className="text-center glyphicon glyphicon-play" href={ proxy_action } style={play_icon_styles}></a> :
-                                <a className="text-center glyphicon glyphicon-play" href="#" style={play_icon_styles}></a>
+                                <a className="text-center glyphicon glyphicon-play" href={ proxy_action } ></a> :
+                                <a className="text-center glyphicon glyphicon-play" href="#"></a>
                             }
                         </div>
-                        <canvas id="noVNC_canvas" width="100%" height="auto">
+                        <canvas id="noVNC_canvas" width="100%" height="550px !important">
                             Canvas not supported.
                         </canvas>
                         <div id="noVNC_status_bar" className="noVNC_status_bar" style={{marginTop: 0}}>
