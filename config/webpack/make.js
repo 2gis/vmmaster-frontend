@@ -18,7 +18,7 @@ module.exports = function makeWebpackConfig(env) {
         output: {
             path: path.join(dirname, 'static/assets'), // выходная директория
             pathinfo: !env.build,
-            filename: "[name].js"
+            filename: !env.build ? "[name].js" : "[name].[chunkhash].js"
         },
         resolve: {
             extensions: ['', '.js']
