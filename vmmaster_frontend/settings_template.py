@@ -110,3 +110,6 @@ AUTH_USER_MODEL = "users.VmmasterUser"
 
 TEST_RUNNER = 'users.testrunner.CustomRunner'
 WATCHSERVER_PORT = 8001
+
+WEBPACK_ASSETS_FILE = "static/assets/manifest.json"
+STATICFILES_STORAGE = "vmmaster_frontend.storage.WebpackHashStorage"
