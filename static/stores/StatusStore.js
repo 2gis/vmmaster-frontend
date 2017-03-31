@@ -27,88 +27,100 @@ var _props = {
 };
 
 var _get_sessions = function(status) {
-    $.ajax({
-        url: _props.url_sessions + "?status=" + status,
-        dataType: 'json',
-        cache: false
-    })
-        .done(function(data) {
-            if (status == "running") {
-                _state.sessions.running = data.count;
-                _state.sessions.active_total += data.count;
-            } else if (status == "waiting") {
-                _state.sessions.waiting = data.count;
-                _state.sessions.active_total += data.count;
-            } else if (status == "failed") {
-                _state.sessions.failed = data.count;
-                _state.sessions.total += data.count;
-            } else if (status == "succeed") {
-                _state.sessions.succeed = data.count;
-                _state.sessions.total += data.count;
-            }
-            StatusStore.emitChange();
+    return $.ajax({
+            url: _props.url_sessions + "?status=" + status,
+            dataType: 'json',
+            cache: false
         })
-        .fail(function(xhr, status, err) {
-            console.log(err.toString());
-            StatusStore.emitChange();
-        });
+            .done(function(data) {
+                if (status == "running") {
+                    _state.sessions.running = data.count;
+                } else if (status == "waiting") {
+                    _state.sessions.waiting = data.count;
+                } else if (status == "failed") {
+                    _state.sessions.failed = data.count;
+                } else if (status == "succeed") {
+                    _state.sessions.succeed = data.count;
+                }
+            })
+            .fail(function(xhr, status, err) {
+                console.log(err.toString());
+            });
 };
 
-var _get_pending_endpoints = function (endpoints, pending_list, other_list) {
-    console.log(endpoints.length);
-    endpoints.forEach(function (endpoint) {
+var _split_endpoints = function (endpoints) {
+    var _pending = [], _using = [], _ready = [];
+    
+    endpoints.pool.list.forEach(function (endpoint) {
         if (!endpoint.ready) {
-            pending_list.push(endpoint);
-            console.log(pending_list);
+            _pending.push(endpoint);
         } else {
-            other_list.push(endpoint);
-            console.log(other_list);
+            _using.push(endpoint);
         }
     });
+    endpoints.using.list.forEach(function (endpoint) {
+        if (!endpoint.ready) {
+            _pending.push(endpoint);
+        } else {
+            _using.push(endpoint);
+        }
+    });
+    _state.endpoints.pending = _pending;
+    _state.endpoints.ready = _ready;
+    _state.endpoints.using = _using;
 };
 
-var _get_endpoints = function(status) {
+var _get_endpoints = function() {
     $.ajax({
         url: _props.url_endpoints,
         dataType: 'json',
         cache: false
     })
         .done(function(data) {
-            _get_pending_endpoints(data.pool.pool.list, _state.endpoints.pending, _state.endpoints.ready);
-            _get_pending_endpoints(data.pool.using.list, _state.endpoints.pending, _state.endpoints.using);
-            _state.endpoints.total = _state.endpoints.total.concat(
-                _state.endpoints.pending,
+            var pool = {pool: {list: []}, using: {list: []}};
+            if (data.pool) {
+                pool = data.pool;
+            }
+            _split_endpoints(pool);
+            _state.endpoints.total = _state.endpoints.pending.concat(
                 _state.endpoints.ready,
                 _state.endpoints.using
             );
-
-            StatusStore.emitChange();
+            StatusStore.emitChange("endpoints");
         })
         .fail(function(xhr, status, err) {
             console.log(err.toString());
-            StatusStore.emitChange();
         });
 };
 
 var _get_active_sessions = function () {
-    _get_sessions("running");
-    _get_sessions("waiting");
-    _get_sessions("failed");
-    _get_sessions("succeed");
+    $.when(
+        _get_sessions("running"),
+        _get_sessions("waiting"),
+        _get_sessions("failed"),
+        _get_sessions("succeed")
+    ).done(
+        function () {
+            _state.sessions.active_total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting);
+            _state.sessions.total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting)
+                + parseInt(_state.sessions.failed) + parseInt(_state.sessions.succeed);
+            StatusStore.emitChange("sessions");
+        }
+    );
 };
 
 var StatusStore = $.extend({}, EventEmitter.prototype, {
     getState: function() {
         return _state;
     },
-    emitChange: function() {
-        this.emit('change');
+    emitChange: function(event_name) {
+        this.emit(event_name);
     },
-    addChangeListener: function(callback) {
-        this.on('change', callback);
+    addChangeListener: function(event_name, callback) {
+        this.on(event_name, callback);
     },
-    removeChangeListener: function(callback) {
-        this.removeListener('change', callback);
+    removeChangeListener: function(event_name, callback) {
+        this.removeListener(event_name, callback);
     }
 });
 

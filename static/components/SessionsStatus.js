@@ -69,11 +69,17 @@ var SessionsStatus = React.createClass({
     },
 
     componentWillUnmount: function() {
-        StatusStore.removeChangeListener(this._onChange);
+        StatusStore.removeChangeListener("sessions", this._onChange);
     },
 
     componentDidMount: function() {
-        StatusStore.addChangeListener(this._onChange);
+        StatusStore.addChangeListener("sessions", this._onChange);
+    },
+
+    componentDidUpdate: function () {
+        setTimeout(function() {
+          StatusActions.get_sessions();
+        }, 10000);
     }
 });
 

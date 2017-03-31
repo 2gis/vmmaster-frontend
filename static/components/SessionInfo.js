@@ -76,7 +76,7 @@ var SessionInfo = React.createClass({
 
 var SessionTabs = React.createClass({
     screencastTab: function (session) {
-        if (session.take_screencast || session.status == "failed") {
+        if (session.take_screencast || session.status == "failed" || session.status == "running") {
             return (
                 <li>
                     <a data-toggle="tab" href="#screencast" className="screencast" onClick={this.handleClick}>Screencast</a>
