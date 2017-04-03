@@ -55,7 +55,7 @@ var _split_endpoints = function (endpoints) {
         if (!endpoint.ready) {
             _pending.push(endpoint);
         } else {
-            _using.push(endpoint);
+            _ready.push(endpoint);
         }
     });
     endpoints.using.list.forEach(function (endpoint) {
