@@ -63,11 +63,17 @@ var EndpointsStatus = React.createClass({
     },
 
     componentWillUnmount: function() {
-        StatusStore.removeChangeListener(this._onChange);
+        StatusStore.removeChangeListener("endpoints", this._onChange);
     },
 
     componentDidMount: function() {
-        StatusStore.addChangeListener(this._onChange);
+        StatusStore.addChangeListener("endpoints", this._onChange);
+    },
+
+    componentDidUpdate: function () {
+        setTimeout(function() {
+          StatusActions.get_endpoints();
+        }, 10000);
     }
 });
 
