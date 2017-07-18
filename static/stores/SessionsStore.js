@@ -86,6 +86,7 @@ var _update_exist_sessions = function (sessions) {
         session_fields.dc = JSON.parse(session_fields.dc);
         session_fields.take_screencast = session_fields.dc.takeScreencast;
         session_fields.id = session.pk;
+        session_fields.username = session_fields.dc.user;
         return session_fields;
     });
     _state.sessions.forEach(function (session, i, arr) {
@@ -106,6 +107,7 @@ var _update_new_sessions = function(sessions) {
         session_fields.dc = JSON.parse(session_fields.dc);
         session_fields.take_screencast = session_fields.dc.takeScreencast;
         session_fields.id = session.pk;
+        session_fields.username = session_fields.dc.user;
         console.log('Adding new session ', session_fields.id);
         return session_fields;
     });

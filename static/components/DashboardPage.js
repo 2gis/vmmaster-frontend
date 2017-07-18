@@ -11,7 +11,7 @@ var DashboardPage = React.createClass({
     render: function () {
         return (
             <div className="main" >
-                <div className="userinfo">
+                <div className="userinfo col-md-3">
 
                     <div className="user_info" id="user_info">
                         <UserInfo />
@@ -22,7 +22,7 @@ var DashboardPage = React.createClass({
                         </div>
                     </div>
                 </div>
-                <div className="dashboard_content">
+                <div className="dashboard_content col-md-9">
                     <div id="find_session">
                         <FindSession />
                     </div>

@@ -70,9 +70,8 @@ table.sessions tbody {
 }
 
 .userinfo {
-    margin-left: 5px;
-    margin-right: 5px;
-    position: fixed;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     z-index: 1;
 }
 
@@ -237,10 +236,6 @@ table.sessions tbody {
     animation-iteration-count: infinite;
 }
 
-.session_column {
-    width: 100%;
-}
-
 .session_column.session_status {
     width: 80px;
     min-width: 80px;
@@ -249,6 +244,12 @@ table.sessions tbody {
 .session_column.session_date {
     width: 150px;
     min-width: 150px;
+}
+
+.session_column.session_username {
+    width: 100px;
+    min-width: 100px;
+    overflow: hidden;
 }
 
 .session_column.session_name {

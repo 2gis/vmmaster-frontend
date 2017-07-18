@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var formatDateTime = require('../utils/Utils').formatDateTime;
 
 
@@ -46,7 +45,8 @@ var Session = React.createClass({
             icon = 'glyphicon ' + this.viewIcon(this.props.session),
             error = this.formatError(this.props.session),
             created_date = formatDateTime(this.props.session.created),
-            link = "/session/" + this.props.session.id + "#screencast";
+            link = "/session/" + this.props.session.id + "#screencast",
+            username = this.props.session.username;
         return (
             <tr className="session_row" href={session_id}>
                 <td className="session_column session_status">
@@ -56,6 +56,7 @@ var Session = React.createClass({
                     <a href={session_id}>{ this.props.session.name }</a>
                 </td>
                 <td className="session_column session_date">{ created_date }</td>
+                <td className="session_column session_username">{ username }</td>
                 <td className="session_column session_error" data-toggle="tooltip" title={ this.props.session.error }>
                     <a href={link} title="show screencast">
                         <span className={icon}></span>

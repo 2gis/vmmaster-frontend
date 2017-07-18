@@ -44,6 +44,7 @@ var Sessions = React.createClass({
                         <td className="session_column session_status">status</td>
                         <td className="session_column session_name">name</td>
                         <td className="session_column session_date">date</td>
+                        <td className="session_column session_username">user</td>
                         <td className="session_column session_error">info</td>
                     </tr>
                     </thead>
