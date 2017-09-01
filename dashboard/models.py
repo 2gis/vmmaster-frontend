@@ -9,7 +9,7 @@ import json
 
 
 class VirtualMachine(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=100, blank=True)
     ip = models.CharField(max_length=100, blank=True)
     mac = models.CharField(max_length=100, blank=True)
@@ -20,7 +20,7 @@ class VirtualMachine(models.Model):
 
 
 class Session(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, editable=False)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=True,
@@ -36,7 +36,7 @@ class Session(models.Model):
 
     platform = models.CharField(max_length=100, blank=True)
     selenium_session = models.CharField(max_length=100, blank=True)
-    dc = models.CharField(max_length=200, blank=True)
+    dc = models.CharField(max_length=2000, blank=True)
     error = models.CharField(max_length=200, blank=True)
 
     created = models.DateTimeField(blank=True, null=True)
@@ -45,6 +45,8 @@ class Session(models.Model):
 
     timeouted = models.BooleanField(blank=True, default=False)
     closed = models.BooleanField(blank=True, default=False)
+    keep_forever = models.BooleanField(blank=True, default=False)
+
     take_screencast = models.BooleanField(blank=True, default=False)
     selenium_log = models.CharField(max_length=500, blank=True)
 
@@ -75,7 +77,7 @@ class Session(models.Model):
 
 
 class SessionLogStep(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, editable=False)
     session = models.ForeignKey(
         Session, blank=True, null=True, related_name="session_steps")
     control_line = models.CharField(max_length=100, blank=True)
@@ -95,7 +97,7 @@ class SessionLogStep(models.Model):
 
 
 class SubStep(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, editable=False)
     session_log_step = models.ForeignKey(
         SessionLogStep, blank=True, null=True, related_name="sub_steps")
     control_line = models.CharField(max_length=100, blank=True)
@@ -113,7 +115,7 @@ class SubStep(models.Model):
 
 
 class Platform(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=100, blank=False)
     node = models.CharField(max_length=100, blank=False)
 

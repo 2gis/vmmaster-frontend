@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 class SubStepInline(admin.TabularInline):
     model = SubStep
     fk_name = 'session_log_step'
+    extra = 0
 
     def admin_link(self, instance):
         url = reverse('admin:dashboard_substep_change',
@@ -24,6 +25,7 @@ class SubStepInline(admin.TabularInline):
 class SessionLogStepInline(admin.TabularInline):
     model = SessionLogStep
     fk_name = 'session'
+    extra = 0
 
     def admin_link(self, instance):
         url = reverse('admin:dashboard_sessionlogstep_change',
@@ -40,17 +42,17 @@ class SessionAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'user',
         'created', 'modified', 'deleted', 'duration', 'status', 'error',
-        'endpoint_id', 'endpoint_ip', 'endpoint_name',
-        'timeouted', 'closed', 'take_screencast'
+        'endpoint_ip', 'endpoint_name',
+        'timeouted', 'closed', 'take_screencast', 'keep_forever'
     )
 
     list_display_links = ('name',)
 
     readonly_fields = ('id', 'name', 'user', 'created', 'modified',
-                       'status', 'error',)
+                       'status', 'error', 'endpoint_ip', 'endpoint_name',)
     ordering = ('-created',)
 
-    list_filter = ['user', 'status', 'timeouted', 'closed']
+    list_filter = ['user', 'status', 'timeouted', 'closed', 'keep_forever']
 
     search_fields = ['id', 'name', 'error', 'endpoint_name', 'endpoint_ip']
 
