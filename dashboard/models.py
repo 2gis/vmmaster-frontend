@@ -8,29 +8,64 @@ from datetime import datetime
 import json
 
 
-class VirtualMachine(models.Model):
+class Provider(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
-    name = models.CharField(max_length=100, blank=True)
-    ip = models.CharField(max_length=100, blank=True)
-    mac = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=200, blank=True)
+    url = models.CharField(max_length=1000, blank=True)
+    active = models.BooleanField(blank=True, default=False)
 
     class Meta:
         managed = False
-        db_table = 'virtual_machines'
+        db_table = 'providers'
+
+
+class Platform(models.Model):
+    id = models.IntegerField(primary_key=True, editable=False)
+    name = models.CharField(max_length=100, blank=True)
+
+    # Relationships
+    provider = models.ForeignKey(Provider, blank=True, null=True, related_name="platforms", on_delete=models.SET_NULL)
+
+    class Meta:
+        managed = False
+        db_table = 'platforms'
+
+    @property
+    def provider_name(self):
+        return self.provider.name
+
+
+class Endpoint(models.Model):
+    id = models.IntegerField(primary_key=True, editable=False)
+
+    provider = models.ForeignKey(Provider, blank=True, null=True, related_name="endpoints", on_delete=models.SET_NULL)
+    platform = models.ForeignKey(Platform, blank=True, null=True, related_name="endpoints", on_delete=models.SET_NULL)
+
+    uuid = models.CharField(max_length=128, blank=True)
+    name = models.CharField(max_length=100, blank=True)
+    ip = models.CharField(max_length=100, blank=True)
+
+    ports = models.CharField(max_length=500, blank=True, null=True)
+
+    ready = models.BooleanField(blank=True, default=False)
+    in_use = models.BooleanField(blank=True, default=False)
+    deleted = models.BooleanField(blank=True, default=False)
+
+    created_time = models.DateTimeField(blank=True, null=True)
+    used_time = models.DateTimeField(blank=True, null=True)
+    deleted_time = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'endpoints'
 
 
 class Session(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        blank=True,
-        null=True,
-        related_name="sessions",
-        on_delete=models.SET_NULL,
-    )
-    endpoint_id = models.IntegerField(blank=True)
-    endpoint_ip = models.CharField(max_length=100, blank=True)
-    endpoint_name = models.CharField(max_length=100, blank=True)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="sessions", on_delete=models.SET_NULL, )
+    endpoint = models.ForeignKey(Endpoint, blank=True, null=True, related_name="session", on_delete=models.SET_NULL, )
+
     name = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=100, blank=True)
 
@@ -47,7 +82,6 @@ class Session(models.Model):
     closed = models.BooleanField(blank=True, default=False)
     keep_forever = models.BooleanField(blank=True, default=False)
 
-    take_screencast = models.BooleanField(blank=True, default=False)
     selenium_log = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
@@ -71,6 +105,14 @@ class Session(models.Model):
         else:
             return round((datetime.now() - self.created).total_seconds(), 2)
 
+    @property
+    def endpoint_ip(self):
+        return self.endpoint.ip
+
+    @property
+    def endpoint_name(self):
+        return self.endpoint.name
+
     class Meta:
         managed = False
         db_table = 'sessions'
@@ -81,7 +123,7 @@ class SessionLogStep(models.Model):
     session = models.ForeignKey(
         Session, blank=True, null=True, related_name="session_steps")
     control_line = models.CharField(max_length=100, blank=True)
-    body = models.CharField(max_length=100, blank=True)
+    body = models.CharField(max_length=2000, blank=True)
     screenshot = models.CharField(max_length=100, blank=True)
     created = models.DateTimeField(blank=True, null=True)
     response = None
@@ -101,7 +143,7 @@ class SubStep(models.Model):
     session_log_step = models.ForeignKey(
         SessionLogStep, blank=True, null=True, related_name="sub_steps")
     control_line = models.CharField(max_length=100, blank=True)
-    body = models.CharField(max_length=100, blank=True)
+    body = models.CharField(max_length=2000, blank=True)
     created = models.DateTimeField(blank=True, null=True)
     response = None
     duration = None
@@ -112,13 +154,3 @@ class SubStep(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-
-class Platform(models.Model):
-    id = models.IntegerField(primary_key=True, editable=False)
-    name = models.CharField(max_length=100, blank=False)
-    node = models.CharField(max_length=100, blank=False)
-
-    class Meta:
-        managed = False
-        db_table = 'platforms'

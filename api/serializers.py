@@ -20,7 +20,6 @@ class SessionSerializer(serializers.ModelSerializer):
             'created',
             'deleted',
             'modified',
-            'take_screencast',
             'duration',
             'username',
             'selenium_log',
