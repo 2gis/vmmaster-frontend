@@ -43,7 +43,8 @@ PROJECT_APPS = [
     'session',
     'api',
     'users',
-    'watcher'
+    'watcher',
+    'vmmaster_frontend',
 ]
 
 REST_FRAMEWORK = {
