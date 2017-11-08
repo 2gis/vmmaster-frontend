@@ -42,7 +42,7 @@ def get_proxy_vnc_port(session_id):
 
 def get_endpoints(request):
     return HttpResponse(
-        content=json.dumps(_make_api_request('get', "pool")),
+        content=json.dumps(_make_api_request('get', "endpoints")),
         content_type="application/json"
     )
 

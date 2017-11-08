@@ -10,10 +10,11 @@ var EndpointsStatus = React.createClass({
 
     getInitialState: function () {
         return {endpoints: {
-            using: [],
-            pending: [],
-            ready: [],
-            total: []
+            using: 0,
+            on_service: 0,
+            wait_for_service: 0,
+            pool: 0,
+            total: 0
         }};
     },
 
@@ -23,26 +24,26 @@ var EndpointsStatus = React.createClass({
             <table className="table table-hover">
                 <thead>
                     <tr>
-                        <th>Enpoints</th>
+                        <th>Endpoints</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="danger">Pending</td>
-                        <td className="danger">{ endpoints.pending.length }</td>
+                        <td className="info">Wait for service</td>
+                        <td className="info">{ endpoints.wait_for_service }</td>
+                    </tr>
+                    <tr>
+                        <td className="danger">On service</td>
+                        <td className="danger">{ endpoints.on_service }</td>
                     </tr>
                     <tr>
                         <td>Ready for use</td>
-                        <td>{ endpoints.ready.length }</td>
+                        <td>{ endpoints.pool }</td>
                     </tr>
                     <tr>
                         <td className="warning">In use</td>
-                        <td className="warning">{ endpoints.using.length }</td>
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td> </td>
+                        <td className="warning">{ endpoints.using }</td>
                     </tr>
                     <tr>
                         <td> </td>
@@ -50,7 +51,7 @@ var EndpointsStatus = React.createClass({
                     </tr>
                     <tr>
                         <td className="active">Total</td>
-                        <td className="active">{ endpoints.total.length }</td>
+                        <td className="active">{ endpoints.total }</td>
                     </tr>
                     </tbody>
             </table>

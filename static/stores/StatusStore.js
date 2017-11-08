@@ -15,10 +15,11 @@ var _state = {
         total: 0
     },
     endpoints: {
-        using: [],
-        pending: [],
-        ready: [],
-        total: []
+        using: 0,
+        on_service: 0,
+        wait_for_service: 0,
+        pool: 0,
+        total: 0
     }
 };
 
@@ -51,28 +52,6 @@ var _get_sessions = function(status) {
             });
 };
 
-var _split_endpoints = function (endpoints) {
-    var _pending = [], _using = [], _ready = [];
-    
-    endpoints.pool.list.forEach(function (endpoint) {
-        if (!endpoint.ready) {
-            _pending.push(endpoint);
-        } else {
-            _ready.push(endpoint);
-        }
-    });
-    endpoints.using.list.forEach(function (endpoint) {
-        if (!endpoint.ready) {
-            _pending.push(endpoint);
-        } else {
-            _using.push(endpoint);
-        }
-    });
-    _state.endpoints.pending = _pending;
-    _state.endpoints.ready = _ready;
-    _state.endpoints.using = _using;
-};
-
 var _get_endpoints = function() {
     $.ajax({
         url: _props.url_endpoints,
@@ -80,15 +59,18 @@ var _get_endpoints = function() {
         cache: false
     })
         .done(function(data) {
-            var pool = {pool: {list: []}, using: {list: []}};
-            if (data.pool) {
-                pool = data.pool;
+            var endpoints = _state.endpoints;
+            if (data.endpoints) {
+                endpoints = data.endpoints;
             }
-            _split_endpoints(pool);
-            _state.endpoints.total = _state.endpoints.pending.concat(
-                _state.endpoints.ready,
-                _state.endpoints.using
-            );
+
+            _state.endpoints.pool = endpoints.pool.count;
+            _state.endpoints.using = endpoints.using.count;
+            _state.endpoints.wait_for_service = endpoints.wait_for_service.count;
+            _state.endpoints.on_service = endpoints.on_service.count;
+
+            _state.endpoints.total = parseInt(_state.endpoints.pool) + parseInt(_state.endpoints.using)
+                + parseInt(_state.endpoints.wait_for_service) + parseInt(_state.endpoints.on_service);
             StatusStore.emitChange("endpoints");
         })
         .fail(function(xhr, status, err) {
