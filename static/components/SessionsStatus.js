@@ -12,6 +12,7 @@ var SessionsStatus = React.createClass({
         return {sessions: {
             waiting: 0,
             running: 0,
+            preparing: 0,
             failed: 0,
             succeed: 0,
             active_total: 0,
@@ -37,6 +38,10 @@ var SessionsStatus = React.createClass({
                     <tr>
                         <td className="warning">Running</td>
                         <td className="warning">{ sessions.running }</td>
+                    </tr>
+                    <tr>
+                        <td className="info">Preparing</td>
+                        <td className="info">{ sessions.preparing }</td>
                     </tr>
                     <tr>
                         <td className="danger">Failed</td>

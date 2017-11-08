@@ -8,6 +8,7 @@ var _state = {
     sessions: {
         waiting: 0,
         running: 0,
+        preparing: 0,
         failed: 0,
         succeed: 0,
         active_total: 0,
@@ -37,6 +38,8 @@ var _get_sessions = function(status) {
                     _state.sessions.running = data.count;
                 } else if (status == "waiting") {
                     _state.sessions.waiting = data.count;
+                } else if (status == "preparing") {
+                    _state.sessions.preparing = data.count;
                 } else if (status == "failed") {
                     _state.sessions.failed = data.count;
                 } else if (status == "succeed") {
@@ -97,12 +100,13 @@ var _get_active_sessions = function () {
     $.when(
         _get_sessions("running"),
         _get_sessions("waiting"),
+        _get_sessions("preparing"),
         _get_sessions("failed"),
         _get_sessions("succeed")
     ).done(
         function () {
-            _state.sessions.active_total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting);
-            _state.sessions.total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting)
+            _state.sessions.active_total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting) + parseInt(_state.sessions.preparing);
+            _state.sessions.total = parseInt(_state.sessions.running) + parseInt(_state.sessions.waiting) + parseInt(_state.sessions.preparing)
                 + parseInt(_state.sessions.failed) + parseInt(_state.sessions.succeed);
             StatusStore.emitChange("sessions");
         }

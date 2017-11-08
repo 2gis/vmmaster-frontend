@@ -5,6 +5,8 @@ var formatDateTime = require('../utils/Utils').formatDateTime;
 var statusIcon = function (status) {
     if (status == 'waiting') {
         return 'default'
+    } else if (status == 'preparing') {
+        return 'info'
     } else if (status == 'running') {
         return 'warning'
     } else if (status == 'failed') {
