@@ -62,16 +62,13 @@ var _get_endpoints = function() {
             var endpoints = _state.endpoints;
             if (data.endpoints) {
                 endpoints = data.endpoints;
+                _state.endpoints.pool = endpoints.pool.count;
+                _state.endpoints.using = endpoints.using.count;
+                _state.endpoints.wait_for_service = endpoints.wait_for_service.count;
+                _state.endpoints.on_service = endpoints.on_service.count;
+                _state.endpoints.total = endpoints.total;
+                StatusStore.emitChange("endpoints");
             }
-
-            _state.endpoints.pool = endpoints.pool.count;
-            _state.endpoints.using = endpoints.using.count;
-            _state.endpoints.wait_for_service = endpoints.wait_for_service.count;
-            _state.endpoints.on_service = endpoints.on_service.count;
-
-            _state.endpoints.total = parseInt(_state.endpoints.pool) + parseInt(_state.endpoints.using)
-                + parseInt(_state.endpoints.wait_for_service) + parseInt(_state.endpoints.on_service);
-            StatusStore.emitChange("endpoints");
         })
         .fail(function(xhr, status, err) {
             console.log(err.toString());
