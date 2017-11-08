@@ -3,7 +3,10 @@
     <div class="container-fluid">
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{% url 'dashboard' %}">vmmaster</a>
+                <a class="navbar-brand" style="padding-right: 1px;" href="{% url 'dashboard' %}">
+                    vmmaster
+                    <a href="/status" class="navbar-brand"><sup>*</sup></a>
+                </a>
                 {% if version %}
                 <p class="navbar-text">Frontend Ver.{{ version }}</p>
                 {% endif %}
