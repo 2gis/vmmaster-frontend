@@ -45,6 +45,7 @@ class WatchSessionsThread(Thread):
         if db_sessions.count() < 0:
             return
 
+        log.info('Got new sessions in db: {}'.format([(s.id, s.status) for s in db_sessions]))
         session_ids = [session.id for session in db_sessions]
 
         if self.sent_sessions:
@@ -56,27 +57,24 @@ class WatchSessionsThread(Thread):
             self.sent_sessions.extend(session_ids)
 
     def check_sessions_for_update(self):
-        sessions_on_page = self.state['sessions']
-        active_session_ids = []
-
-        if len(sessions_on_page) > 0:
-            for session in sessions_on_page:
-                if session['status'] in WATCH_STATUSES:
-                    active_session_ids.append(session['id'])
-
-        # watching active session on page
-        if not active_session_ids:
+        current_active_sessions = [s for s in self.state['sessions'] if s['status'] in WATCH_STATUSES]
+        if not current_active_sessions:
             return
+        log.info('Active sessions on page: {}'.format(len(current_active_sessions)))
 
-        log.info('Active sessions on page: {}'.format(len(active_session_ids)))
-        active_db_sessions_ids = self.active_sessions_ids_in_db(self.state['query'])
-        active_session_for_send = list(set(active_session_ids) - set(active_db_sessions_ids))
-        log.info('Active sessions in db: {}'.format(len(active_db_sessions_ids)))
+        active_db_sessions = {s.id: s.status for s in self.active_sessions_in_db(self.state['query'])}
+        log.info('Active sessions in db: {}'.format(active_db_sessions))
 
-        if active_session_for_send:
-            log.info('Active sessions for send: {}'.format(active_session_for_send))
-            self.send_message("update", Session.objects.filter(id__in=active_session_for_send))
-            self.sent_sessions.extend(active_session_for_send)
+        sessions_to_update = []
+        for session in current_active_sessions:
+            _id = session['id']
+            if _id not in active_db_sessions.keys() or session['status'] != active_db_sessions[_id]:
+                sessions_to_update.append(_id)
+
+        if sessions_to_update:
+            log.info('{} sessions change status. Sending'.format(len(sessions_to_update)))
+            self.send_message("update", Session.objects.filter(id__in=sessions_to_update))
+            self.sent_sessions.extend(sessions_to_update)
 
     def run(self):
         date = timezone.localtime(timezone.now())
@@ -87,33 +85,20 @@ class WatchSessionsThread(Thread):
             self.check_new_sessions(date)
             self.check_sessions_for_update()
 
-    def active_sessions_ids_in_db(self, query):
-        if self.ws.user.is_superuser:
-            active_db_sessions = Session.objects\
-                .filter(status__in=WATCH_STATUSES)\
-                .filter(name__icontains=query)
-        else:
-            active_db_sessions = Session.objects\
-                .filter(status__in=WATCH_STATUSES)\
-                .filter(user=self.ws.user)\
-                .filter(name__icontains=query)
+    def active_sessions_in_db(self, query):
+        active_db_sessions = Session.objects.filter(status__in=WATCH_STATUSES)
+        if not self.ws.user.is_superuser:
+            active_db_sessions = active_db_sessions.filter(user=self.ws.user)
 
-        return [session.id for session in active_db_sessions]
+        return active_db_sessions.filter(name__icontains=query)
 
     def new_sessions_in_db(self, date, query):
-        if self.ws.user.is_superuser:
-            db_sessions = Session.objects\
-                .order_by('-created')\
-                .filter(created__gte=date)\
-                .filter(name__icontains=query)
-        else:
-            db_sessions = Session.objects\
-                .filter(user=self.ws.user)\
-                .order_by('-created')\
-                .filter(created__gte=date)\
-                .filter(name__icontains=query)
+        db_sessions = Session.objects
 
-        return db_sessions
+        if not self.ws.user.is_superuser:
+            db_sessions = db_sessions.filter(user=self.ws.user)
+
+        return db_sessions.filter(created__gte=date).filter(name__icontains=query)
 
     def stop(self):
         self.running = False
