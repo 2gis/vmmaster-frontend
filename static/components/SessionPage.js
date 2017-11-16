@@ -6,7 +6,6 @@ var SessionInfo = require('./SessionInfo').SessionInfo;
 var SessionDescription = require('./SessionDescription').SessionDescription;
 var ScreenCast = require('./Screencast').ScreenCast;
 var SeleniumLog = require('./SeleniumLog').SeleniumLog;
-var PhotoGallery = require('./PhotoGallery').PhotoGallery;
 
 
 var SessionPage = React.createClass({

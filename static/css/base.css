@@ -381,6 +381,14 @@ table.sessions tbody {
 	background-color: #ba4549;
 }
 
+.alert_format_exception {
+    white-space: pre-wrap;
+    font-family: monospace;
+    height: 100%;
+    margin-bottom: 150px !important;
+    overflow: scroll;
+}
+
 #steps .log_step.unknown {
 	background-color: #d3d3d3;
 }
@@ -501,6 +509,8 @@ table.sessions tbody {
     /*padding: 5px 0 5px 0;*/
     background-color: #fff;
     margin: 0;
+    max-height: 100%;
+    overflow: scroll;
 }
 
 ._info_description {

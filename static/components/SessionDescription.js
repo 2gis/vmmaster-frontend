@@ -1,6 +1,4 @@
 var React = require('react');
-var SessionsActions = require('../actions/SessionsActions').SessionsActions;
-var StepsActions = require('../actions/StepsActions').StepsActions;
 var SubStepsActions = require('../actions/SubStepsActions').SubStepsActions;
 var SessionsStore = require('../stores/SessionsStore').SessionsStore;
 var StepsStore = require('../stores/StepsStore').StepsStore;
@@ -142,7 +140,7 @@ var InfoPanel = React.createClass({
             return (
                 <div className="row _info_error">
                     <div className="col-lg-12">
-                        <pre className="alert alert-danger">{ error }</pre>
+                        <form className="alert alert-danger alert_format_exception">{ error }</form>
                     </div>
                 </div>
             );
@@ -150,8 +148,7 @@ var InfoPanel = React.createClass({
     },
 
     render: function () {
-        var session = this.props.session,
-            description = this.description();
+        var description = this.description();
 
         return (
             <div>
@@ -162,7 +159,8 @@ var InfoPanel = React.createClass({
                     </div>
                     <div className="col-xs-5">
                         <h3>Environment</h3>
-                        <p><strong>Platform: </strong>{ description.platform }</p>
+                        <p><strong>OS: </strong>{ description.platform }</p>
+                        <p><strong>Platform: </strong>{ this.props.session.platform }</p>
                         <p><strong>Browser: </strong>{ description.browser }</p>
                         <p><strong>Java Version: </strong>{ description.java }</p>
                         <p><strong>Selenium Version: </strong>{ description.selenium }</p>

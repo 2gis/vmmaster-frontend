@@ -1,10 +1,5 @@
 var React = require('react');
-var SessionsActions = require('../actions/SessionsActions').SessionsActions;
-var StepsActions = require('../actions/StepsActions').StepsActions;
-var SubStepsActions = require('../actions/SubStepsActions').SubStepsActions;
 var SessionsStore = require('../stores/SessionsStore').SessionsStore;
-var StepsStore = require('../stores/StepsStore').StepsStore;
-var SubStepsStore = require('../stores/SubStepsStore').SubStepsStore;
 var calculatePadding = require('../utils/Utils').calculatePadding;
 var statusIcon = require('./Session').statusIcon;
 
