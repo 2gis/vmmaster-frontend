@@ -15,7 +15,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from serializers import SessionSerializer, SessionStepSerializer, \
     SessionSubStepSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 
 
 def _make_api_request(method, uri, headers=None, body=None):
@@ -143,11 +143,16 @@ class SessionList(viewsets.ReadOnlyModelViewSet):
     queryset = Session.objects.order_by('-created')
     serializer_class = SessionSerializer
     pagination_class = APIPagination
+    filter_backends = (filters.SearchFilter,)
+    search_fields = (
+        'name',
+        'status',
+        'error',
+        'platform',
+        'selenium_session',
+    )
 
     def get_queryset(self):
-        search_phrase = self.request.REQUEST.get('search', '')
-        status = self.request.REQUEST.get('status', '')
-
         if self.request.user.is_superuser:
             queryset = self.queryset
         elif self.request.user.is_authenticated():
@@ -156,8 +161,7 @@ class SessionList(viewsets.ReadOnlyModelViewSet):
         else:
             queryset = self.queryset.filter(user=1)
 
-        return queryset.filter(name__icontains=search_phrase)\
-            .filter(status__icontains=status)
+        return queryset
 
 
 class SessionStatusList(SessionList):

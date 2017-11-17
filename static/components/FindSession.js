@@ -16,7 +16,7 @@ var FindSession = React.createClass({
         return (
             <div className="navbar-form">
                 <div className="form-group">
-                    <input className="form-control" placeholder="session name" ref='search' name='search' type='text' value={this.state.search} onChange={this.onSearchChange}/>
+                    <input className="form-control" style={{width: '500px'}} placeholder="Session name, status, error, platform, selenium_session" ref='search' name='search' type='text' value={this.state.search} onChange={this.onSearchChange}/>
                 </div>
             </div>
         )
