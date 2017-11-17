@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="col-md-offset-4 col-md-4">
-<form class="form-horizontal" action="{% url 'login' %}" method="post" role="form">
+<form class="form-horizontal" action="{% url 'login' %}?redirect_to={{ request_path_for_redirect }}" method="post" role="form">
     {% csrf_token %}
     {% if error %}
         <div class="form-group">

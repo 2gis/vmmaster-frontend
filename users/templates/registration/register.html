@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="col-md-offset-4 col-md-4">
-<form class="form-horizontal" action="{% url 'register' %}" method="post" role="form">
+<form class="form-horizontal" action="{% url 'register' %}?redirect_to={{ request_path_for_redirect }}" method="post" role="form">
     {% csrf_token %}
     {% for field in form %}
             <div class="form-group">

@@ -12,7 +12,7 @@
     <body>
         {% load dashboard_tags %}
         {% block control_panel %}
-            {% show_hat user %}
+            {% show_hat request user %}
         {% endblock %}
         <script type="text/javascript" charset="utf8" src="{% static 'assets/common.js' %}"></script>
         <div id="content">

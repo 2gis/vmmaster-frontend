@@ -10,25 +10,33 @@ from forms import VmmasterUserAuthenticationForm
 
 
 def register_view(request):
+    redirect_to = request.REQUEST.get('redirect_to')
     if request.method == 'POST':
         form = VmmasterUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("dashboard"))
+            if redirect_to:
+                redirect_to = redirect_to.replace("*", '?')
+                return HttpResponseRedirect(redirect_to)
+            else:
+                return HttpResponseRedirect(reverse("dashboard"))
         else:
             if form.errors:
                 return render(request, "registration/register.html", {
                     'form': form,
+                    'request_path_for_redirect': redirect_to
                 })  # TODO: replace with reverse
     else:
         form = VmmasterUserCreationForm()
 
     return render(request, "registration/register.html", {
         'form': form,
+        'request_path_for_redirect': redirect_to
     })  # TODO: replace with reverse
 
 
 def login_view(request):
+    redirect_to = request.REQUEST.get('redirect_to')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -36,24 +44,30 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse("dashboard"))
+                if redirect_to:
+                    return HttpResponseRedirect(redirect_to)
+                else:
+                    return HttpResponseRedirect(reverse("dashboard"))
             else:
                 form = VmmasterUserAuthenticationForm()
                 return render(request, "login.html", {
                     'form': form,
-                    'error': "Your account is locked"
+                    'error': "Your account is locked",
+                    'request_path_for_redirect': redirect_to
                 })  # TODO: replace with reverse
         else:
             form = VmmasterUserAuthenticationForm()
             return render(request, "login.html", {
                 'form': form,
-                'error': "Invalid login details. Try again"
+                'error': "Invalid login details. Try again",
+                'request_path_for_redirect': redirect_to
             })  # TODO: replace with reverse
     else:
         form = VmmasterUserAuthenticationForm()
 
     return render(request, "login.html", {
         'form': form,
+        'request_path_for_redirect': redirect_to
     })  # TODO: replace with reverse
 
 
