@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Session = require('./Session').Session;
 var SessionsActions = require('../actions/SessionsActions').SessionsActions;
 var SessionsStore = require('../stores/SessionsStore').SessionsStore;
@@ -110,7 +111,8 @@ var Sessions = React.createClass({
     },
 
     componentDidUpdate: function () {
-        if (this.state.ws.readyState == 1) {
+        var searchField = ReactDOM.findDOMNode(this.refs.search).value;
+        if (this.state.ws.readyState === 1 && searchField === '') {
             this.sendState();
         }
     },
