@@ -10,7 +10,7 @@ import versioneer
 from django.conf import settings
 from base64 import urlsafe_b64encode
 
-from dashboard.models import Session, SessionLogStep, SubStep, Platform
+from dashboard.models import Session, SessionLogStep, SubStep, Platform, Provider, ProviderConfig
 from rest_framework import generics
 from rest_framework.response import Response
 from serializers import SessionSerializer, SessionStepSerializer, \
@@ -259,6 +259,16 @@ class Platforms(generics.RetrieveAPIView):
             )})
         else:
             return Response({})
+
+
+class Dc(generics.RetrieveAPIView):
+    def get(self, request, *args, **kwargs):
+        config = ProviderConfig({})
+        if Provider.objects.count():
+            for provider in Provider.objects.all():
+                config.merge(provider.get_config())
+
+        return Response({'results': config.dc})
 
 
 class GetToken(generics.RetrieveAPIView):

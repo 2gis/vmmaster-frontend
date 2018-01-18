@@ -8,15 +8,124 @@ from datetime import datetime
 import json
 
 
+class PlatformGroup:
+    PLATFORM_NAME_FIELD = "platform_name"
+    BROWSERS_FIELD = "browsers"
+    BROWSER_NAME_FIELD = "browser_name"
+    BROWSER_VERSIONS_FIELD = "versions"
+
+    def __init__(self, name, json_source):
+        self.name = name
+        self.source = json_source
+
+    def _get_browsers(self):
+        """
+        :rtype: dict
+        """
+        browsers = {}
+        for platform_specs in self.source.values():
+            for browser_name, version in platform_specs.get(self.BROWSERS_FIELD).iteritems():
+                if browser_name not in browsers:
+                    browsers[browser_name] = []
+                if version not in browsers[browser_name]:
+                    browsers[browser_name].append(version)
+
+        return browsers
+
+    def build_dc(self):
+        """
+        :rtype: dict
+        """
+        def sort_version(ver):
+            try:
+                return int(ver.replace('.', ''))
+            except ValueError:
+                return 0
+
+        dc = {
+            self.PLATFORM_NAME_FIELD: self.name,
+            self.BROWSERS_FIELD: [],
+        }
+
+        for browser_name, versions in self._get_browsers().iteritems():
+            dc.get(self.BROWSERS_FIELD).append(
+                {
+                    self.BROWSER_NAME_FIELD: browser_name,
+                    self.BROWSER_VERSIONS_FIELD: sorted(versions, key=sort_version)
+                }
+            )
+
+        return dc
+
+    def merge(self, platform_group):
+        """
+        :param PlatformGroup platform_group:
+        """
+        self.source.update(platform_group.source)
+
+
+class ProviderConfig:
+    def __init__(self, json_config):
+        self.platform_groups = {}
+        for platform_group, platforms in json_config.iteritems():
+            if platform_group not in self.platform_groups:
+                self.add_platform_group(PlatformGroup(platform_group, platforms))
+            else:
+                self.get_platform_group(platform_group).merge(PlatformGroup(platform_group, platforms))
+
+    def add_platform_group(self, platform_group):
+        """
+        :param PlatformGroup platform_group:
+        """
+        self.platform_groups[platform_group.name] = platform_group
+
+    def get_platform_group(self, key):
+        """
+        :param str key:
+
+        :rtype: PlatformGroup
+        """
+        return self.platform_groups.get(key)
+
+    def get_platform_group_names(self):
+        """
+        :rtype: list
+        """
+        return self.platform_groups.keys()
+
+    def merge(self, provider_config):
+        """
+        :param ProviderConfig provider_config:
+        """
+        for platform_group_name in provider_config.get_platform_group_names():
+            if platform_group_name not in self.get_platform_group_names():
+                self.add_platform_group(provider_config.get_platform_group(platform_group_name))
+            else:
+                self.get_platform_group(platform_group_name).merge(
+                    provider_config.get_platform_group(platform_group_name)
+                )
+
+    @ property
+    def dc(self):
+        """
+        :rtype: list
+        """
+        return [i.build_dc() for i in self.platform_groups.values()]
+
+
 class Provider(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=200, blank=True)
     url = models.CharField(max_length=1000, blank=True)
     active = models.BooleanField(blank=True, default=False)
+    config = models.CharField(max_length=1000, blank=True)
 
     class Meta:
         managed = False
         db_table = 'providers'
+
+    def get_config(self):
+        return ProviderConfig(json.loads(self.config))
 
 
 class Platform(models.Model):

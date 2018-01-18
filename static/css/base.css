@@ -645,3 +645,7 @@ table.sessions tbody {
     height: 100%;
     overflow: scroll;
 }
+
+.no-top-border {
+    border-top: 0px !important;
+}

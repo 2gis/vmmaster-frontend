@@ -14,6 +14,7 @@ router.register(r'%s/sessions/([0-9]+)/steps/([0-9]+)/substeps' % API_VERSION, v
 
 urlpatterns = [
     url(r'^%s/platforms$' % API_VERSION, views.Platforms.as_view()),
+    url(r'^%s/dc' % API_VERSION, views.Dc.as_view()),
     url(r'^%s/user/token' % API_VERSION, views.GetToken.as_view()),
     url(r'^%s/user/generate_token' % API_VERSION, views.GenerateToken.as_view()),
     url(r'^%s/endpoints' % API_VERSION, views.get_endpoints, name='get_endpoints'),
