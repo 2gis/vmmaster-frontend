@@ -3,7 +3,6 @@ var ReactDOM = require('react-dom');
 var getSessionId = require('../utils/Utils').getSessionId;
 var prettyJson = require('../utils/Utils').prettyJson;
 var PhotoGallery = require('./PhotoGallery').PhotoGallery;
-var StepsActions = require('../actions/StepsActions').StepsActions;
 var SubStepsActions = require('../actions/SubStepsActions').SubStepsActions;
 var SubStepsStore = require('../stores/SubStepsStore').SubStepsStore;
 var $ = require('jquery');
@@ -134,7 +133,7 @@ var InlineStep = React.createClass({
             step_ref = "step/" + step.id,
             step_class = "log_step " + getStepStatus(step.response),
             icon_class = "glyphicon " + icon(step),
-            screenshot_src = "/screenshot/" + session_id + "/" + step.id + "_thumb.png";
+            screenshot_src = "/storage/" + session_id + "/" + step.id + "_thumb.png";
 
         return (
             <div id={ step.id } className={ step_class }>
@@ -147,7 +146,7 @@ var InlineStep = React.createClass({
                 <div className="log_step_column log_body" data-toggle="tooltip" title={ step.body }>{ truncateString(step.body, 40) }</div>
                 <div className="log_step_column log_time">{ step.duration } sec.</div>
                 <div id="screenshot" className="log_step_column log_screenshot">
-                { step.screenshot?
+                { step.take_screenshot?
                     <a onClick={ this.handleScreenClick } href="#">
                         <img src={ screenshot_src }></img>
                     </a>:''

@@ -26,18 +26,11 @@ def _make_api_request(method, uri, headers=None, body=None):
         body = ""
 
     try:
-        response = requests.request(method,
-                                    "%s/%s" % (settings.VMMASTER_API_URL, uri),
-                                    headers=headers,
-                                    data=body)
+        response = requests.request(method, "{}/{}".format(settings.VMMASTER_API_URL, uri), headers=headers, data=body)
         content = json.loads(response.content)
         return content.get("result")
     except:
         return {}
-
-
-def get_proxy_vnc_port(session_id):
-    return _make_api_request('get', "session/%s/vnc_info" % session_id)
 
 
 def get_endpoints(request):

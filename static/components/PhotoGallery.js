@@ -28,11 +28,11 @@ var PhotoGallery = React.createClass({
             host = "//" + window.location.hostname;
 
         _state.steps.forEach(function (item, i) {
-            if (item.screenshot) {
+            if (item.take_screenshot) {
                 var screenshot = {
                     id: item.id,
-                    url: host + "/screenshot/" + session_id + "/" + item.id + ".png",
-                    thumb: host + "/screenshot/" + session_id + "/" + item.id + "_thumb.png"
+                    url: host + "/storage/" + session_id + "/" + item.id + ".png",
+                    thumb: host + "/storage/" + session_id + "/" + item.id + "_thumb.png"
                 };
                 if (parseInt(item.id) == parseInt(screenshot_id)) {
                     screenshot_id = screenshots.length;

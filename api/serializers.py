@@ -33,7 +33,7 @@ class SessionStepSerializer(serializers.ModelSerializer):
             'id',
             'control_line',
             'body',
-            'screenshot',
+            'take_screenshot',
             'created',
             'response',
             'duration',

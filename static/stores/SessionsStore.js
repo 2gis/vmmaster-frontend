@@ -135,7 +135,7 @@ var _get_session_info = function () {
 var _savedVideoExist = function () {
     var session_id = getSessionId();
     $.ajax({
-        url: "/screenshot/" + session_id + "/" + session_id + ".flv",
+        url: "/storage/" + session_id + "/video.webm",
         cache: true,
         statusCode: {
           200: function (response) {
@@ -149,7 +149,7 @@ var _savedVideoExist = function () {
 var _get_selenium_log = function () {
     var session_id = getSessionId();
     $.ajax({
-        url: "/screenshot/" + session_id + "/selenium_server.log",
+        url: "/storage/" + session_id + "/selenium_server.log",
         cache: true
     })
         .done(function(data) {

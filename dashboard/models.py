@@ -124,7 +124,7 @@ class SessionLogStep(models.Model):
         Session, blank=True, null=True, related_name="session_steps")
     control_line = models.CharField(max_length=100, blank=True)
     body = models.CharField(max_length=2000, blank=True)
-    screenshot = models.CharField(max_length=100, blank=True)
+    take_screenshot = models.BooleanField(default=False)
     created = models.DateTimeField(blank=True, null=True)
     response = None
     duration = None
