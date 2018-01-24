@@ -49,18 +49,20 @@ var _search = function() {
         cache: false
     })
         .done(function(data) {
-            if (_state.sessions.length != 0) {
-                _state.sessions = _state.sessions.concat(data.results);
+            var sessions = data.results.map(function(session) {
+                session.dc = JSON.parse(session.dc);
+                session.take_screencast = session.dc.takeScreencast;
+                session.take_screenshot = session.dc.takeScreenshot;
+                return session;
+            });
+
+            if (_state.sessions.length !== 0) {
+                _state.sessions = _state.sessions.concat(sessions);
             } else {
-                _state.sessions = data.results;
+                _state.sessions = sessions;
             }
             _state.total = data.count;
-
-            if (_state.sessions.length == _state.total || !data.next) {
-                _state.hasMore = false;
-            } else {
-                _state.hasMore = true;
-            }
+            _state.hasMore = !(_state.sessions.length === _state.total || !data.next);
             SessionsStore.emitChange();
         })
         .fail(function(xhr, status, err) {
@@ -85,13 +87,14 @@ var _update_exist_sessions = function (sessions) {
         var session_fields = session.fields;
         session_fields.dc = JSON.parse(session_fields.dc);
         session_fields.take_screencast = session_fields.dc.takeScreencast;
+        session_fields.take_screenshot = session_fields.dc.takeScreenshot;
         session_fields.id = session.pk;
         session_fields.username = session_fields.dc.user;
         return session_fields;
     });
     _state.sessions.forEach(function (session, i, arr) {
         partSessions.forEach(function (nsession, ni, narr) {
-            if (session.id == nsession.id) {
+            if (session.id === nsession.id) {
                 console.log('Replaced session', session.id);
                 _state.sessions[i] = nsession;
             }
@@ -106,6 +109,7 @@ var _update_new_sessions = function(sessions) {
         var session_fields = session.fields;
         session_fields.dc = JSON.parse(session_fields.dc);
         session_fields.take_screencast = session_fields.dc.takeScreencast;
+        session_fields.take_screenshot = session_fields.dc.takeScreenshot;
         session_fields.id = session.pk;
         session_fields.username = session_fields.dc.user;
         console.log('Adding new session ', session_fields.id);
@@ -124,6 +128,9 @@ var _get_session_info = function () {
     })
         .done(function(data) {
             _state.session = data;
+            var session_dc = JSON.parse(data.dc);
+            _state.session.take_screencast = session_dc.takeScreencast;
+            _state.session.take_screenshot = session_dc.takeScreenshot;
             SessionsStore.emitChange();
         })
         .fail(function(xhr, status, err) {
@@ -135,7 +142,7 @@ var _get_session_info = function () {
 var _savedVideoExist = function () {
     var session_id = getSessionId();
     $.ajax({
-        url: "/storage/" + session_id + "/video.webm",
+        url: "/storage/" + session_id + "/video.mkv",
         cache: true,
         statusCode: {
           200: function (response) {

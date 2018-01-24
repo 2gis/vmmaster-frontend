@@ -80,13 +80,13 @@ var SavedVideo = React.createClass({
     },
 
     render: function () {
-        var video_reference = "/screenshot/" + this.props.session.id + "/" + this.props.session.id + ".flv";
+        var video_reference = "/storage/" + this.props.session.id + "/video.mkv";
 
         return (
             <div>
                 <link href="/static/css/video-js.css" rel="stylesheet"></link>
                 <video style={{display: this.showBlock("video")}} id="vmmaster-video" className="video-js vjs-big-play-centered vjs-styles-dimensions" controls preload="auto" data-setup=''>
-                    <source src={ video_reference } type='video/x-flv'></source>
+                    <source src={ video_reference } type='video/mp4'></source>
                     <p className="vjs-no-js">
                       To view this video please enable JavaScript, and consider upgrading to a web browser that
                         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
