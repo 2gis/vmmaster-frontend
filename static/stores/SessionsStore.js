@@ -139,20 +139,6 @@ var _get_session_info = function () {
         });
 };
 
-var _savedVideoExist = function () {
-    var session_id = getSessionId();
-    $.ajax({
-        url: "/storage/" + session_id + "/video.mkv",
-        cache: true,
-        statusCode: {
-          200: function (response) {
-             _state.saved_video_exist = true;
-             SessionsStore.emitChange();
-          }
-        }
-    });
-};
-
 var _get_selenium_log = function () {
     var session_id = getSessionId();
     $.ajax({
@@ -221,9 +207,6 @@ SessionsStore.dispatchToken = AppDispatcher.register(function(action) {
             break;
         case SessionsConstants.SESSION_INFO:
             _get_session_info();
-            break;
-        case SessionsConstants.VIDEO_EXIST_CHECK:
-            _savedVideoExist();
             break;
         case SessionsConstants.GET_SELENIUM_LOG:
             _get_selenium_log();

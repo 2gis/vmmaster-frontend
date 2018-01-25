@@ -32,11 +32,6 @@ var SessionsActions = {
             actionType: SessionsConstants.SESSION_INFO
         });
     },
-    video_exist_check: function () {
-        AppDispatcher.dispatch({
-            actionType: SessionsConstants.VIDEO_EXIST_CHECK
-        });
-    },
     get_selenium_log: function () {
         AppDispatcher.dispatch({
             actionType: SessionsConstants.GET_SELENIUM_LOG
