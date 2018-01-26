@@ -85,7 +85,49 @@ var VncStream = React.createClass({
         return {};
     },
 
+    calculateStyles: function () {
+        var tabs_height = $('.session_tabs').height(),
+            info_title_height = $('.info_title').height(),
+            window_height = $(window).height() - 100,
+            new_height = window_height - tabs_height - info_title_height;
+
+        if (new_height > 600) {
+            screencast_size = [800, 600];
+            return [{
+                'width': 800,
+                'height': 600
+            }, {
+                'top': 200,
+                'fontSize': 200
+            }];
+
+        } else if (new_height < 400) {
+            screencast_size = [600, 600];
+            return [{
+                'width': 600,
+                'height': 400
+            }, {
+                'top': 150,
+                'fontSize': 75
+            }];
+
+        } else {
+            screencast_size = [new_height * 4 / 3, new_height];
+            return [{
+                'width': new_height * 4 / 3,
+                'height': new_height
+            }, {
+                'top': new_height * 3 / 10,
+                'fontSize': new_height / 4
+            }];
+        }
+
+    },
+
     render: function () {
+        // if delete this variables then vnc stream will be broken
+        var play_div_styles = this.calculateStyles()[0],
+            play_icon_styles = this.calculateStyles()[1];
         if (this.props.vnc_port) {
             var proxy_action = "javascript: connect(\"" + proxy_vnc_host + "\", " + this.props.vnc_port + ");";
             return (
