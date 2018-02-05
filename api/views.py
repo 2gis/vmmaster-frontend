@@ -264,9 +264,8 @@ class Platforms(generics.RetrieveAPIView):
 class Dc(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         config = ProviderConfig({})
-        if Provider.objects.count():
-            for provider in Provider.objects.all():
-                config.merge(provider.get_config())
+        for provider in Provider.objects.filter(active=True):
+            config.merge(provider.get_config())
 
         return Response({'results': config.dc})
 
