@@ -54,6 +54,7 @@ var SavedVideo = React.createClass({
     getInitialState: function () {
         addScriptsToHead([
             "/static/js/video.js",
+            "/static/js/videojs-vlc.js",
             "/static/js/videojs-ie8.min.js"
         ]);
         return {};
@@ -65,7 +66,7 @@ var SavedVideo = React.createClass({
         return (
             <div>
                 <link href="/static/css/video-js.css" rel="stylesheet"></link>
-                <video style={{display: "block"}} id="vmmaster-video" className="video-js vjs-big-play-centered vjs-styles-dimensions" controls preload="auto" data-setup=''>
+                <video style={{display: "block"}} id="vmmaster-video" className="video-js vjs-big-play-centered vjs-styles-dimensions" controls preload="auto" data-setup='{ "techOrder": ["vlc"] }'>
                     <source src={ video_reference } type='video/mp4'></source>
                     <p className="vjs-no-js">
                       To view this video please enable JavaScript, and consider upgrading to a web browser that
