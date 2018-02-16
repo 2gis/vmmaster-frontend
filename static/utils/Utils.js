@@ -42,8 +42,17 @@ function getSubStepId() {
 
 function formatDateTime(date_string) {
     if (date_string) {
-        var date = new Date(date_string).toGMTString().split(',')[1];
-        return date.split('GMT')[0]
+        var date = new Date(date_string);
+        var options = {
+          hour12: false,
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+        };
+        return date.toLocaleString('en-US', options)
     } else {
         return '';
     }
